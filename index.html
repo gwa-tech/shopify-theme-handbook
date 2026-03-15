@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Complete Shopify Theme Development Handbook - From beginner to professional theme developer">
+  <title>Shopify Theme Developer Handbook</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script defer src="assets/js/script.js"></script>
+</head>
+<body>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar">
+    <div class="progress-bar-fill"></div>
+  </div>
+
+  <div class="doc-layout">
+
+    <!-- ============================================================
+         SIDEBAR NAVIGATION
+         ============================================================ -->
+    <aside class="sidebar" role="navigation" aria-label="Main navigation">
+
+      <!-- Brand -->
+      <div class="sidebar-brand">
+        <a href="index.html" class="sidebar-brand-link">
+          <div class="sidebar-brand-icon">S</div>
+          <div class="sidebar-brand-text">
+            <span class="sidebar-brand-title">Shopify Handbook</span>
+            <span class="sidebar-brand-subtitle">Theme Development Guide</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Search -->
+      <div class="sidebar-search">
+        <div class="sidebar-search-wrapper">
+          <span class="sidebar-search-icon">🔍</span>
+          <input
+            type="text"
+            class="sidebar-search-input"
+            placeholder="Search docs... (Ctrl+K)"
+            aria-label="Search documentation"
+          >
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="sidebar-nav">
+
+        <!-- Getting Started -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Getting Started</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item">
+              <a href="index.html" class="sidebar-nav-link active">
+                <span class="sidebar-nav-link-icon">🏠</span>
+                Introduction
+              </a>
+            </li>
+            <li class="sidebar-nav-item">
+              <a href="setup.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">⚙️</span>
+                Development Setup
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Core Concepts -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Core Concepts</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item">
+              <a href="shopify-architecture.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">🏗️</span>
+                Shopify Architecture
+              </a>
+            </li>
+            <li class="sidebar-nav-item">
+              <a href="liquid-basics.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">💧</span>
+                Liquid Basics
+              </a>
+            </li>
+            <li class="sidebar-nav-item">
+              <a href="theme-structure.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">📁</span>
+                Theme Folder Structure
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Building Themes -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Building Themes</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item">
+              <a href="sections-and-blocks.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">🧱</span>
+                Sections &amp; Blocks
+              </a>
+            </li>
+            <li class="sidebar-nav-item">
+              <a href="theme-components.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">🧩</span>
+                Theme Components
+                <span class="sidebar-nav-badge">Exercises</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Advanced -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Advanced</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item">
+              <a href="premium-theme-analysis.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">🔍</span>
+                Premium Theme Analysis
+              </a>
+            </li>
+            <li class="sidebar-nav-item">
+              <a href="design-experiments.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">🎨</span>
+                Design Experimentation
+              </a>
+            </li>
+            <li class="sidebar-nav-item">
+              <a href="performance.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">⚡</span>
+                Performance
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Production -->
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Production</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item">
+              <a href="deployment.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">🚀</span>
+                Deployment
+              </a>
+            </li>
+            <li class="sidebar-nav-item">
+              <a href="freelancing.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">💼</span>
+                Freelance Strategy
+              </a>
+            </li>
+          </ul>
+        </div>
+
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <div class="sidebar-theme-toggle" role="button" tabindex="0" aria-label="Toggle dark mode">
+          <span class="sidebar-theme-toggle-label">🌙 Dark Mode</span>
+          <div class="theme-toggle-switch"></div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- Sidebar Overlay (mobile) -->
+    <div class="sidebar-overlay"></div>
+
+    <!-- ============================================================
+         MAIN CONTENT
+         ============================================================ -->
+    <main class="main-wrapper">
+
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="top-header-left">
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+            ☰
+          </button>
+          <div class="breadcrumbs">
+            <a href="index.html">Handbook</a>
+            <span class="breadcrumbs-separator">/</span>
+            <span class="breadcrumbs-current">Introduction</span>
+          </div>
+        </div>
+        <div class="top-header-right">
+          <a href="https://github.com" class="header-link" target="_blank" rel="noopener noreferrer">
+            <span>GitHub</span>
+          </a>
+          <a href="https://shopify.dev" class="header-link" target="_blank" rel="noopener noreferrer">
+            <span>Shopify Docs</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <div class="content-container">
+        <div class="content">
+
+          <!-- Hero Section -->
+          <div class="hero">
+            <h1>Shopify Theme Developer Handbook</h1>
+            <p class="lead">
+              A complete learning path from Shopify beginner to professional theme developer.
+              Built for <strong>Gamal</strong> — covering everything from your first Liquid tag
+              to building premium-quality themes.
+            </p>
+            <div class="hero-badges">
+              <span class="hero-badge">📘 14 Chapters</span>
+              <span class="hero-badge">🧪 7+ Exercises</span>
+              <span class="hero-badge">💧 Liquid Templating</span>
+              <span class="hero-badge">🛠️ Shopify CLI</span>
+              <span class="hero-badge">🎨 Design Patterns</span>
+            </div>
+          </div>
+
+          <!-- Welcome -->
+          <h2 id="welcome">Welcome, Gamal 👋</h2>
+
+          <p>
+            This handbook is your complete roadmap to becoming a professional Shopify theme developer.
+            Whether you want to build themes for clients, sell premium themes on the Shopify Theme Store,
+            or simply master the craft of eCommerce front-end development — this guide covers it all.
+          </p>
+
+          <p>
+            You already know HTML, CSS, and JavaScript. That's a tremendous head start. Shopify theme
+            development builds directly on those skills and adds a powerful templating language called
+            <strong>Liquid</strong>, along with Shopify's unique architecture of sections, blocks,
+            and JSON templates.
+          </p>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Pro Tip</div>
+            <p>
+              Read this handbook chapter by chapter in order. Each chapter builds on concepts from
+              the previous one. By the end, you'll have built multiple real theme components and
+              understand how premium themes like Kalles are architectured.
+            </p>
+          </div>
+
+          <!-- What You'll Learn -->
+          <h2 id="what-youll-learn">What You'll Learn</h2>
+
+          <p>This handbook is organized into a progressive learning path:</p>
+
+          <div class="card-grid">
+
+            <div class="card">
+              <div class="card-icon">⚙️</div>
+              <h3 class="card-title">Environment Setup</h3>
+              <p class="card-description">
+                Install Shopify CLI on WSL, create development stores, connect your GitHub workflow,
+                and start your first theme project.
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="card-icon">🏗️</div>
+              <h3 class="card-title">Shopify Architecture</h3>
+              <p class="card-description">
+                Understand how Shopify's platform works — from the storefront rendering pipeline
+                to how themes, templates, and the Liquid engine fit together.
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="card-icon">💧</div>
+              <h3 class="card-title">Liquid Templating</h3>
+              <p class="card-description">
+                Master Liquid's objects, tags, and filters. Learn to access product data, loop through
+                collections, and build dynamic content.
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="card-icon">📁</div>
+              <h3 class="card-title">Theme Structure</h3>
+              <p class="card-description">
+                Explore every folder and file in a Shopify theme. Understand how layout files,
+                templates, sections, snippets, and assets work together.
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="card-icon">🧱</div>
+              <h3 class="card-title">Sections &amp; Blocks</h3>
+              <p class="card-description">
+                Build modular, customizable sections with blocks. Create schema settings that
+                merchants can configure through the theme editor.
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="card-icon">🧩</div>
+              <h3 class="card-title">Theme Components</h3>
+              <p class="card-description">
+                Build real components: hero banners, product cards, collection grids, mega menus,
+                announcement bars, and sticky add-to-cart bars.
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="card-icon">🔍</div>
+              <h3 class="card-title">Premium Analysis</h3>
+              <p class="card-description">
+                Learn ethical methods for studying premium themes. Analyze UX patterns, architecture
+                decisions, and design techniques without violating licenses.
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="card-icon">🎨</div>
+              <h3 class="card-title">Design Experiments</h3>
+              <p class="card-description">
+                Professional UX strategies for testing layouts, typography, colors, product grids,
+                and responsive breakpoints in eCommerce contexts.
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="card-icon">⚡</div>
+              <h3 class="card-title">Performance</h3>
+              <p class="card-description">
+                Optimize your themes for Core Web Vitals. Lazy loading, critical CSS, JavaScript
+                optimization, and image best practices.
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="card-icon">🚀</div>
+              <h3 class="card-title">Deployment</h3>
+              <p class="card-description">
+                Testing, debugging, Git workflows, and preparing your themes for production
+                deployment on live Shopify stores.
+              </p>
+            </div>
+
+            <div class="card">
+              <div class="card-icon">💼</div>
+              <h3 class="card-title">Freelance Strategy</h3>
+              <p class="card-description">
+                Strategies for building a freelance Shopify development business — pricing,
+                client communication, and building your portfolio.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Prerequisites -->
+          <h2 id="prerequisites">Prerequisites</h2>
+
+          <p>Before starting this handbook, make sure you have:</p>
+
+          <ul class="checklist">
+            <li><strong>HTML knowledge</strong> — Semantic HTML, forms, accessibility basics</li>
+            <li><strong>CSS skills</strong> — Flexbox, Grid, media queries, custom properties</li>
+            <li><strong>JavaScript fundamentals</strong> — DOM manipulation, fetch API, ES6+ syntax</li>
+            <li><strong>Git basics</strong> — Clone, commit, push, branching</li>
+            <li><strong>Command line comfort</strong> — Navigating directories, running commands</li>
+            <li><strong>A Windows machine with WSL installed</strong> — Ubuntu recommended</li>
+            <li><strong>A GitHub account</strong> — For version control</li>
+            <li><strong>A Shopify Partner account</strong> — Free to create</li>
+          </ul>
+
+          <div class="callout callout-info">
+            <div class="callout-title">📌 Note</div>
+            <p>
+              If you don't have a Shopify Partner account yet, don't worry. We'll walk through
+              creating one in the <a href="setup.html">Development Setup</a> chapter.
+            </p>
+          </div>
+
+          <!-- Understanding the Shopify Ecosystem -->
+          <h2 id="shopify-ecosystem">Understanding the Shopify Ecosystem</h2>
+
+          <p>
+            Before writing a single line of code, it's important to understand the landscape
+            you're working in. Shopify is not just a website builder — it's a complete commerce
+            platform that powers over 4 million stores worldwide.
+          </p>
+
+          <h3 id="what-is-shopify">What Is Shopify?</h3>
+
+          <p>
+            Shopify is a <strong>hosted eCommerce platform</strong>. This means merchants don't
+            manage servers, databases, or security certificates. They pay a monthly subscription
+            and get a fully managed online store. As a theme developer, your job is to control
+            the <strong>front-end presentation layer</strong> — how the store looks and feels
+            to customers.
+          </p>
+
+          <h3 id="how-themes-fit-in">How Themes Fit Into the Ecosystem</h3>
+
+          <p>
+            Shopify separates concerns clearly:
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Layer</th>
+                  <th>Responsibility</th>
+                  <th>Who Controls It</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Platform</strong></td>
+                  <td>Server infrastructure, checkout, payments, inventory, orders</td>
+                  <td>Shopify</td>
+                </tr>
+                <tr>
+                  <td><strong>Admin/Backend</strong></td>
+                  <td>Product management, customer data, shipping, discounts</td>
+                  <td>Merchant</td>
+                </tr>
+                <tr>
+                  <td><strong>Theme (Front-end)</strong></td>
+                  <td>Visual design, layout, user experience, branding</td>
+                  <td>Theme Developer (You!)</td>
+                </tr>
+                <tr>
+                  <td><strong>Apps</strong></td>
+                  <td>Extended functionality (reviews, upsells, analytics)</td>
+                  <td>App Developers</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>
+            As a theme developer, you work exclusively in the <strong>Theme layer</strong>.
+            You have full control over the HTML, CSS, and JavaScript that the customer sees.
+            You access product data, collection data, and store settings through
+            <strong>Liquid</strong> — Shopify's templating language.
+          </p>
+
+          <h3 id="dawn-theme">The Dawn Theme — Your Starting Point</h3>
+
+          <p>
+            <strong>Dawn</strong> is Shopify's official reference theme. It's free, open-source, and
+            represents Shopify's best practices for theme development. We'll use Dawn as our foundation
+            throughout this handbook.
+          </p>
+
+          <p>Why Dawn?</p>
+
+          <ul>
+            <li><strong>Modern architecture</strong> — Uses JSON templates and Online Store 2.0 features</li>
+            <li><strong>Performance-first</strong> — Built with Core Web Vitals in mind</li>
+            <li><strong>Well-documented</strong> — Clean, readable code with consistent patterns</li>
+            <li><strong>Actively maintained</strong> — Shopify regularly updates it</li>
+            <li><strong>Open source</strong> — You can study, modify, and learn from every line</li>
+          </ul>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ Best Practice</div>
+            <p>
+              Never start a theme from scratch as a beginner. Always start with Dawn and modify it.
+              Professional developers build on proven foundations. Even premium themes like Kalles
+              follow the same architectural patterns that Dawn establishes.
+            </p>
+          </div>
+
+          <h3 id="online-store-2">Online Store 2.0</h3>
+
+          <p>
+            In 2021, Shopify introduced <strong>Online Store 2.0</strong> — a major upgrade to how
+            themes work. This is the standard you'll be developing for. The key features are:
+          </p>
+
+          <ul>
+            <li><strong>JSON templates</strong> — Templates are defined in JSON, not Liquid, making them modular</li>
+            <li><strong>Sections everywhere</strong> — Sections can be used on any page, not just the homepage</li>
+            <li><strong>App blocks</strong> — Third-party apps can inject content into sections</li>
+            <li><strong>Metafields</strong> — Custom data fields accessible in themes</li>
+            <li><strong>Theme editor improvements</strong> — Merchants get more visual control</li>
+          </ul>
+
+          <p>
+            Every concept in this handbook uses Online Store 2.0 patterns. If you encounter older
+            tutorials online that reference <code>{% section %}</code> tags in templates or
+            <code>settings_data.json</code> as the primary configuration — those are OS 1.0 patterns
+            and should be avoided for new projects.
+          </p>
+
+          <!-- Your Learning Path -->
+          <h2 id="learning-path">Your Learning Path</h2>
+
+          <p>
+            Here's the recommended order for working through this handbook. Each chapter builds
+            on the previous one:
+          </p>
+
+          <div class="steps">
+
+            <div class="step">
+              <div class="step-number">1</div>
+              <h4 class="step-title">Set Up Your Environment</h4>
+              <div class="step-content">
+                <p>
+                  Install Node.js, Shopify CLI, and configure WSL. Create your Shopify Partner account
+                  and your first development store.
+                </p>
+                <p><a href="setup.html">Go to Development Setup →</a></p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">2</div>
+              <h4 class="step-title">Understand the Architecture</h4>
+              <div class="step-content">
+                <p>
+                  Learn how Shopify renders pages, how the request lifecycle works, and how
+                  themes, templates, sections, and layouts interact.
+                </p>
+                <p><a href="shopify-architecture.html">Go to Shopify Architecture →</a></p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">3</div>
+              <h4 class="step-title">Learn Liquid</h4>
+              <div class="step-content">
+                <p>
+                  Master Liquid objects, tags, and filters. Practice accessing product data,
+                  writing conditionals, and building loops.
+                </p>
+                <p><a href="liquid-basics.html">Go to Liquid Basics →</a></p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">4</div>
+              <h4 class="step-title">Explore Theme Structure</h4>
+              <div class="step-content">
+                <p>
+                  Open the Dawn theme and study every folder: layout, templates, sections,
+                  snippets, assets, config, and locales.
+                </p>
+                <p><a href="theme-structure.html">Go to Theme Folder Structure →</a></p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">5</div>
+              <h4 class="step-title">Build Sections &amp; Blocks</h4>
+              <div class="step-content">
+                <p>
+                  Create your first custom sections with configurable settings. Learn the schema
+                  system and how blocks make sections flexible.
+                </p>
+                <p><a href="sections-and-blocks.html">Go to Sections &amp; Blocks →</a></p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">6</div>
+              <h4 class="step-title">Build Real Components</h4>
+              <div class="step-content">
+                <p>
+                  Hands-on exercises building hero banners, product cards, collection grids,
+                  mega menus, announcement bars, and more.
+                </p>
+                <p><a href="theme-components.html">Go to Theme Components →</a></p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">7</div>
+              <h4 class="step-title">Study Premium Themes</h4>
+              <div class="step-content">
+                <p>
+                  Learn ethical techniques for analyzing premium themes. Understand UX patterns,
+                  component architecture, and design decisions.
+                </p>
+                <p><a href="premium-theme-analysis.html">Go to Premium Theme Analysis →</a></p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">8</div>
+              <h4 class="step-title">Experiment with Design</h4>
+              <div class="step-content">
+                <p>
+                  Professional approaches to testing layouts, typography, colors, and responsive
+                  behavior in eCommerce themes.
+                </p>
+                <p><a href="design-experiments.html">Go to Design Experimentation →</a></p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">9</div>
+              <h4 class="step-title">Optimize Performance</h4>
+              <div class="step-content">
+                <p>
+                  Make your themes fast. Optimize images, reduce JavaScript, implement lazy loading,
+                  and hit great Core Web Vitals scores.
+                </p>
+                <p><a href="performance.html">Go to Performance →</a></p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">10</div>
+              <h4 class="step-title">Deploy &amp; Go Professional</h4>
+              <div class="step-content">
+                <p>
+                  Testing workflows, Git strategies, deployment commands, and strategies for
+                  building your freelance Shopify development career.
+                </p>
+                <p>
+                  <a href="deployment.html">Go to Deployment →</a> |
+                  <a href="freelancing.html">Go to Freelance Strategy →</a>
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Key Terminology -->
+          <h2 id="terminology">Key Terminology</h2>
+
+          <p>
+            You'll encounter these terms throughout this handbook. Bookmark this section
+            for quick reference:
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Term</th>
+                  <th>Definition</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Liquid</strong></td>
+                  <td>Shopify's templating language. Uses <code>{{ }}</code> for output and <code>{% %}</code> for logic.</td>
+                </tr>
+                <tr>
+                  <td><strong>Section</strong></td>
+                  <td>A modular, reusable component of a page (e.g., hero banner, featured products). Has its own Liquid, CSS, JS, and schema.</td>
+                </tr>
+                <tr>
+                  <td><strong>Block</strong></td>
+                  <td>A configurable sub-component within a section. Merchants can add, remove, and reorder blocks.</td>
+                </tr>
+                <tr>
+                  <td><strong>Snippet</strong></td>
+                  <td>A reusable piece of Liquid code included in sections or templates. Similar to a partial or component.</td>
+                </tr>
+                <tr>
+                  <td><strong>Template</strong></td>
+                  <td>Defines which sections appear on a specific page type (product, collection, page, etc.). In OS 2.0, templates are JSON files.</td>
+                </tr>
+                <tr>
+                  <td><strong>Layout</strong></td>
+                  <td>The outermost wrapper (usually <code>theme.liquid</code>) that contains the <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, header, footer, and <code>{{ content_for_layout }}</code>.</td>
+                </tr>
+                <tr>
+                  <td><strong>Schema</strong></td>
+                  <td>A JSON configuration block inside sections that defines settings merchants can customize in the theme editor.</td>
+                </tr>
+                <tr>
+                  <td><strong>Metafield</strong></td>
+                  <td>Custom data fields attached to products, collections, customers, or the shop. Accessible in Liquid.</td>
+                </tr>
+                <tr>
+                  <td><strong>Dawn</strong></td>
+                  <td>Shopify's official open-source reference theme. Our starting point for learning.</td>
+                </tr>
+                <tr>
+                  <td><strong>Shopify CLI</strong></td>
+                  <td>Command-line tool for theme development. Enables local development with hot reload.</td>
+                </tr>
+                <tr>
+                  <td><strong>Development Store</strong></td>
+                  <td>A free Shopify store for testing and development. Created through a Shopify Partner account.</td>
+                </tr>
+                <tr>
+                  <td><strong>Theme Editor</strong></td>
+                  <td>The visual customization interface in Shopify Admin where merchants configure theme settings, sections, and blocks.</td>
+                </tr>
+                <tr>
+                  <td><strong>Online Store 2.0</strong></td>
+                  <td>The current Shopify theme architecture standard. Features JSON templates and sections on every page.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Tools You'll Use -->
+          <h2 id="tools">Tools You'll Use</h2>
+
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-icon">🖥️</div>
+              <h3 class="card-title">VS Code</h3>
+              <p class="card-description">
+                Your code editor. Install the <strong>Shopify Liquid</strong> extension for
+                syntax highlighting and IntelliSense.
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🐧</div>
+              <h3 class="card-title">WSL (Ubuntu)</h3>
+              <p class="card-description">
+                Windows Subsystem for Linux gives you a proper Linux terminal for running
+                Shopify CLI and Node.js tools.
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🟢</div>
+              <h3 class="card-title">Node.js</h3>
+              <p class="card-description">
+                Required for Shopify CLI. We'll install it through <code>nvm</code> for
+                easy version management.
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🛍️</div>
+              <h3 class="card-title">Shopify CLI</h3>
+              <p class="card-description">
+                The official command-line tool for theme development. Enables local dev server
+                with hot reload.
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🐙</div>
+              <h3 class="card-title">Git &amp; GitHub</h3>
+              <p class="card-description">
+                Version control for your themes. Track changes, experiment safely, and collaborate
+                with clients or teams.
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🌐</div>
+              <h3 class="card-title">Browser DevTools</h3>
+              <p class="card-description">
+                Chrome or Firefox DevTools for inspecting elements, debugging CSS, testing responsive
+                layouts, and analyzing performance.
+              </p>
+            </div>
+          </div>
+
+          <!-- Best Practices Philosophy -->
+          <h2 id="philosophy">Development Philosophy</h2>
+
+          <p>
+            Throughout this handbook, I'll share professional best practices that go beyond just
+            "how to write code." These are the principles that separate amateur developers from
+            professionals:
+          </p>
+
+          <h3 id="philosophy-merchant">Think Like a Merchant</h3>
+          <p>
+            Every section you build, every setting you add — ask yourself: "Would a non-technical
+            store owner understand this?" Your theme isn't just code; it's a <em>product</em> that
+            merchants interact with. Label your settings clearly. Provide sensible defaults.
+            Add helpful descriptions to schema fields.
+          </p>
+
+          <h3 id="philosophy-performance">Performance Is Not Optional</h3>
+          <p>
+            A beautiful theme that loads in 8 seconds is a failed theme. Every image, every
+            JavaScript file, every CSS rule affects load time — and load time directly affects
+            conversion rates. Studies show that a 1-second delay in page load can reduce
+            conversions by 7%.
+          </p>
+
+          <h3 id="philosophy-progressive">Build Progressively</h3>
+          <p>
+            Don't try to build an entire theme in one sitting. Build one section at a time.
+            Test it thoroughly. Move to the next. This approach keeps your code clean, reduces
+            bugs, and makes debugging manageable.
+          </p>
+
+          <h3 id="philosophy-semantic">Write Semantic, Accessible HTML</h3>
+          <p>
+            Use proper heading hierarchy. Add <code>alt</code> text to images. Ensure keyboard
+            navigation works. Use ARIA labels where needed. Accessibility isn't an afterthought —
+            it's a legal requirement in many jurisdictions and impacts SEO rankings.
+          </p>
+
+          <h3 id="philosophy-learn">Learn by Building, Not Just Reading</h3>
+          <p>
+            This handbook includes practical exercises for a reason. Don't just read the code
+            examples — type them out. Modify them. Break them. Fix them. The understanding
+            comes from your fingers, not just your eyes.
+          </p>
+
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Important Mindset</div>
+            <p>
+              Shopify theme development is <strong>not</strong> traditional web development.
+              You're working within a hosted platform with specific constraints and conventions.
+              Embrace these constraints — they exist to protect merchants and ensure stability.
+              The best theme developers work <em>with</em> the platform, not against it.
+            </p>
+          </div>
+
+          <!-- How to Use This Handbook -->
+          <h2 id="how-to-use">How to Use This Handbook</h2>
+
+          <ul>
+            <li>
+              <strong>Read sequentially</strong> — Each chapter builds on previous knowledge
+            </li>
+            <li>
+              <strong>Code along</strong> — Open your editor and type every example yourself
+            </li>
+            <li>
+              <strong>Complete the exercises</strong> — They're designed to reinforce learning
+            </li>
+            <li>
+              <strong>Use the sidebar search</strong> — Quickly find topics with <kbd>Ctrl</kbd> + <kbd>K</kbd>
+            </li>
+            <li>
+              <strong>Toggle dark mode</strong> — For comfortable reading with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>L</kbd>
+            </li>
+            <li>
+              <strong>Copy code blocks</strong> — Click the copy button on any code block
+            </li>
+            <li>
+              <strong>Bookmark the terminology section</strong> — Refer back to it often
+            </li>
+          </ul>
+
+          <hr>
+
+          <h2 id="ready">Ready to Begin?</h2>
+
+          <p>
+            Let's start by setting up your development environment. You'll install all the tools
+            you need and create your first development store.
+          </p>
+
+          <p>
+            <a href="setup.html" style="font-size: var(--font-size-lg); font-weight: var(--font-weight-semibold);">
+              Start Chapter 1: Development Setup →
+            </a>
+          </p>
+
+          <!-- Page Navigation -->
+          <div class="page-nav">
+            <div></div>
+            <a href="setup.html" class="page-nav-link page-nav-link--next">
+              <span class="page-nav-label">Next Chapter →</span>
+              <span class="page-nav-title">Development Setup</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="doc-footer">
+        <p>
+          Shopify Theme Developer Handbook — Built with care for <strong>Gamal</strong><br>
+          <small>Not affiliated with Shopify Inc. For educational purposes only.</small>
+        </p>
+      </footer>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

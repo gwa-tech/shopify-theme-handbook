@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Build a successful freelance Shopify theme development career — pricing, client communication, portfolio building, and business strategies">
+  <title>Freelance Strategy — Shopify Theme Developer Handbook</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script defer src="assets/js/script.js"></script>
+</head>
+<body>
+
+  <div class="progress-bar">
+    <div class="progress-bar-fill"></div>
+  </div>
+
+  <div class="doc-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation" aria-label="Main navigation">
+      <div class="sidebar-brand">
+        <a href="index.html" class="sidebar-brand-link">
+          <div class="sidebar-brand-icon">S</div>
+          <div class="sidebar-brand-text">
+            <span class="sidebar-brand-title">Shopify Handbook</span>
+            <span class="sidebar-brand-subtitle">Theme Development Guide</span>
+          </div>
+        </a>
+      </div>
+      <div class="sidebar-search">
+        <div class="sidebar-search-wrapper">
+          <span class="sidebar-search-icon">🔍</span>
+          <input type="text" class="sidebar-search-input" placeholder="Search docs... (Ctrl+K)" aria-label="Search documentation">
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Getting Started</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="index.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🏠</span> Introduction</a></li>
+            <li class="sidebar-nav-item"><a href="setup.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">⚙️</span> Development Setup</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Core Concepts</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="shopify-architecture.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🏗️</span> Shopify Architecture</a></li>
+            <li class="sidebar-nav-item"><a href="liquid-basics.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">💧</span> Liquid Basics</a></li>
+            <li class="sidebar-nav-item"><a href="theme-structure.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">📁</span> Theme Folder Structure</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Building Themes</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="sections-and-blocks.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🧱</span> Sections &amp; Blocks</a></li>
+            <li class="sidebar-nav-item"><a href="theme-components.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🧩</span> Theme Components</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Advanced</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="premium-theme-analysis.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🔍</span> Premium Theme Analysis</a></li>
+            <li class="sidebar-nav-item"><a href="design-experiments.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🎨</span> Design Experimentation</a></li>
+            <li class="sidebar-nav-item"><a href="performance.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">⚡</span> Performance</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Production</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="deployment.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🚀</span> Deployment</a></li>
+            <li class="sidebar-nav-item"><a href="freelancing.html" class="sidebar-nav-link active"><span class="sidebar-nav-link-icon">💼</span> Freelance Strategy</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-theme-toggle" role="button" tabindex="0" aria-label="Toggle dark mode">
+          <span class="sidebar-theme-toggle-label">🌙 Dark Mode</span>
+          <div class="theme-toggle-switch"></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-wrapper">
+
+      <header class="top-header">
+        <div class="top-header-left">
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+          <div class="breadcrumbs">
+            <a href="index.html">Handbook</a>
+            <span class="breadcrumbs-separator">/</span>
+            <span class="breadcrumbs-current">Freelance Strategy</span>
+          </div>
+        </div>
+        <div class="top-header-right">
+          <a href="https://github.com" class="header-link" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
+          <a href="https://shopify.dev" class="header-link" target="_blank" rel="noopener noreferrer"><span>Shopify Docs</span></a>
+        </div>
+      </header>
+
+      <div class="content-container">
+        <div class="content">
+
+          <h1>Freelance Shopify Theme Development</h1>
+          <p class="lead">
+            You've built the technical skills. Now let's turn them into a career. This chapter
+            covers everything you need to build a successful freelance Shopify development
+            business — from pricing and client communication to portfolio building and finding
+            your first clients.
+          </p>
+
+          <div class="callout callout-info">
+            <div class="callout-title">📌 Chapter Overview</div>
+            <p>
+              <strong>Time estimate:</strong> 45 – 60 minutes reading<br>
+              <strong>Focus:</strong> Business strategy, not code
+            </p>
+          </div>
+
+          <div id="table-of-contents" style="margin-bottom: var(--space-8);"></div>
+
+          <!-- ====================================================== -->
+          <h2 id="service-types">Types of Shopify Theme Services</h2>
+
+          <p>
+            Before pricing your services, understand the different types of work clients need.
+            Each has different scope, complexity, and pricing:
+          </p>
+
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-icon">🎨</div>
+              <h3 class="card-title">Theme Customization</h3>
+              <p class="card-description">
+                Modifying an existing theme (Dawn or premium) to match a client's brand.
+                Changing colors, fonts, adding custom sections, tweaking layouts.
+                <strong>Easiest to start with.</strong>
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🏗️</div>
+              <h3 class="card-title">Custom Theme Development</h3>
+              <p class="card-description">
+                Building a fully custom theme from Dawn as a base. Unique design, custom
+                sections, tailored to the client's specific needs. <strong>Higher value.</strong>
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🔧</div>
+              <h3 class="card-title">Theme Fixes &amp; Support</h3>
+              <p class="card-description">
+                Bug fixes, small tweaks, performance optimization, mobile responsiveness
+                fixes. Quick turnaround, hourly billing. <strong>Great for building reputation.</strong>
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🚀</div>
+              <h3 class="card-title">Store Setup &amp; Launch</h3>
+              <p class="card-description">
+                Full store setup: theme selection and customization, product import, navigation,
+                pages, and launch preparation. <strong>Comprehensive package.</strong>
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🔄</div>
+              <h3 class="card-title">Theme Migration</h3>
+              <p class="card-description">
+                Migrating a store from an old theme to a new one, or from another platform
+                to Shopify. Preserving SEO, redirects, content. <strong>Specialized skill.</strong>
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">📦</div>
+              <h3 class="card-title">Premium Theme Building</h3>
+              <p class="card-description">
+                Building themes for sale on the Shopify Theme Store or third-party marketplaces.
+                Long-term income but high upfront investment. <strong>Advanced career path.</strong>
+              </p>
+            </div>
+          </div>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ Start Here</div>
+            <p>
+              Begin with <strong>theme customization</strong> and <strong>small fixes</strong>.
+              These are the easiest to deliver, build your confidence, and generate testimonials.
+              As you gain experience and reputation, move into custom theme development and
+              full store setups.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="pricing">Pricing Your Services</h2>
+
+          <p>
+            Pricing is the most stressful decision for new freelancers. Here's a framework
+            based on real market rates:
+          </p>
+
+          <h3 id="pricing-models">Pricing Models</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>When to Use</th>
+                  <th>Pros</th>
+                  <th>Cons</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Hourly rate</strong></td>
+                  <td>Small fixes, ongoing support, unclear scope</td>
+                  <td>Fair for unpredictable work, easy to adjust</td>
+                  <td>Clients worry about hours, punishes efficiency</td>
+                </tr>
+                <tr>
+                  <td><strong>Fixed project price</strong></td>
+                  <td>Well-defined projects with clear scope</td>
+                  <td>Clients know cost upfront, rewards efficiency</td>
+                  <td>Scope creep risk, must estimate accurately</td>
+                </tr>
+                <tr>
+                  <td><strong>Value-based pricing</strong></td>
+                  <td>High-impact projects where ROI is clear</td>
+                  <td>Highest earning potential, aligned with client value</td>
+                  <td>Harder to justify, requires confidence</td>
+                </tr>
+                <tr>
+                  <td><strong>Monthly retainer</strong></td>
+                  <td>Ongoing maintenance and updates</td>
+                  <td>Predictable income, long-term relationships</td>
+                  <td>Requires steady workload, scope must be clear</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="pricing-ranges">Market Rate Ranges (2024 Reference)</h3>
+
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Rates Vary Significantly</div>
+            <p>
+              These are general ranges. Your rates depend on your experience, location, client
+              type, and the value you deliver. Start on the lower end and raise rates as you
+              gain experience and testimonials.
+            </p>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Service</th>
+                  <th>Beginner Rate</th>
+                  <th>Intermediate Rate</th>
+                  <th>Expert Rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Hourly rate</td>
+                  <td>$30–50/hr</td>
+                  <td>$50–100/hr</td>
+                  <td>$100–200+/hr</td>
+                </tr>
+                <tr>
+                  <td>Small theme tweak (1–3 hours)</td>
+                  <td>$100–200</td>
+                  <td>$200–400</td>
+                  <td>$400–800</td>
+                </tr>
+                <tr>
+                  <td>Custom section development</td>
+                  <td>$200–500</td>
+                  <td>$500–1,000</td>
+                  <td>$1,000–2,500</td>
+                </tr>
+                <tr>
+                  <td>Theme customization (full brand)</td>
+                  <td>$500–1,500</td>
+                  <td>$1,500–4,000</td>
+                  <td>$4,000–10,000</td>
+                </tr>
+                <tr>
+                  <td>Full custom theme</td>
+                  <td>$2,000–5,000</td>
+                  <td>$5,000–15,000</td>
+                  <td>$15,000–50,000+</td>
+                </tr>
+                <tr>
+                  <td>Complete store setup + theme</td>
+                  <td>$1,500–3,000</td>
+                  <td>$3,000–8,000</td>
+                  <td>$8,000–25,000+</td>
+                </tr>
+                <tr>
+                  <td>Monthly maintenance retainer</td>
+                  <td>$300–500/mo</td>
+                  <td>$500–1,500/mo</td>
+                  <td>$1,500–5,000+/mo</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="pricing-tips">Pricing Strategy Tips</h3>
+
+          <ul>
+            <li><strong>Always quote in project rates, not hourly</strong> — Clients prefer knowing the total cost upfront. You benefit from efficiency.</li>
+            <li><strong>Include a scope document</strong> — Define exactly what's included and what's not. This prevents scope creep.</li>
+            <li><strong>Charge for revisions beyond scope</strong> — Include 2 rounds of revisions. Additional rounds are billed hourly.</li>
+            <li><strong>Require a deposit</strong> — 50% upfront before starting work. Remaining 50% before deploying to production.</li>
+            <li><strong>Raise rates with each project</strong> — If every client says yes immediately, your rates are too low.</li>
+            <li><strong>Don't compete on price</strong> — Compete on quality, communication, and reliability. Cheap developers are everywhere.</li>
+          </ul>
+
+          <!-- ====================================================== -->
+          <h2 id="portfolio">Building Your Portfolio</h2>
+
+          <p>
+            Your portfolio is your most important sales tool. It proves your skills better
+            than any claim you can make.
+          </p>
+
+          <h3 id="portfolio-no-clients">Building a Portfolio Without Clients</h3>
+
+          <p>
+            Every developer faces the chicken-and-egg problem: no clients without a portfolio,
+            no portfolio without clients. Here's how to solve it:
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h4 class="step-title">Build Demo Stores</h4>
+              <div class="step-content">
+                <p>
+                  Create 2–3 development stores with different niches. Customize Dawn extensively
+                  for each one. Add your custom sections, design your own hero banners, build
+                  product grids. Use professional stock photos from Burst and Unsplash.
+                </p>
+                <p>Niche ideas: Fashion boutique, Coffee/Food brand, Tech accessories, Home décor, Jewelry.</p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">2</div>
+              <h4 class="step-title">Document Your Process</h4>
+              <div class="step-content">
+                <p>
+                  For each demo store, write a case study explaining your design decisions,
+                  what sections you built, what problems you solved, and the technologies used.
+                  Screenshots, before/after comparisons, and Lighthouse scores add credibility.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">3</div>
+              <h4 class="step-title">Offer Discounted First Projects</h4>
+              <div class="step-content">
+                <p>
+                  Your first 2–3 client projects can be at reduced rates in exchange for
+                  testimonials and portfolio permission. Be upfront: "I'm building my portfolio
+                  and offering a special rate for early clients."
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">4</div>
+              <h4 class="step-title">Contribute to Open Source</h4>
+              <div class="step-content">
+                <p>
+                  Create and share useful Shopify snippets, sections, or utilities on GitHub.
+                  Write blog posts about Shopify development. This builds authority and
+                  attracts inbound leads.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <h3 id="portfolio-what-to-show">What to Include in Your Portfolio</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Element</th>
+                  <th>Why It Matters</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Live store links</strong></td>
+                  <td>Clients can see real, working stores you've built</td>
+                </tr>
+                <tr>
+                  <td><strong>Before/after screenshots</strong></td>
+                  <td>Shows the transformation you created</td>
+                </tr>
+                <tr>
+                  <td><strong>Performance scores</strong></td>
+                  <td>Lighthouse/PageSpeed scores prove your technical skill</td>
+                </tr>
+                <tr>
+                  <td><strong>Mobile screenshots</strong></td>
+                  <td>Shows you handle responsive design properly</td>
+                </tr>
+                <tr>
+                  <td><strong>Case study text</strong></td>
+                  <td>Explains your process and decision-making</td>
+                </tr>
+                <tr>
+                  <td><strong>Client testimonials</strong></td>
+                  <td>Social proof from real clients (even discounted ones)</td>
+                </tr>
+                <tr>
+                  <td><strong>Technical details</strong></td>
+                  <td>Custom sections built, features implemented, problems solved</td>
+                </tr>
+                <tr>
+                  <td><strong>Timeline</strong></td>
+                  <td>Shows you deliver on time</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="finding-clients">Finding Your First Clients</h2>
+
+          <h3 id="channels">Client Acquisition Channels</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Channel</th>
+                  <th>Effort Level</th>
+                  <th>Strategy</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Shopify Experts Marketplace</strong></td>
+                  <td>Medium</td>
+                  <td>Apply at <a href="https://experts.shopify.com" target="_blank" rel="noopener noreferrer">experts.shopify.com</a>. Requires portfolio and vetting. High-quality leads once accepted.</td>
+                </tr>
+                <tr>
+                  <td><strong>Upwork / Freelancer</strong></td>
+                  <td>High initially</td>
+                  <td>Create a detailed profile. Start with smaller jobs to build reviews. Specialize in Shopify — don't be generic. Propose thoughtfully on relevant projects.</td>
+                </tr>
+                <tr>
+                  <td><strong>Shopify Community Forums</strong></td>
+                  <td>Low</td>
+                  <td>Answer questions helpfully. Become a recognized contributor. Store owners post help requests there.</td>
+                </tr>
+                <tr>
+                  <td><strong>Social Media (Twitter/X, LinkedIn)</strong></td>
+                  <td>Medium</td>
+                  <td>Share Shopify development tips, showcase your work, engage with the Shopify developer community.</td>
+                </tr>
+                <tr>
+                  <td><strong>Direct outreach</strong></td>
+                  <td>High</td>
+                  <td>Find Shopify stores with poor design or performance. Send a personalized email offering specific improvements with evidence.</td>
+                </tr>
+                <tr>
+                  <td><strong>Referrals</strong></td>
+                  <td>Low (once established)</td>
+                  <td>Happy clients refer others. Ask for referrals after every successful project. Offer a referral bonus.</td>
+                </tr>
+                <tr>
+                  <td><strong>Local businesses</strong></td>
+                  <td>Medium</td>
+                  <td>Local retailers moving online. Attend local business events. Offer Shopify as their eCommerce solution.</td>
+                </tr>
+                <tr>
+                  <td><strong>Agencies</strong></td>
+                  <td>Medium</td>
+                  <td>Partner with web design agencies that don't have Shopify specialists. Offer white-label development services.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 The Direct Outreach Strategy</div>
+            <p>
+              Find Shopify stores with issues using browser DevTools. Run Lighthouse on their
+              homepage. If the score is low, email them: "Hi, I noticed your store at [URL]
+              has some performance opportunities. I ran a quick analysis and found [specific
+              issues]. I'm a Shopify theme developer and I could improve your load time by
+              [X%]. Would you be interested in a free 15-minute consultation?" This is
+              personalized, valuable, and shows initiative.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="client-communication">Client Communication</h2>
+
+          <p>
+            Communication skills matter as much as technical skills. Poor communication
+            is the #1 reason freelancer-client relationships fail.
+          </p>
+
+          <h3 id="comm-principles">Communication Principles</h3>
+
+          <ul>
+            <li><strong>Set expectations early</strong> — Timeline, scope, revision rounds, communication frequency</li>
+            <li><strong>Over-communicate progress</strong> — Send weekly updates even when not asked. Share preview links frequently.</li>
+            <li><strong>Ask questions upfront</strong> — Don't assume. Unclear requirements lead to rework.</li>
+            <li><strong>Document everything</strong> — Keep emails/messages for reference. Summarize calls in writing.</li>
+            <li><strong>Say no to scope creep politely</strong> — "That's a great idea! It's outside the current scope. I can add it for an additional $X."</li>
+            <li><strong>Deliver bad news early</strong> — If you'll miss a deadline, tell the client immediately with a new timeline.</li>
+            <li><strong>Educate the client</strong> — Help them understand why things take time, why performance matters, why certain approaches are better.</li>
+          </ul>
+
+          <h3 id="project-process">Professional Project Process</h3>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h4 class="step-title">Discovery Call (Free — 15–30 min)</h4>
+              <div class="step-content">
+                <p>
+                  Understand the client's goals, current pain points, timeline, and budget.
+                  Ask about their brand, target audience, and competitors. Take notes.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">2</div>
+              <h4 class="step-title">Proposal &amp; Scope Document</h4>
+              <div class="step-content">
+                <p>
+                  Send a written proposal with: project description, specific deliverables,
+                  timeline with milestones, pricing, payment terms, what's NOT included, and
+                  your terms of service.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">3</div>
+              <h4 class="step-title">Contract &amp; Deposit</h4>
+              <div class="step-content">
+                <p>
+                  Sign a simple contract (many free templates available online). Collect 50%
+                  deposit before starting work. Don't start without both.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">4</div>
+              <h4 class="step-title">Development with Checkpoints</h4>
+              <div class="step-content">
+                <p>
+                  Develop in phases. Share preview links after each major milestone. Get
+                  feedback early and often — don't build the entire thing in silence.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">5</div>
+              <h4 class="step-title">Review &amp; Revisions</h4>
+              <div class="step-content">
+                <p>
+                  2 rounds of revisions included. Collect all feedback in writing (not
+                  verbal). Make revisions, get sign-off before proceeding.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">6</div>
+              <h4 class="step-title">Final Payment &amp; Deployment</h4>
+              <div class="step-content">
+                <p>
+                  Collect remaining 50%. Deploy to production. Send deployment confirmation
+                  and post-launch checklist. Offer ongoing support retainer.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">7</div>
+              <h4 class="step-title">Follow-Up</h4>
+              <div class="step-content">
+                <p>
+                  Check in 2 weeks after launch. Ask for a testimonial. Ask for referrals.
+                  Offer a maintenance retainer for ongoing updates.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="scope-document">Writing a Scope Document</h2>
+
+          <p>
+            A scope document protects both you and the client. Here's a template:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Scope Document Template</span>
+            </div>
+            <pre><code>PROJECT SCOPE DOCUMENT
+═══════════════════════════════════════════
+
+CLIENT:        [Client Name]
+PROJECT:       Shopify Theme Customization
+DATE:          [Date]
+DEVELOPER:     Gamal
+
+────────────────────────────────────────────
+
+PROJECT OVERVIEW
+Customize the Dawn theme to match [Client]'s
+brand identity and business requirements.
+
+────────────────────────────────────────────
+
+DELIVERABLES (INCLUDED)
+
+1. Homepage Design
+   - Custom hero banner section
+   - Featured collection grid (2 collections)
+   - Brand story section (image + text)
+   - Testimonials section
+   - Newsletter signup section
+
+2. Collection Page
+   - Custom product card design
+   - Sidebar filtering (if supported by theme)
+
+3. Product Page
+   - Custom product gallery layout
+   - Trust badges below buy button
+   - Related products section
+
+4. Global Elements
+   - Custom color scheme matching brand
+   - Typography setup (2 fonts)
+   - Header with logo and navigation
+   - Footer with links, social icons, newsletter
+   - Mobile responsive design
+
+5. Technical
+   - Performance optimization (target: 70+ Lighthouse)
+   - Basic SEO meta tags
+   - Cross-browser testing (Chrome, Firefox, Safari)
+
+────────────────────────────────────────────
+
+NOT INCLUDED
+
+- Product data entry / upload
+- Custom app development
+- Email marketing setup
+- Paid advertising setup
+- Photography or content creation
+- Ongoing maintenance (available as separate retainer)
+- Third-party app integration beyond basic setup
+- Custom checkout modifications
+
+────────────────────────────────────────────
+
+TIMELINE
+
+Week 1:  Homepage design + global elements
+Week 2:  Collection + product page customization
+Week 3:  Revisions + testing + deployment
+
+Total: 3 weeks from deposit receipt
+
+────────────────────────────────────────────
+
+PRICING
+
+Project total:                $2,500
+  - 50% deposit (due to start):  $1,250
+  - 50% final (before deploy):   $1,250
+
+Revision rounds included: 2
+Additional revisions: $75/hour
+
+────────────────────────────────────────────
+
+TERMS
+
+- Content (text, images) provided by client
+- Feedback provided within 48 hours of milestone
+- Delays in client feedback extend the timeline
+- Source code remains with client upon final payment</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="growing">Growing Your Business</h2>
+
+          <h3 id="specialization">Specialize to Stand Out</h3>
+
+          <p>
+            The freelance market is crowded with generalists. Specializing makes you the
+            obvious choice for specific clients:
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Specialization</th>
+                  <th>Target Clients</th>
+                  <th>Why It Works</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Fashion/Apparel themes</strong></td>
+                  <td>Clothing brands, boutiques</td>
+                  <td>Largest eCommerce category, specific UX needs (size guides, lookbooks)</td>
+                </tr>
+                <tr>
+                  <td><strong>Food &amp; Beverage themes</strong></td>
+                  <td>DTC food brands, restaurants</td>
+                  <td>Growing market, subscription needs, unique layout requirements</td>
+                </tr>
+                <tr>
+                  <td><strong>Performance optimization</strong></td>
+                  <td>Any Shopify store with speed issues</td>
+                  <td>Measurable results, repeat business, clear value proposition</td>
+                </tr>
+                <tr>
+                  <td><strong>Theme migration</strong></td>
+                  <td>Stores switching themes or platforms</td>
+                  <td>Specialized skill, high value, clear scope</td>
+                </tr>
+                <tr>
+                  <td><strong>Accessibility compliance</strong></td>
+                  <td>Stores needing ADA/WCAG compliance</td>
+                  <td>Legal requirement in many markets, few specialists</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="passive-income">Passive Income Opportunities</h3>
+
+          <ul>
+            <li><strong>Sell themes on Shopify Theme Store</strong> — High bar for quality, but significant passive income if accepted ($500–$1,000+ per month per theme)</li>
+            <li><strong>Sell on ThemeForest/Creative Market</strong> — Lower bar for entry, broader marketplace</li>
+            <li><strong>Create and sell Shopify sections/snippets</strong> — Smaller products, easier to build and sell</li>
+            <li><strong>Write Shopify tutorials</strong> — Blog posts, YouTube videos, courses on Udemy or Skillshare</li>
+            <li><strong>Build a Shopify app</strong> — Complements theme development skills</li>
+          </ul>
+
+          <h3 id="continuous-learning">Continuous Learning</h3>
+
+          <p>
+            Shopify evolves constantly. Stay current with:
+          </p>
+
+          <ul>
+            <li><a href="https://shopify.dev/changelog" target="_blank" rel="noopener noreferrer">Shopify Developer Changelog</a> — Official updates</li>
+            <li><a href="https://shopify.dev/docs" target="_blank" rel="noopener noreferrer">Shopify Dev Docs</a> — Reference documentation</li>
+            <li><a href="https://community.shopify.com" target="_blank" rel="noopener noreferrer">Shopify Community</a> — Forums and discussions</li>
+            <li><strong>Shopify Unite / Editions</strong> — Annual announcements of new features</li>
+            <li><strong>GitHub: Shopify/dawn</strong> — Watch the Dawn repo for best practice updates</li>
+            <li><strong>Twitter/X</strong> — Follow Shopify developer advocates and community leaders</li>
+          </ul>
+
+          <!-- ====================================================== -->
+          <h2 id="mistakes">Common Freelancing Mistakes to Avoid</h2>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mistake</th>
+                  <th>Consequence</th>
+                  <th>Prevention</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>No written scope/contract</td>
+                  <td>Endless scope creep, unpaid work</td>
+                  <td>Always have a signed scope document before starting</td>
+                </tr>
+                <tr>
+                  <td>No deposit collected</td>
+                  <td>Client disappears, you've worked for free</td>
+                  <td>50% upfront, non-negotiable</td>
+                </tr>
+                <tr>
+                  <td>Underpricing</td>
+                  <td>Burnout, resentment, unsustainable business</td>
+                  <td>Price for value, not for hours. Raise rates regularly.</td>
+                </tr>
+                <tr>
+                  <td>Not backing up before deployment</td>
+                  <td>Breaking a live store with no rollback option</td>
+                  <td>Always duplicate the live theme before deploying changes</td>
+                </tr>
+                <tr>
+                  <td>Promising unrealistic timelines</td>
+                  <td>Stress, poor quality, broken trust</td>
+                  <td>Estimate honestly, then add 30% buffer time</td>
+                </tr>
+                <tr>
+                  <td>Not getting testimonials</td>
+                  <td>No social proof for future clients</td>
+                  <td>Ask for a testimonial within 1 week of launch</td>
+                </tr>
+                <tr>
+                  <td>Working without version control</td>
+                  <td>Can't track changes, no rollback ability</td>
+                  <td>Git for every project, no exceptions</td>
+                </tr>
+                <tr>
+                  <td>Ignoring mobile design</td>
+                  <td>60%+ of eCommerce traffic is mobile</td>
+                  <td>Design mobile-first, test on real devices</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="roadmap">Your 90-Day Roadmap</h2>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h4 class="step-title">Days 1–30: Build Foundation</h4>
+              <div class="step-content">
+                <ul>
+                  <li>Complete this handbook (all chapters and exercises)</li>
+                  <li>Build 2 demo stores with different niches</li>
+                  <li>Create a portfolio page (can be a simple website or Notion page)</li>
+                  <li>Set up profiles on Upwork and Shopify Community</li>
+                  <li>Write 2–3 Shopify development blog posts or social media posts</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">2</div>
+              <h4 class="step-title">Days 31–60: Get First Clients</h4>
+              <div class="step-content">
+                <ul>
+                  <li>Apply to 10+ Shopify-related jobs on Upwork per week</li>
+                  <li>Send 5 direct outreach emails per week to stores with improvement opportunities</li>
+                  <li>Offer 2–3 projects at discounted rates for portfolio and testimonials</li>
+                  <li>Join Shopify developer communities and be actively helpful</li>
+                  <li>Complete first paid project and collect a testimonial</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">3</div>
+              <h4 class="step-title">Days 61–90: Scale Up</h4>
+              <div class="step-content">
+                <ul>
+                  <li>Raise your rates by 20–30%</li>
+                  <li>Build more advanced sections (quick view, cart drawer, mega menu)</li>
+                  <li>Apply to become a Shopify Expert</li>
+                  <li>Develop a reusable base theme with your custom sections</li>
+                  <li>Create a scope document and contract template</li>
+                  <li>Ask every client for referrals</li>
+                  <li>Start considering a specialization niche</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="final-words">Final Words</h2>
+
+          <blockquote>
+            <p>
+              Gamal, you now have everything you need to become a professional Shopify theme
+              developer. This handbook has taken you from understanding the ecosystem to
+              building real components, analyzing premium themes, optimizing performance, and
+              deploying to production. The knowledge is here — the rest is practice and
+              persistence.
+            </p>
+            <p>
+              Build something every day. Commit your code. Push to GitHub. Test on real devices.
+              Show your work. Help others. Stay curious. The Shopify ecosystem is vast and
+              growing — there's room for developers who care about quality.
+            </p>
+            <p>
+              Your first theme won't be perfect. Neither will your second or third. But each
+              one will be better than the last. That's how every professional developer
+              started — one section, one commit, one project at a time.
+            </p>
+            <cite>— Your Shopify Theme Development Handbook</cite>
+          </blockquote>
+
+          <div class="callout callout-success">
+            <div class="callout-title">🎉 Congratulations!</div>
+            <p>
+              You've completed the entire Shopify Theme Developer Handbook. You now have
+              the knowledge foundation to build professional Shopify themes. Go build
+              something amazing. The eCommerce world is waiting for your work.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="key-takeaways">Key Takeaways</h2>
+
+          <ul class="checklist">
+            <li>Start with theme customization and small fixes — build up to full custom themes</li>
+            <li>Use fixed project pricing with clear scope documents</li>
+            <li>Always collect a 50% deposit before starting work</li>
+            <li>Build demo stores as portfolio pieces while finding first clients</li>
+            <li>Over-communicate with clients — weekly updates, preview links, written summaries</li>
+            <li>Use a professional project process: discovery → proposal → contract → develop → review → deploy</li>
+            <li>Ask for testimonials and referrals after every project</li>
+            <li>Specialize in a niche to stand out from generalists</li>
+            <li>Stay current with Shopify's developer changelog and community</li>
+            <li>Raise your rates regularly as your skills and reputation grow</li>
+            <li>Consider passive income through theme sales, tutorials, or courses</li>
+          </ul>
+
+          <!-- Page Navigation -->
+          <div class="page-nav">
+            <a href="deployment.html" class="page-nav-link">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Deployment</span>
+            </a>
+            <a href="index.html" class="page-nav-link page-nav-link--next">
+              <span class="page-nav-label">Back to Start →</span>
+              <span class="page-nav-title">Introduction</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <footer class="doc-footer">
+        <p>
+          Shopify Theme Developer Handbook — Built with care for <strong>Gamal</strong><br>
+          <small>Not affiliated with Shopify Inc. For educational purposes only.</small>
+        </p>
+        <p style="margin-top: var(--space-4);">
+          📘 14 Chapters · 7+ Exercises · Complete Learning Path<br>
+          From beginner to professional Shopify theme developer.
+        </p>
+      </footer>
+
+    </main>
+  </div>
+
+</body>
+</html>

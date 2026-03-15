@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Master Shopify sections and blocks — schema settings, block types, presets, and building modular theme components">
+  <title>Sections &amp; Blocks — Shopify Theme Developer Handbook</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script defer src="assets/js/script.js"></script>
+</head>
+<body>
+
+  <div class="progress-bar">
+    <div class="progress-bar-fill"></div>
+  </div>
+
+  <div class="doc-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation" aria-label="Main navigation">
+      <div class="sidebar-brand">
+        <a href="index.html" class="sidebar-brand-link">
+          <div class="sidebar-brand-icon">S</div>
+          <div class="sidebar-brand-text">
+            <span class="sidebar-brand-title">Shopify Handbook</span>
+            <span class="sidebar-brand-subtitle">Theme Development Guide</span>
+          </div>
+        </a>
+      </div>
+      <div class="sidebar-search">
+        <div class="sidebar-search-wrapper">
+          <span class="sidebar-search-icon">🔍</span>
+          <input type="text" class="sidebar-search-input" placeholder="Search docs... (Ctrl+K)" aria-label="Search documentation">
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Getting Started</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="index.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🏠</span> Introduction</a></li>
+            <li class="sidebar-nav-item"><a href="setup.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">⚙️</span> Development Setup</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Core Concepts</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="shopify-architecture.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🏗️</span> Shopify Architecture</a></li>
+            <li class="sidebar-nav-item"><a href="liquid-basics.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">💧</span> Liquid Basics</a></li>
+            <li class="sidebar-nav-item"><a href="theme-structure.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">📁</span> Theme Folder Structure</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Building Themes</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="sections-and-blocks.html" class="sidebar-nav-link active"><span class="sidebar-nav-link-icon">🧱</span> Sections &amp; Blocks</a></li>
+            <li class="sidebar-nav-item"><a href="theme-components.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🧩</span> Theme Components</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Advanced</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="premium-theme-analysis.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🔍</span> Premium Theme Analysis</a></li>
+            <li class="sidebar-nav-item"><a href="design-experiments.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🎨</span> Design Experimentation</a></li>
+            <li class="sidebar-nav-item"><a href="performance.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">⚡</span> Performance</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Production</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="deployment.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🚀</span> Deployment</a></li>
+            <li class="sidebar-nav-item"><a href="freelancing.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">💼</span> Freelance Strategy</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-theme-toggle" role="button" tabindex="0" aria-label="Toggle dark mode">
+          <span class="sidebar-theme-toggle-label">🌙 Dark Mode</span>
+          <div class="theme-toggle-switch"></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-wrapper">
+
+      <header class="top-header">
+        <div class="top-header-left">
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+          <div class="breadcrumbs">
+            <a href="index.html">Handbook</a>
+            <span class="breadcrumbs-separator">/</span>
+            <span class="breadcrumbs-current">Sections &amp; Blocks</span>
+          </div>
+        </div>
+        <div class="top-header-right">
+          <a href="https://github.com" class="header-link" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
+          <a href="https://shopify.dev" class="header-link" target="_blank" rel="noopener noreferrer"><span>Shopify Docs</span></a>
+        </div>
+      </header>
+
+      <div class="content-container">
+        <div class="content">
+
+          <h1>Sections &amp; Blocks</h1>
+          <p class="lead">
+            Sections and blocks are the backbone of every Shopify theme. They make themes
+            modular, customizable, and merchant-friendly. This chapter teaches you how to
+            design, build, and configure sections with schemas that empower merchants to
+            create beautiful pages without touching code.
+          </p>
+
+          <div class="callout callout-info">
+            <div class="callout-title">📌 Chapter Overview</div>
+            <p>
+              <strong>Time estimate:</strong> 90 – 120 minutes<br>
+              <strong>Tags:</strong>
+              <span class="tag tag-liquid">Liquid</span>
+              <span class="tag tag-html">HTML</span>
+              <span class="tag tag-css">CSS</span>
+            </p>
+          </div>
+
+          <div id="table-of-contents" style="margin-bottom: var(--space-8);"></div>
+
+          <!-- ====================================================== -->
+          <h2 id="concept">The Section Concept</h2>
+
+          <p>
+            Think of a section as a <strong>LEGO brick</strong>. Each section is a self-contained
+            module that does one thing well. Merchants stack these bricks together through the
+            theme editor to compose complete pages. Some sections are simple (a rich text block),
+            while others are complex (a full product page).
+          </p>
+
+          <p>
+            Every section contains up to four parts:
+          </p>
+
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-icon">📝</div>
+              <h3 class="card-title">Liquid Markup</h3>
+              <p class="card-description">
+                The HTML structure rendered by the section. Uses Liquid tags to access
+                settings and dynamic data.
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🎨</div>
+              <h3 class="card-title">Styles</h3>
+              <p class="card-description">
+                CSS for the section. Can be inline via <code>{% style %}</code> or
+                loaded from <code>assets/</code>.
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">⚡</div>
+              <h3 class="card-title">JavaScript</h3>
+              <p class="card-description">
+                Interactive behavior. Loaded from <code>assets/</code> with
+                <code>defer</code> for performance.
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">⚙️</div>
+              <h3 class="card-title">Schema</h3>
+              <p class="card-description">
+                JSON configuration that defines settings, blocks, and presets
+                for the theme editor.
+              </p>
+            </div>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="schema-deep-dive">The Schema — Deep Dive</h2>
+
+          <p>
+            The schema is the most important part of a section for professional theme development.
+            It defines how the section appears and behaves in the theme editor. A well-designed
+            schema makes the difference between a frustrating theme and a delightful one.
+          </p>
+
+          <h3 id="schema-structure">Schema Structure</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Complete Schema Structure</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{% schema %}
+{
+  "name": "Section Display Name",
+  "tag": "section",
+  "class": "section",
+  "limit": 1,
+  "settings": [ ... ],
+  "blocks": [ ... ],
+  "max_blocks": 16,
+  "presets": [ ... ],
+  "default": { ... },
+  "templates": ["index", "collection", "product"],
+  "enabled_on": { ... },
+  "disabled_on": { ... }
+}
+{% endschema %}</code></pre>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Property</th>
+                  <th>Required</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>name</code></td>
+                  <td>Yes</td>
+                  <td>Display name shown in the theme editor sidebar</td>
+                </tr>
+                <tr>
+                  <td><code>tag</code></td>
+                  <td>No</td>
+                  <td>HTML tag wrapping the section (default: <code>div</code>)</td>
+                </tr>
+                <tr>
+                  <td><code>class</code></td>
+                  <td>No</td>
+                  <td>CSS class added to the section wrapper</td>
+                </tr>
+                <tr>
+                  <td><code>limit</code></td>
+                  <td>No</td>
+                  <td>Maximum times this section can be added to a page</td>
+                </tr>
+                <tr>
+                  <td><code>settings</code></td>
+                  <td>No</td>
+                  <td>Array of setting input definitions</td>
+                </tr>
+                <tr>
+                  <td><code>blocks</code></td>
+                  <td>No</td>
+                  <td>Array of block type definitions</td>
+                </tr>
+                <tr>
+                  <td><code>max_blocks</code></td>
+                  <td>No</td>
+                  <td>Maximum number of blocks allowed (default: 16)</td>
+                </tr>
+                <tr>
+                  <td><code>presets</code></td>
+                  <td>No</td>
+                  <td>Makes the section available in "Add section" menu</td>
+                </tr>
+                <tr>
+                  <td><code>templates</code></td>
+                  <td>No</td>
+                  <td>Restrict which page types can use this section</td>
+                </tr>
+                <tr>
+                  <td><code>enabled_on</code></td>
+                  <td>No</td>
+                  <td>Enable section on specific templates or groups</td>
+                </tr>
+                <tr>
+                  <td><code>disabled_on</code></td>
+                  <td>No</td>
+                  <td>Disable section on specific templates or groups</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="setting-types">All Setting Types</h2>
+
+          <p>
+            Shopify provides a rich set of setting types. Choosing the right type is crucial
+            for a good merchant experience. Here's every available type:
+          </p>
+
+          <h3 id="basic-input-settings">Basic Input Settings</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Renders As</th>
+                  <th>Returns</th>
+                  <th>Use For</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>text</code></td>
+                  <td>Single-line text input</td>
+                  <td>String</td>
+                  <td>Headings, labels, short text</td>
+                </tr>
+                <tr>
+                  <td><code>textarea</code></td>
+                  <td>Multi-line text area</td>
+                  <td>String</td>
+                  <td>Paragraphs, descriptions</td>
+                </tr>
+                <tr>
+                  <td><code>richtext</code></td>
+                  <td>Rich text editor</td>
+                  <td>HTML String</td>
+                  <td>Formatted content with bold, italic, links</td>
+                </tr>
+                <tr>
+                  <td><code>inline_richtext</code></td>
+                  <td>Inline rich text</td>
+                  <td>HTML String</td>
+                  <td>Short formatted text (no block elements)</td>
+                </tr>
+                <tr>
+                  <td><code>number</code></td>
+                  <td>Number input</td>
+                  <td>Number</td>
+                  <td>Counts, spacing values</td>
+                </tr>
+                <tr>
+                  <td><code>range</code></td>
+                  <td>Slider</td>
+                  <td>Number</td>
+                  <td>Opacity, font size scale, spacing</td>
+                </tr>
+                <tr>
+                  <td><code>checkbox</code></td>
+                  <td>Toggle checkbox</td>
+                  <td>Boolean</td>
+                  <td>Show/hide elements, enable features</td>
+                </tr>
+                <tr>
+                  <td><code>select</code></td>
+                  <td>Dropdown menu</td>
+                  <td>String (option value)</td>
+                  <td>Predefined choices (layout, alignment)</td>
+                </tr>
+                <tr>
+                  <td><code>radio</code></td>
+                  <td>Radio buttons</td>
+                  <td>String (option value)</td>
+                  <td>Visible choices (2–4 options)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="specialized-settings">Specialized Settings</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Renders As</th>
+                  <th>Returns</th>
+                  <th>Use For</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>color</code></td>
+                  <td>Color picker</td>
+                  <td>Color string</td>
+                  <td>Custom colors for section elements</td>
+                </tr>
+                <tr>
+                  <td><code>color_scheme</code></td>
+                  <td>Color scheme picker</td>
+                  <td>Scheme ID</td>
+                  <td>Selecting predefined color schemes</td>
+                </tr>
+                <tr>
+                  <td><code>color_background</code></td>
+                  <td>Background color/gradient picker</td>
+                  <td>CSS value</td>
+                  <td>Backgrounds with gradient support</td>
+                </tr>
+                <tr>
+                  <td><code>font_picker</code></td>
+                  <td>Font picker</td>
+                  <td>Font object</td>
+                  <td>Custom typography</td>
+                </tr>
+                <tr>
+                  <td><code>image_picker</code></td>
+                  <td>Image upload / library</td>
+                  <td>Image object</td>
+                  <td>Background images, banners, logos</td>
+                </tr>
+                <tr>
+                  <td><code>video</code></td>
+                  <td>Video upload</td>
+                  <td>Video object</td>
+                  <td>Background videos, media</td>
+                </tr>
+                <tr>
+                  <td><code>video_url</code></td>
+                  <td>Video URL input</td>
+                  <td>URL string</td>
+                  <td>YouTube/Vimeo embeds</td>
+                </tr>
+                <tr>
+                  <td><code>url</code></td>
+                  <td>URL picker</td>
+                  <td>URL string</td>
+                  <td>Links, CTA buttons</td>
+                </tr>
+                <tr>
+                  <td><code>collection</code></td>
+                  <td>Collection picker</td>
+                  <td>Collection object</td>
+                  <td>Featured collection sections</td>
+                </tr>
+                <tr>
+                  <td><code>product</code></td>
+                  <td>Product picker</td>
+                  <td>Product object</td>
+                  <td>Featured product sections</td>
+                </tr>
+                <tr>
+                  <td><code>blog</code></td>
+                  <td>Blog picker</td>
+                  <td>Blog object</td>
+                  <td>Blog post sections</td>
+                </tr>
+                <tr>
+                  <td><code>page</code></td>
+                  <td>Page picker</td>
+                  <td>Page object</td>
+                  <td>Content from pages</td>
+                </tr>
+                <tr>
+                  <td><code>link_list</code></td>
+                  <td>Menu picker</td>
+                  <td>Linklist object</td>
+                  <td>Navigation menus</td>
+                </tr>
+                <tr>
+                  <td><code>html</code></td>
+                  <td>HTML editor</td>
+                  <td>HTML string</td>
+                  <td>Custom embed code, third-party widgets</td>
+                </tr>
+                <tr>
+                  <td><code>liquid</code></td>
+                  <td>Liquid code editor</td>
+                  <td>Rendered Liquid</td>
+                  <td>Custom Liquid code injection</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="layout-settings">Layout Settings (Non-Input)</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Purpose</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>header</code></td>
+                  <td>Adds a heading label to visually group settings in the editor</td>
+                </tr>
+                <tr>
+                  <td><code>paragraph</code></td>
+                  <td>Adds descriptive text between settings for instructions</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="setting-examples">Setting Examples with All Properties</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Comprehensive Setting Examples</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>"settings": [
+  {
+    "type": "header",
+    "content": "Layout Options"
+  },
+  {
+    "type": "paragraph",
+    "content": "Configure how this section appears on the page."
+  },
+  {
+    "type": "text",
+    "id": "heading",
+    "label": "Heading",
+    "default": "Featured Products",
+    "info": "Leave blank to hide the heading",
+    "placeholder": "Enter a heading..."
+  },
+  {
+    "type": "richtext",
+    "id": "description",
+    "label": "Description",
+    "default": "&lt;p&gt;Discover our curated collection.&lt;/p&gt;"
+  },
+  {
+    "type": "select",
+    "id": "layout",
+    "label": "Layout style",
+    "options": [
+      { "value": "grid", "label": "Grid" },
+      { "value": "carousel", "label": "Carousel" },
+      { "value": "list", "label": "List" }
+    ],
+    "default": "grid",
+    "info": "Choose how products are displayed"
+  },
+  {
+    "type": "range",
+    "id": "columns",
+    "label": "Products per row",
+    "min": 2,
+    "max": 5,
+    "step": 1,
+    "default": 4,
+    "info": "Desktop only. Mobile shows 2 columns."
+  },
+  {
+    "type": "range",
+    "id": "products_to_show",
+    "label": "Number of products",
+    "min": 2,
+    "max": 24,
+    "step": 2,
+    "default": 8
+  },
+  {
+    "type": "collection",
+    "id": "collection",
+    "label": "Collection"
+  },
+  {
+    "type": "checkbox",
+    "id": "show_vendor",
+    "label": "Show product vendor",
+    "default": false
+  },
+  {
+    "type": "checkbox",
+    "id": "show_secondary_image",
+    "label": "Show second image on hover",
+    "default": true,
+    "info": "Displays the second product image when hovering"
+  },
+  {
+    "type": "header",
+    "content": "Colors"
+  },
+  {
+    "type": "color",
+    "id": "background_color",
+    "label": "Background color",
+    "default": "#ffffff"
+  },
+  {
+    "type": "header",
+    "content": "Spacing"
+  },
+  {
+    "type": "range",
+    "id": "padding_top",
+    "label": "Top padding",
+    "min": 0,
+    "max": 100,
+    "step": 4,
+    "default": 36,
+    "unit": "px"
+  },
+  {
+    "type": "range",
+    "id": "padding_bottom",
+    "label": "Bottom padding",
+    "min": 0,
+    "max": 100,
+    "step": 4,
+    "default": 36,
+    "unit": "px"
+  }
+]</code></pre>
+          </div>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ Schema Design Best Practices</div>
+            <p>
+              <strong>1. Use <code>header</code> to group related settings</strong> — helps merchants find what they need.<br>
+              <strong>2. Add <code>info</code> text to explain non-obvious settings</strong> — reduce support requests.<br>
+              <strong>3. Always provide <code>default</code> values</strong> — the section should look great out of the box.<br>
+              <strong>4. Use <code>range</code> instead of <code>number</code></strong> when there are min/max constraints — prevents invalid input.<br>
+              <strong>5. Include padding controls</strong> — merchants need spacing flexibility between sections.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="blocks">Blocks — Sub-Components</h2>
+
+          <p>
+            Blocks are <strong>repeatable, reorderable sub-components</strong> within a section.
+            They're what make sections truly flexible. Merchants can add multiple blocks, reorder
+            them, and remove them — all through the theme editor.
+          </p>
+
+          <h3 id="blocks-concept">When to Use Blocks</h3>
+
+          <p>Use blocks when a section needs to contain a <strong>variable number</strong> of similar or mixed content items:</p>
+
+          <ul>
+            <li>Product page: title block, price block, variant picker block, description block, share buttons block</li>
+            <li>Testimonials section: multiple testimonial blocks</li>
+            <li>Feature list: multiple feature blocks with icon + text</li>
+            <li>Image gallery: multiple image blocks</li>
+            <li>FAQ section: multiple question/answer blocks</li>
+            <li>Multi-column: multiple column blocks with different content types</li>
+          </ul>
+
+          <h3 id="blocks-schema">Block Schema Definition</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Block Schema Example — Testimonials</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>"blocks": [
+  {
+    "type": "testimonial",
+    "name": "Testimonial",
+    "limit": 6,
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "avatar",
+        "label": "Customer photo"
+      },
+      {
+        "type": "text",
+        "id": "author",
+        "label": "Customer name",
+        "default": "Jane Smith"
+      },
+      {
+        "type": "textarea",
+        "id": "quote",
+        "label": "Testimonial text",
+        "default": "This product changed my life. Highly recommended!"
+      },
+      {
+        "type": "range",
+        "id": "rating",
+        "label": "Star rating",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "default": 5
+      }
+    ]
+  }
+]</code></pre>
+          </div>
+
+          <h3 id="blocks-rendering">Rendering Blocks in Liquid</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Rendering Blocks</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;div class="testimonials__grid"&gt;
+  {%- for block in section.blocks -%}
+    &lt;div class="testimonial-card" {{ block.shopify_attributes }}&gt;
+
+      {%- if block.settings.avatar -%}
+        &lt;img
+          class="testimonial-card__avatar"
+          src="{{ block.settings.avatar | image_url: width: 80 }}"
+          alt="{{ block.settings.author | escape }}"
+          width="80"
+          height="80"
+          loading="lazy"
+        &gt;
+      {%- endif -%}
+
+      &lt;blockquote class="testimonial-card__quote"&gt;
+        {{ block.settings.quote }}
+      &lt;/blockquote&gt;
+
+      &lt;div class="testimonial-card__stars"&gt;
+        {%- for i in (1..block.settings.rating) -%}
+          ★
+        {%- endfor -%}
+        {%- assign empty_stars = 5 | minus: block.settings.rating -%}
+        {%- for i in (1..empty_stars) -%}
+          ☆
+        {%- endfor -%}
+      &lt;/div&gt;
+
+      &lt;cite class="testimonial-card__author"&gt;
+        {{ block.settings.author }}
+      &lt;/cite&gt;
+
+    &lt;/div&gt;
+  {%- endfor -%}
+&lt;/div&gt;</code></pre>
+          </div>
+
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Always Include <code>block.shopify_attributes</code></div>
+            <p>
+              The <code>{{ block.shopify_attributes }}</code> output is <strong>required</strong>
+              on the block's wrapper element. It provides data attributes that the theme editor
+              uses to identify, select, and interact with individual blocks. Without it, merchants
+              can't click on blocks to edit them in the theme editor.
+            </p>
+          </div>
+
+          <h3 id="mixed-blocks">Mixed Block Types</h3>
+
+          <p>
+            Sections can define <strong>multiple block types</strong>. This lets merchants mix
+            different content within a section. Use <code>{% case block.type %}</code> to render
+            each type differently:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Mixed Block Types — Multi-Column Section</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- comment -%} LIQUID MARKUP {%- endcomment -%}
+&lt;section class="multi-content section-{{ section.id }}"&gt;
+  &lt;div class="page-width"&gt;
+    {%- if section.settings.heading != blank -%}
+      &lt;h2 class="multi-content__heading"&gt;{{ section.settings.heading }}&lt;/h2&gt;
+    {%- endif -%}
+
+    &lt;div class="multi-content__grid"&gt;
+      {%- for block in section.blocks -%}
+        &lt;div class="multi-content__item" {{ block.shopify_attributes }}&gt;
+          {%- case block.type -%}
+
+            {%- when 'text_block' -%}
+              &lt;div class="content-text"&gt;
+                {%- if block.settings.title != blank -%}
+                  &lt;h3&gt;{{ block.settings.title }}&lt;/h3&gt;
+                {%- endif -%}
+                {{ block.settings.body }}
+              &lt;/div&gt;
+
+            {%- when 'image_block' -%}
+              &lt;div class="content-image"&gt;
+                {%- if block.settings.image -%}
+                  &lt;img
+                    src="{{ block.settings.image | image_url: width: 600 }}"
+                    alt="{{ block.settings.image.alt | escape }}"
+                    loading="lazy"
+                  &gt;
+                {%- endif -%}
+                {%- if block.settings.caption != blank -%}
+                  &lt;p class="content-image__caption"&gt;{{ block.settings.caption }}&lt;/p&gt;
+                {%- endif -%}
+              &lt;/div&gt;
+
+            {%- when 'video_block' -%}
+              &lt;div class="content-video"&gt;
+                {%- if block.settings.video_url != blank -%}
+                  {{ block.settings.video_url | external_video_tag }}
+                {%- endif -%}
+              &lt;/div&gt;
+
+            {%- when 'cta_block' -%}
+              &lt;div class="content-cta"&gt;
+                &lt;h3&gt;{{ block.settings.heading }}&lt;/h3&gt;
+                &lt;p&gt;{{ block.settings.text }}&lt;/p&gt;
+                {%- if block.settings.button_label != blank -%}
+                  &lt;a href="{{ block.settings.button_link }}" class="btn"&gt;
+                    {{ block.settings.button_label }}
+                  &lt;/a&gt;
+                {%- endif -%}
+              &lt;/div&gt;
+
+          {%- endcase -%}
+        &lt;/div&gt;
+      {%- endfor -%}
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+{%- comment -%} SCHEMA {%- endcomment -%}
+{% schema %}
+{
+  "name": "Multi-Content",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why Choose Us"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text_block",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Body text"
+        }
+      ]
+    },
+    {
+      "type": "image_block",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption"
+        }
+      ]
+    },
+    {
+      "type": "video_block",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "video_url",
+          "id": "video_url",
+          "label": "Video URL",
+          "accept": ["youtube", "vimeo"]
+        }
+      ]
+    },
+    {
+      "type": "cta_block",
+      "name": "Call to Action",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Multi-Content",
+      "blocks": [
+        { "type": "text_block" },
+        { "type": "image_block" },
+        { "type": "text_block" }
+      ]
+    }
+  ]
+}
+{% endschema %}</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="section-css">CSS Strategies for Sections</h2>
+
+          <p>
+            There are two main approaches for styling sections:
+          </p>
+
+          <h3 id="css-external">Approach 1: External CSS File (Recommended)</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Section with External CSS</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Load the CSS file at the top of the section --&gt;
+{{ 'section-testimonials.css' | asset_url | stylesheet_tag }}
+
+&lt;section class="testimonials"&gt;
+  &lt;!-- section content --&gt;
+&lt;/section&gt;</code></pre>
+          </div>
+
+          <h3 id="css-inline">Approach 2: Inline Styles with Dynamic Values</h3>
+
+          <p>
+            Use the <code>{% style %}</code> tag for CSS that depends on section settings
+            (like custom colors, padding, or fonts):
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Dynamic Inline Styles</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- style -%}
+  .section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.background_color }};
+  }
+
+  .section-{{ section.id }} .heading {
+    color: {{ section.settings.heading_color }};
+    text-align: {{ section.settings.text_alignment }};
+  }
+
+  @media (max-width: 749px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top | divided_by: 2 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | divided_by: 2 }}px;
+    }
+  }
+{%- endstyle -%}
+
+&lt;section class="testimonials section-{{ section.id }}"&gt;
+  &lt;h2 class="heading"&gt;{{ section.settings.heading }}&lt;/h2&gt;
+  &lt;!-- rest of content --&gt;
+&lt;/section&gt;</code></pre>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Combine Both Approaches</div>
+            <p>
+              Professional themes use <strong>both</strong>: external CSS for base styles and
+              layout, inline <code>{% style %}</code> for dynamic values from settings. This gives
+              you the best of both worlds — cacheable base CSS plus customizable properties.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="presets-vs-default">Presets vs. Defaults</h2>
+
+          <p>
+            Understanding the difference between <code>"presets"</code> and <code>"default"</code>
+            prevents a common confusion:
+          </p>
+
+          <div class="table-wrapper">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th><code>presets</code></th>
+                  <th><code>default</code></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Purpose</td>
+                  <td>Makes section available in "Add section" menu</td>
+                  <td>Defines initial state when section is in a template</td>
+                </tr>
+                <tr>
+                  <td>When used</td>
+                  <td>When merchant manually adds the section</td>
+                  <td>When section is referenced in a JSON template</td>
+                </tr>
+                <tr>
+                  <td>Multiple allowed</td>
+                  <td class="check-yes">✓ Yes (creates multiple presets)</td>
+                  <td class="check-no">✗ Only one</td>
+                </tr>
+                <tr>
+                  <td>Can include blocks</td>
+                  <td class="check-yes">✓ Yes</td>
+                  <td class="check-yes">✓ Yes</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Multiple Presets Example</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>"presets": [
+  {
+    "name": "Testimonials — Grid",
+    "settings": {
+      "layout": "grid",
+      "columns": 3
+    },
+    "blocks": [
+      { "type": "testimonial" },
+      { "type": "testimonial" },
+      { "type": "testimonial" }
+    ]
+  },
+  {
+    "name": "Testimonials — Carousel",
+    "settings": {
+      "layout": "carousel",
+      "auto_rotate": true
+    },
+    "blocks": [
+      { "type": "testimonial" },
+      { "type": "testimonial" },
+      { "type": "testimonial" },
+      { "type": "testimonial" }
+    ]
+  }
+]</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="app-blocks">App Blocks</h2>
+
+          <p>
+            Online Store 2.0 introduced <strong>app blocks</strong> — the ability for third-party
+            apps to inject content into your sections. To support this, add the special
+            <code>@app</code> block type:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Supporting App Blocks</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>"blocks": [
+  {
+    "type": "title",
+    "name": "Title",
+    "limit": 1,
+    "settings": []
+  },
+  {
+    "type": "price",
+    "name": "Price",
+    "limit": 1,
+    "settings": []
+  },
+  {
+    "type": "@app"
+  }
+]</code></pre>
+          </div>
+
+          <p>
+            In your Liquid, render app blocks alongside your own blocks:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Rendering App Blocks</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- for block in section.blocks -%}
+  {%- case block.type -%}
+    {%- when 'title' -%}
+      &lt;h1 {{ block.shopify_attributes }}&gt;{{ product.title }}&lt;/h1&gt;
+
+    {%- when 'price' -%}
+      &lt;div {{ block.shopify_attributes }}&gt;{{ product.price | money }}&lt;/div&gt;
+
+    {%- when '@app' -%}
+      &lt;div {{ block.shopify_attributes }}&gt;
+        {% render block %}
+      &lt;/div&gt;
+  {%- endcase -%}
+{%- endfor -%}</code></pre>
+          </div>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ Always Support App Blocks</div>
+            <p>
+              Adding <code>@app</code> block support is a requirement for the Shopify Theme Store
+              and a mark of a professional theme. It lets merchants add reviews, upsells, trust
+              badges, and other app content exactly where they want it — without workarounds.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="exercise-1">Exercise: Build a Testimonials Section</h2>
+
+          <div class="exercise">
+            <div class="exercise-header">
+              <div class="exercise-icon">🧪</div>
+              <div>
+                <div class="exercise-label">Hands-On Exercise</div>
+                <h3 class="exercise-title">Build a Customer Testimonials Section</h3>
+              </div>
+            </div>
+            <div class="exercise-meta">
+              <span class="exercise-meta-item">⏱️ 30 minutes</span>
+              <span class="exercise-meta-item">📁 sections/testimonials.liquid</span>
+              <span class="exercise-meta-item">📁 assets/section-testimonials.css</span>
+            </div>
+
+            <p><strong>Learning objective:</strong> Practice building a complete section with blocks, schema settings, and CSS.</p>
+
+            <p><strong>Requirements:</strong></p>
+            <ol>
+              <li>Create <code>sections/testimonials.liquid</code></li>
+              <li>Section settings: heading, background color, padding top/bottom</li>
+              <li>Block type: testimonial (with author name, quote text, star rating, avatar image)</li>
+              <li>Maximum 6 blocks</li>
+              <li>Include a preset with 3 default testimonials</li>
+              <li>Create <code>assets/section-testimonials.css</code> with grid layout</li>
+              <li>Make it responsive: 3 columns on desktop, 1 column on mobile</li>
+            </ol>
+
+            <p><strong>Complete code:</strong></p>
+
+            <div class="code-block">
+              <div class="code-block-header">
+                <span class="code-block-filename">sections/testimonials.liquid</span>
+                <button class="copy-btn">📋 Copy</button>
+              </div>
+              <pre><code>{{ 'section-testimonials.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.bg_color }};
+  }
+{%- endstyle -%}
+
+&lt;section class="testimonials section-{{ section.id }}"&gt;
+  &lt;div class="page-width"&gt;
+    {%- if section.settings.heading != blank -%}
+      &lt;h2 class="testimonials__heading"&gt;
+        {{ section.settings.heading | escape }}
+      &lt;/h2&gt;
+    {%- endif -%}
+
+    {%- if section.blocks.size &gt; 0 -%}
+      &lt;div class="testimonials__grid"&gt;
+        {%- for block in section.blocks -%}
+          &lt;div class="testimonial-card" {{ block.shopify_attributes }}&gt;
+            &lt;div class="testimonial-card__stars"&gt;
+              {%- for i in (1..5) -%}
+                {%- if i &lt;= block.settings.rating -%}
+                  &lt;span class="star star--filled"&gt;★&lt;/span&gt;
+                {%- else -%}
+                  &lt;span class="star star--empty"&gt;☆&lt;/span&gt;
+                {%- endif -%}
+              {%- endfor -%}
+            &lt;/div&gt;
+
+            &lt;blockquote class="testimonial-card__quote"&gt;
+              "{{ block.settings.quote | escape }}"
+            &lt;/blockquote&gt;
+
+            &lt;div class="testimonial-card__author"&gt;
+              {%- if block.settings.avatar -%}
+                &lt;img
+                  src="{{ block.settings.avatar | image_url: width: 60, height: 60, crop: 'center' }}"
+                  alt="{{ block.settings.author | escape }}"
+                  class="testimonial-card__avatar"
+                  width="60"
+                  height="60"
+                  loading="lazy"
+                &gt;
+              {%- endif -%}
+              &lt;span class="testimonial-card__name"&gt;
+                {{ block.settings.author | escape }}
+              &lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        {%- endfor -%}
+      &lt;/div&gt;
+    {%- endif -%}
+  &lt;/div&gt;
+&lt;/section&gt;
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What Our Customers Say"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#f8f9fb"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Customer photo"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Customer name",
+          "default": "Happy Customer"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Testimonial",
+          "default": "Amazing product quality and fast shipping. Will definitely order again!"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "author": "Sarah M.",
+            "quote": "Best purchase I've made this year. The quality is outstanding!",
+            "rating": 5
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author": "James K.",
+            "quote": "Fast shipping and exactly as described. Highly recommend.",
+            "rating": 5
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "author": "Emily R.",
+            "quote": "Beautiful design and great customer service. Love it!",
+            "rating": 4
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}</code></pre>
+            </div>
+
+            <div class="code-block">
+              <div class="code-block-header">
+                <span class="code-block-filename">assets/section-testimonials.css</span>
+                <button class="copy-btn">📋 Copy</button>
+              </div>
+              <pre><code>.testimonials__heading {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.75rem;
+}
+
+.testimonials__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.testimonial-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.testimonial-card__stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star--filled {
+  color: #f59e0b;
+}
+
+.star--empty {
+  color: #d1d5db;
+}
+
+.testimonial-card__quote {
+  font-style: italic;
+  line-height: 1.7;
+  color: #4a5568;
+  flex: 1;
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+
+.testimonial-card__author {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.testimonial-card__avatar {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.testimonial-card__name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 999px) {
+  .testimonials__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 599px) {
+  .testimonials__grid {
+    grid-template-columns: 1fr;
+  }
+}</code></pre>
+            </div>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="exercise-2">Exercise: Build a Features Section with Mixed Blocks</h2>
+
+          <div class="exercise">
+            <div class="exercise-header">
+              <div class="exercise-icon">🧪</div>
+              <div>
+                <div class="exercise-label">Hands-On Exercise</div>
+                <h3 class="exercise-title">Build a Features Section with Icons</h3>
+              </div>
+            </div>
+            <div class="exercise-meta">
+              <span class="exercise-meta-item">⏱️ 25 minutes</span>
+              <span class="exercise-meta-item">📁 sections/features.liquid</span>
+            </div>
+
+            <p><strong>Learning objective:</strong> Create a section with a single block type that merchants can add multiple times, each with an icon, heading, and description.</p>
+
+            <p><strong>Requirements:</strong></p>
+            <ol>
+              <li>Section settings: heading, subheading, columns count (2–4), padding</li>
+              <li>Block type: feature (icon emoji, title, description)</li>
+              <li>Responsive grid layout</li>
+              <li>Preset with 3 features (Free Shipping, Secure Payment, 24/7 Support)</li>
+            </ol>
+
+            <div class="code-block">
+              <div class="code-block-header">
+                <span class="code-block-filename">sections/features.liquid</span>
+                <button class="copy-btn">📋 Copy</button>
+              </div>
+              <pre><code>{%- style -%}
+  .section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  .section-{{ section.id }} .features__grid {
+    grid-template-columns: repeat({{ section.settings.columns }}, 1fr);
+  }
+  @media (max-width: 749px) {
+    .section-{{ section.id }} .features__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+{%- endstyle -%}
+
+&lt;section class="features section-{{ section.id }}"&gt;
+  &lt;div class="page-width"&gt;
+    {%- if section.settings.heading != blank -%}
+      &lt;div class="features__header"&gt;
+        &lt;h2&gt;{{ section.settings.heading | escape }}&lt;/h2&gt;
+        {%- if section.settings.subheading != blank -%}
+          &lt;p class="features__subheading"&gt;
+            {{ section.settings.subheading | escape }}
+          &lt;/p&gt;
+        {%- endif -%}
+      &lt;/div&gt;
+    {%- endif -%}
+
+    {%- if section.blocks.size &gt; 0 -%}
+      &lt;div class="features__grid"&gt;
+        {%- for block in section.blocks -%}
+          &lt;div class="feature-item" {{ block.shopify_attributes }}&gt;
+            {%- if block.settings.icon != blank -%}
+              &lt;div class="feature-item__icon"&gt;
+                {{ block.settings.icon }}
+              &lt;/div&gt;
+            {%- endif -%}
+            {%- if block.settings.title != blank -%}
+              &lt;h3 class="feature-item__title"&gt;
+                {{ block.settings.title | escape }}
+              &lt;/h3&gt;
+            {%- endif -%}
+            {%- if block.settings.description != blank -%}
+              &lt;p class="feature-item__desc"&gt;
+                {{ block.settings.description | escape }}
+              &lt;/p&gt;
+            {%- endif -%}
+          &lt;/div&gt;
+        {%- endfor -%}
+      &lt;/div&gt;
+    {%- endif -%}
+  &lt;/div&gt;
+&lt;/section&gt;
+
+{% schema %}
+{
+  "name": "Features",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why Shop With Us"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "We're committed to giving you the best experience"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0, "max": 100, "step": 4, "default": 40, "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0, "max": 100, "step": 4, "default": 40, "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon (emoji)",
+          "default": "🚀",
+          "info": "Paste any emoji character"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Describe this feature and why customers will love it."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Features",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "🚚",
+            "title": "Free Shipping",
+            "description": "Free shipping on all orders over $50. No hidden fees."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "🔒",
+            "title": "Secure Payment",
+            "description": "Your payment information is processed securely."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "💬",
+            "title": "24/7 Support",
+            "description": "Our support team is here to help you anytime."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}</code></pre>
+            </div>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="section-restrictions">Section Restrictions</h2>
+
+          <p>
+            You can control where sections appear using <code>enabled_on</code> and
+            <code>disabled_on</code>:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Restricting Section Availability</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- comment -%} Only available on product and collection pages {%- endcomment -%}
+"enabled_on": {
+  "templates": ["product", "collection"]
+}
+
+{%- comment -%} Available everywhere EXCEPT the cart page {%- endcomment -%}
+"disabled_on": {
+  "templates": ["cart"]
+}
+
+{%- comment -%} Only in header and footer groups {%- endcomment -%}
+"enabled_on": {
+  "groups": ["header", "footer"]
+}
+
+{%- comment -%} Disable in all section groups (only in templates) {%- endcomment -%}
+"disabled_on": {
+  "groups": ["*"]
+}</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="key-takeaways">Key Takeaways</h2>
+
+          <ul class="checklist">
+            <li>Sections are self-contained modules with markup, CSS, JS, and schema</li>
+            <li>The schema defines settings, blocks, and presets for the theme editor</li>
+            <li>Choose the right setting type for each piece of data (text, range, select, color, etc.)</li>
+            <li>Use <code>header</code> and <code>paragraph</code> to organize settings in the editor</li>
+            <li>Always provide sensible default values</li>
+            <li>Blocks are repeatable, reorderable sub-components within sections</li>
+            <li>Always include <code>{{ block.shopify_attributes }}</code> on block wrappers</li>
+            <li>Support app blocks with <code>"type": "@app"</code></li>
+            <li>Combine external CSS files with inline <code>{% style %}</code> for dynamic values</li>
+            <li>Use presets to make sections available in the "Add section" menu</li>
+            <li>Use <code>enabled_on</code> / <code>disabled_on</code> to control where sections appear</li>
+          </ul>
+
+          <!-- Page Navigation -->
+          <div class="page-nav">
+            <a href="theme-structure.html" class="page-nav-link">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Theme Folder Structure</span>
+            </a>
+            <a href="theme-components.html" class="page-nav-link page-nav-link--next">
+              <span class="page-nav-label">Next Chapter →</span>
+              <span class="page-nav-title">Theme Components</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <footer class="doc-footer">
+        <p>
+          Shopify Theme Developer Handbook — Built with care for <strong>Gamal</strong><br>
+          <small>Not affiliated with Shopify Inc. For educational purposes only.</small>
+        </p>
+      </footer>
+
+    </main>
+  </div>
+
+</body>
+</html>

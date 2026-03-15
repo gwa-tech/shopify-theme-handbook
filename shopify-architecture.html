@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Understand how Shopify's platform architecture works — rendering pipeline, themes, templates, and the Liquid engine">
+  <title>Shopify Architecture — Shopify Theme Developer Handbook</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script defer src="assets/js/script.js"></script>
+</head>
+<body>
+
+  <div class="progress-bar">
+    <div class="progress-bar-fill"></div>
+  </div>
+
+  <div class="doc-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation" aria-label="Main navigation">
+      <div class="sidebar-brand">
+        <a href="index.html" class="sidebar-brand-link">
+          <div class="sidebar-brand-icon">S</div>
+          <div class="sidebar-brand-text">
+            <span class="sidebar-brand-title">Shopify Handbook</span>
+            <span class="sidebar-brand-subtitle">Theme Development Guide</span>
+          </div>
+        </a>
+      </div>
+      <div class="sidebar-search">
+        <div class="sidebar-search-wrapper">
+          <span class="sidebar-search-icon">🔍</span>
+          <input type="text" class="sidebar-search-input" placeholder="Search docs... (Ctrl+K)" aria-label="Search documentation">
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Getting Started</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="index.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🏠</span> Introduction</a></li>
+            <li class="sidebar-nav-item"><a href="setup.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">⚙️</span> Development Setup</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Core Concepts</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="shopify-architecture.html" class="sidebar-nav-link active"><span class="sidebar-nav-link-icon">🏗️</span> Shopify Architecture</a></li>
+            <li class="sidebar-nav-item"><a href="liquid-basics.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">💧</span> Liquid Basics</a></li>
+            <li class="sidebar-nav-item"><a href="theme-structure.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">📁</span> Theme Folder Structure</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Building Themes</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="sections-and-blocks.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🧱</span> Sections &amp; Blocks</a></li>
+            <li class="sidebar-nav-item"><a href="theme-components.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🧩</span> Theme Components</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Advanced</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="premium-theme-analysis.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🔍</span> Premium Theme Analysis</a></li>
+            <li class="sidebar-nav-item"><a href="design-experiments.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🎨</span> Design Experimentation</a></li>
+            <li class="sidebar-nav-item"><a href="performance.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">⚡</span> Performance</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Production</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="deployment.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🚀</span> Deployment</a></li>
+            <li class="sidebar-nav-item"><a href="freelancing.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">💼</span> Freelance Strategy</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-theme-toggle" role="button" tabindex="0" aria-label="Toggle dark mode">
+          <span class="sidebar-theme-toggle-label">🌙 Dark Mode</span>
+          <div class="theme-toggle-switch"></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-wrapper">
+
+      <header class="top-header">
+        <div class="top-header-left">
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+          <div class="breadcrumbs">
+            <a href="index.html">Handbook</a>
+            <span class="breadcrumbs-separator">/</span>
+            <span class="breadcrumbs-current">Shopify Architecture</span>
+          </div>
+        </div>
+        <div class="top-header-right">
+          <a href="https://github.com" class="header-link" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
+          <a href="https://shopify.dev" class="header-link" target="_blank" rel="noopener noreferrer"><span>Shopify Docs</span></a>
+        </div>
+      </header>
+
+      <div class="content-container">
+        <div class="content">
+
+          <h1>Shopify Architecture</h1>
+          <p class="lead">
+            Before you write Liquid code or build sections, you need a clear mental model of how
+            Shopify renders pages. This chapter explains the entire rendering pipeline — from a
+            customer clicking a URL to the final HTML appearing in their browser.
+          </p>
+
+          <div class="callout callout-info">
+            <div class="callout-title">📌 Chapter Overview</div>
+            <p>
+              <strong>Time estimate:</strong> 30 – 45 minutes<br>
+              <strong>Tags:</strong>
+              <span class="tag tag-liquid">Liquid</span>
+              <span class="tag tag-html">Architecture</span>
+            </p>
+          </div>
+
+          <div id="table-of-contents" style="margin-bottom: var(--space-8);"></div>
+
+          <!-- ====================================================== -->
+          <h2 id="rendering-pipeline">The Rendering Pipeline</h2>
+
+          <p>
+            When a customer visits a Shopify store, an intricate rendering pipeline executes in
+            milliseconds. Understanding this pipeline is the foundation of professional theme
+            development.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Rendering Pipeline</span>
+            </div>
+            <pre><code>Customer visits: https://your-store.com/products/awesome-shirt
+
+  ┌─────────────────────────────────────────────────────┐
+  │ 1. URL ROUTING                                      │
+  │    Shopify matches the URL to a resource type:       │
+  │    /products/awesome-shirt → product page            │
+  │    /collections/summer    → collection page          │
+  │    /pages/about           → custom page              │
+  │    /                      → home page                │
+  └──────────────────┬──────────────────────────────────┘
+                     │
+                     ▼
+  ┌─────────────────────────────────────────────────────┐
+  │ 2. TEMPLATE SELECTION                               │
+  │    Shopify looks for a JSON template:                │
+  │    templates/product.json (default)                  │
+  │    templates/product.alternate.json (alternate)      │
+  │    The JSON template lists which SECTIONS to load.   │
+  └──────────────────┬──────────────────────────────────┘
+                     │
+                     ▼
+  ┌─────────────────────────────────────────────────────┐
+  │ 3. DATA LOADING                                     │
+  │    Shopify loads the relevant data objects:           │
+  │    • product (the shirt's data)                      │
+  │    • shop (store settings)                           │
+  │    • settings (theme settings)                       │
+  │    • request (locale, host, etc.)                    │
+  └──────────────────┬──────────────────────────────────┘
+                     │
+                     ▼
+  ┌─────────────────────────────────────────────────────┐
+  │ 4. SECTION RENDERING                                │
+  │    Each section listed in the JSON template          │
+  │    is rendered:                                      │
+  │    sections/main-product.liquid → HTML               │
+  │    sections/product-recommendations.liquid → HTML    │
+  │    Sections can include SNIPPETS for reuse.          │
+  └──────────────────┬──────────────────────────────────┘
+                     │
+                     ▼
+  ┌─────────────────────────────────────────────────────┐
+  │ 5. LAYOUT WRAPPING                                  │
+  │    All rendered sections are injected into           │
+  │    the LAYOUT file (layout/theme.liquid):            │
+  │    &lt;html&gt;                                           │
+  │      &lt;head&gt;...&lt;/head&gt;                               │
+  │      &lt;body&gt;                                         │
+  │        {% sections 'header-group' %}                 │
+  │        {{ content_for_layout }}  ← sections go here  │
+  │        {% sections 'footer-group' %}                 │
+  │      &lt;/body&gt;                                        │
+  │    &lt;/html&gt;                                          │
+  └──────────────────┬──────────────────────────────────┘
+                     │
+                     ▼
+  ┌─────────────────────────────────────────────────────┐
+  │ 6. FINAL HTML                                       │
+  │    Complete HTML document sent to customer's browser │
+  │    CSS & JS assets loaded                            │
+  │    Page renders visually                             │
+  └─────────────────────────────────────────────────────┘</code></pre>
+          </div>
+
+          <p>
+            This pipeline runs on every single page request. As a theme developer, you control
+            steps 2 through 5 — the templates, sections, snippets, and layout.
+          </p>
+
+          <!-- ====================================================== -->
+          <h2 id="layer-breakdown">The Four Layers of a Theme</h2>
+
+          <p>
+            Think of a Shopify theme as four concentric layers, each wrapping the next:
+          </p>
+
+          <h3 id="layer-layout">Layer 1: Layout</h3>
+
+          <p>
+            The <strong>layout</strong> is the outermost shell. It contains everything that appears
+            on <em>every</em> page: the <code>&lt;html&gt;</code> tag, <code>&lt;head&gt;</code>,
+            global CSS/JS, the header, and the footer.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">layout/theme.liquid</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!doctype html&gt;
+&lt;html lang="{{ request.locale.iso_code }}"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;{{ page_title }} — {{ shop.name }}&lt;/title&gt;
+
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+  {{ content_for_header }}
+&lt;/head&gt;
+&lt;body&gt;
+
+  {%- sections 'header-group' -%}
+
+  &lt;main id="MainContent" role="main"&gt;
+    {{ content_for_layout }}
+  &lt;/main&gt;
+
+  {%- sections 'footer-group' -%}
+
+  &lt;script src="{{ 'global.js' | asset_url }}" defer&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+
+          <p>Key elements:</p>
+
+          <ul>
+            <li><code>{{ content_for_header }}</code> — <strong>Required.</strong> Shopify injects analytics scripts, meta tags, and app scripts here. Never remove this.</li>
+            <li><code>{{ content_for_layout }}</code> — <strong>Required.</strong> This is where all the page-specific content (rendered sections) appears.</li>
+            <li><code>{%- sections 'header-group' -%}</code> — Renders the header section group (global across all pages).</li>
+            <li><code>{%- sections 'footer-group' -%}</code> — Renders the footer section group.</li>
+          </ul>
+
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Never Remove <code>content_for_header</code></div>
+            <p>
+              Removing <code>{{ content_for_header }}</code> will break Shopify analytics, app
+              functionality, and potentially payment processing. It must always be inside the
+              <code>&lt;head&gt;</code> tag of your layout.
+            </p>
+          </div>
+
+          <h3 id="layer-template">Layer 2: Template</h3>
+
+          <p>
+            The <strong>template</strong> determines which sections appear on a specific page type.
+            In Online Store 2.0, templates are <strong>JSON files</strong> that reference sections.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">templates/product.json</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "show_vendor": true,
+        "show_sku": false
+      },
+      "blocks": {
+        "title": { "type": "title" },
+        "price": { "type": "price" },
+        "variant_picker": { "type": "variant_picker" },
+        "buy_buttons": { "type": "buy_buttons" },
+        "description": { "type": "description" }
+      },
+      "block_order": ["title", "price", "variant_picker", "buy_buttons", "description"]
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "You may also like"
+      }
+    }
+  },
+  "order": ["main", "recommendations"]
+}</code></pre>
+          </div>
+
+          <p>Key things to understand about JSON templates:</p>
+
+          <ul>
+            <li><code>"sections"</code> — An object containing all sections on this page</li>
+            <li><code>"type"</code> — References a file in <code>sections/</code> (e.g., <code>"main-product"</code> maps to <code>sections/main-product.liquid</code>)</li>
+            <li><code>"settings"</code> — Pre-configured values for the section's schema settings</li>
+            <li><code>"blocks"</code> — Sub-components within the section</li>
+            <li><code>"order"</code> — The display order of sections on the page</li>
+          </ul>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Why JSON Templates Matter</div>
+            <p>
+              JSON templates are what make Shopify themes <strong>modular</strong>. Merchants can
+              add, remove, and reorder sections on any page using the theme editor — without touching
+              code. This is a massive selling point for premium themes.
+            </p>
+          </div>
+
+          <h3 id="layer-section">Layer 3: Sections</h3>
+
+          <p>
+            <strong>Sections</strong> are the building blocks of every page. Each section is a
+            self-contained module with its own:
+          </p>
+
+          <ul>
+            <li>Liquid markup (HTML structure)</li>
+            <li>CSS styles (via <code>{% style %}</code> or <code>{% stylesheet %}</code>)</li>
+            <li>JavaScript (via <code>{% javascript %}</code> or external files)</li>
+            <li>Schema (JSON configuration for the theme editor)</li>
+          </ul>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">sections/featured-text.liquid</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;section class="featured-text section-{{ section.id }}"&gt;
+  &lt;div class="page-width"&gt;
+    {%- if section.settings.heading != blank -%}
+      &lt;h2&gt;{{ section.settings.heading }}&lt;/h2&gt;
+    {%- endif -%}
+
+    {%- if section.settings.text != blank -%}
+      &lt;div class="rte"&gt;
+        {{ section.settings.text }}
+      &lt;/div&gt;
+    {%- endif -%}
+  &lt;/div&gt;
+&lt;/section&gt;
+
+{% schema %}
+{
+  "name": "Featured Text",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Talk about your brand"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "&lt;p&gt;Share your brand story with customers.&lt;/p&gt;"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Text"
+    }
+  ]
+}
+{% endschema %}</code></pre>
+          </div>
+
+          <p>
+            We'll dive deep into sections in the <a href="sections-and-blocks.html">Sections &amp; Blocks</a> chapter.
+          </p>
+
+          <h3 id="layer-snippet">Layer 4: Snippets</h3>
+
+          <p>
+            <strong>Snippets</strong> are reusable code fragments. They don't have schemas — they're
+            pure Liquid/HTML that you include from sections or templates.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">snippets/product-card.liquid</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- comment -%}
+  Renders a product card.
+  Accepts:
+  - product: {Object} Product Liquid object
+  - show_vendor: {Boolean} Show vendor name
+  Usage:
+  {% render 'product-card', product: product, show_vendor: true %}
+{%- endcomment -%}
+
+&lt;div class="product-card"&gt;
+  &lt;a href="{{ product.url }}" class="product-card__link"&gt;
+    &lt;div class="product-card__image"&gt;
+      {%- if product.featured_image -%}
+        &lt;img
+          src="{{ product.featured_image | image_url: width: 400 }}"
+          alt="{{ product.featured_image.alt | escape }}"
+          width="400"
+          height="{{ 400 | divided_by: product.featured_image.aspect_ratio | round }}"
+          loading="lazy"
+        &gt;
+      {%- endif -%}
+    &lt;/div&gt;
+
+    &lt;div class="product-card__info"&gt;
+      {%- if show_vendor -%}
+        &lt;span class="product-card__vendor"&gt;{{ product.vendor }}&lt;/span&gt;
+      {%- endif -%}
+      &lt;h3 class="product-card__title"&gt;{{ product.title }}&lt;/h3&gt;
+      &lt;span class="product-card__price"&gt;{{ product.price | money }}&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/a&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+
+          <p>
+            The key difference between sections and snippets:
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Section</th>
+                  <th>Snippet</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Has schema (theme editor settings)</td>
+                  <td class="check-yes">✓ Yes</td>
+                  <td class="check-no">✗ No</td>
+                </tr>
+                <tr>
+                  <td>Can be added/removed by merchants</td>
+                  <td class="check-yes">✓ Yes</td>
+                  <td class="check-no">✗ No</td>
+                </tr>
+                <tr>
+                  <td>Can contain blocks</td>
+                  <td class="check-yes">✓ Yes</td>
+                  <td class="check-no">✗ No</td>
+                </tr>
+                <tr>
+                  <td>Reusable across multiple sections</td>
+                  <td class="check-no">✗ No (unique per page)</td>
+                  <td class="check-yes">✓ Yes</td>
+                </tr>
+                <tr>
+                  <td>Included with</td>
+                  <td>JSON template or section groups</td>
+                  <td><code>{% render 'snippet-name' %}</code></td>
+                </tr>
+                <tr>
+                  <td>Has its own scope</td>
+                  <td class="check-yes">✓ Yes (<code>section</code> object)</td>
+                  <td class="check-yes">✓ Yes (isolated scope via <code>render</code>)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ Best Practice</div>
+            <p>
+              Use sections for top-level page components that merchants should be able to customize
+              (hero banners, featured collections, testimonials). Use snippets for reusable UI elements
+              that appear inside sections (product cards, icons, price displays).
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="page-types">Page Types and URL Routing</h2>
+
+          <p>
+            Shopify automatically routes URLs to specific template types. You don't configure
+            routing — it's handled by the platform. Understanding this mapping is essential:
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>URL Pattern</th>
+                  <th>Template File</th>
+                  <th>Main Data Object</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>/</code></td>
+                  <td><code>templates/index.json</code></td>
+                  <td><code>shop</code></td>
+                </tr>
+                <tr>
+                  <td><code>/products/handle</code></td>
+                  <td><code>templates/product.json</code></td>
+                  <td><code>product</code></td>
+                </tr>
+                <tr>
+                  <td><code>/collections/handle</code></td>
+                  <td><code>templates/collection.json</code></td>
+                  <td><code>collection</code></td>
+                </tr>
+                <tr>
+                  <td><code>/collections</code></td>
+                  <td><code>templates/list-collections.json</code></td>
+                  <td><code>collections</code></td>
+                </tr>
+                <tr>
+                  <td><code>/pages/handle</code></td>
+                  <td><code>templates/page.json</code></td>
+                  <td><code>page</code></td>
+                </tr>
+                <tr>
+                  <td><code>/blogs/handle</code></td>
+                  <td><code>templates/blog.json</code></td>
+                  <td><code>blog</code></td>
+                </tr>
+                <tr>
+                  <td><code>/blogs/handle/article</code></td>
+                  <td><code>templates/article.json</code></td>
+                  <td><code>article</code></td>
+                </tr>
+                <tr>
+                  <td><code>/cart</code></td>
+                  <td><code>templates/cart.json</code></td>
+                  <td><code>cart</code></td>
+                </tr>
+                <tr>
+                  <td><code>/search?q=...</code></td>
+                  <td><code>templates/search.json</code></td>
+                  <td><code>search</code></td>
+                </tr>
+                <tr>
+                  <td><code>/account</code></td>
+                  <td><code>templates/customers/account.liquid</code></td>
+                  <td><code>customer</code></td>
+                </tr>
+                <tr>
+                  <td><code>/account/login</code></td>
+                  <td><code>templates/customers/login.liquid</code></td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>404 errors</td>
+                  <td><code>templates/404.json</code></td>
+                  <td>—</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Alternate Templates</div>
+            <p>
+              You can create <strong>alternate templates</strong> for any page type by adding a
+              suffix. For example, <code>templates/product.special.json</code> creates an alternate
+              product template called "special" that merchants can assign to specific products. This
+              is incredibly powerful for stores with different product types (e.g., a clothing product
+              vs. a digital download).
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="section-groups">Section Groups</h2>
+
+          <p>
+            Section groups are collections of sections that appear on <em>every</em> page —
+            regardless of which template is being rendered. The most common section groups are
+            the <strong>header</strong> and <strong>footer</strong>.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">sections/header-group.json</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "settings": {
+        "text": "Free shipping on orders over $50"
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_position": "middle-center",
+        "menu": "main-menu",
+        "sticky_header_type": "on-scroll-up"
+      }
+    }
+  },
+  "order": ["announcement-bar", "header"]
+}</code></pre>
+          </div>
+
+          <p>
+            In the layout file, section groups are rendered with:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">layout/theme.liquid</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- sections 'header-group' -%}
+
+{{ content_for_layout }}
+
+{%- sections 'footer-group' -%}</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="data-flow">How Data Flows Through a Theme</h2>
+
+          <p>
+            Understanding data flow is critical. Here's how data moves from Shopify's database
+            to your Liquid templates:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Data Flow</span>
+            </div>
+            <pre><code>┌──────────────────────────────────────┐
+│         SHOPIFY DATABASE             │
+│                                      │
+│  Products, Collections, Pages,       │
+│  Customers, Orders, Blog Articles,   │
+│  Navigation Menus, Shop Settings     │
+└───────────────┬──────────────────────┘
+                │
+                │  Shopify loads relevant data
+                │  based on the page type
+                ▼
+┌──────────────────────────────────────┐
+│         GLOBAL OBJECTS               │
+│                                      │
+│  Always available on every page:     │
+│  • shop          (store info)        │
+│  • settings      (theme settings)    │
+│  • request       (locale, host)      │
+│  • cart           (current cart)      │
+│  • linklists     (nav menus)         │
+│  • pages         (all pages)         │
+│  • collections   (all collections)   │
+│  • canonical_url                     │
+│  • page_title                        │
+│  • content_for_header                │
+└───────────────┬──────────────────────┘
+                │
+                │  + page-specific objects
+                ▼
+┌──────────────────────────────────────┐
+│       PAGE-SPECIFIC OBJECTS          │
+│                                      │
+│  Product page:  product              │
+│  Collection:    collection           │
+│  Cart page:     cart (with items)    │
+│  Blog page:     blog, articles       │
+│  Search page:   search               │
+└───────────────┬──────────────────────┘
+                │
+                │  + section-level data
+                ▼
+┌──────────────────────────────────────┐
+│       SECTION OBJECTS                │
+│                                      │
+│  section.id                          │
+│  section.settings                    │
+│  section.blocks                      │
+└───────────────┬──────────────────────┘
+                │
+                │  Access via Liquid tags
+                ▼
+┌──────────────────────────────────────┐
+│           LIQUID TEMPLATE            │
+│                                      │
+│  {{ product.title }}                 │
+│  {{ section.settings.heading }}      │
+│  {% for block in section.blocks %}   │
+│  {{ shop.name }}                     │
+│  {{ cart.item_count }}               │
+└──────────────────────────────────────┘</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="settings-architecture">Theme Settings Architecture</h2>
+
+          <p>
+            Settings in Shopify themes exist at two levels:
+          </p>
+
+          <h3 id="global-settings">Global Theme Settings</h3>
+
+          <p>
+            Defined in <code>config/settings_schema.json</code>, these settings affect the
+            entire theme — colors, typography, social links, favicon, etc.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">config/settings_schema.json (excerpt)</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>[
+  {
+    "name": "theme_info",
+    "theme_name": "My Theme",
+    "theme_version": "1.0.0",
+    "theme_author": "Gamal",
+    "theme_documentation_url": "https://example.com",
+    "theme_support_url": "https://example.com/support"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary color",
+        "default": "#6366f1"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary color",
+        "default": "#8b5cf6"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text color",
+        "default": "#1a1a2e"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading font",
+        "default": "helvetica_n7"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body font",
+        "default": "helvetica_n4"
+      }
+    ]
+  }
+]</code></pre>
+          </div>
+
+          <p>
+            Global settings are accessed in Liquid with <code>{{ settings.color_primary }}</code>.
+          </p>
+
+          <h3 id="section-settings">Section-Level Settings</h3>
+
+          <p>
+            Each section has its own settings defined in its <code>{% schema %}</code> block.
+            These settings are accessed with <code>{{ section.settings.setting_id }}</code>.
+          </p>
+
+          <h3 id="settings-data">Settings Data Storage</h3>
+
+          <p>
+            When a merchant customizes settings through the theme editor, the values are saved in
+            <code>config/settings_data.json</code>. You should <strong>never edit this file manually</strong>.
+            It's auto-generated by the theme editor.
+          </p>
+
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ About settings_data.json</div>
+            <p>
+              The <code>config/settings_data.json</code> file contains all the merchant's customizations.
+              When you pull a theme with <code>shopify theme pull</code>, this file comes with it.
+              Be careful not to overwrite a merchant's settings when pushing changes. Always communicate
+              with your client about deployment procedures.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="assets">The Asset Pipeline</h2>
+
+          <p>
+            All static files (CSS, JavaScript, images, fonts) live in the <code>assets/</code>
+            directory. Shopify serves them through its CDN (Content Delivery Network) for fast
+            global delivery.
+          </p>
+
+          <h3 id="referencing-assets">Referencing Assets in Liquid</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Liquid Asset References</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- CSS file --&gt;
+{{ 'base.css' | asset_url | stylesheet_tag }}
+
+&lt;!-- JavaScript file --&gt;
+&lt;script src="{{ 'global.js' | asset_url }}" defer&gt;&lt;/script&gt;
+
+&lt;!-- Image --&gt;
+&lt;img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}"&gt;
+
+&lt;!-- Font file --&gt;
+@font-face {
+  font-family: 'CustomFont';
+  src: url('{{ "custom-font.woff2" | asset_url }}') format('woff2');
+}</code></pre>
+          </div>
+
+          <p>
+            The <code>asset_url</code> filter converts a filename into a full CDN URL. Shopify
+            handles caching, compression, and global distribution automatically.
+          </p>
+
+          <h3 id="css-approach">CSS in Shopify Themes</h3>
+
+          <p>
+            Shopify themes don't use build tools like Webpack or Vite by default. CSS is written
+            in plain <code>.css</code> files in the <code>assets/</code> folder. You can also use
+            <strong>CSS custom properties</strong> (variables) tied to theme settings:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">layout/theme.liquid (inside &lt;head&gt;)</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{% style %}
+  :root {
+    --color-primary: {{ settings.color_primary }};
+    --color-secondary: {{ settings.color_secondary }};
+    --color-background: {{ settings.color_background }};
+    --color-text: {{ settings.color_text }};
+    --font-heading: {{ settings.font_heading.family }}, {{ settings.font_heading.fallback_families }};
+    --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+  }
+{% endstyle %}</code></pre>
+          </div>
+
+          <p>
+            This pattern bridges theme editor settings with your CSS. When a merchant changes the
+            primary color, every element using <code>var(--color-primary)</code> updates automatically.
+          </p>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ Best Practice</div>
+            <p>
+              Define all customizable colors and fonts as CSS custom properties in the layout file.
+              Then reference those variables throughout your CSS. This creates a clean separation
+              between theme settings and styles, and makes global changes effortless.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="request-lifecycle">The Complete Request Lifecycle</h2>
+
+          <p>
+            Let's trace a complete request from start to finish. A customer visits
+            <code>your-store.com/collections/summer</code>:
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h4 class="step-title">DNS Resolution</h4>
+              <div class="step-content">
+                <p>
+                  The browser resolves <code>your-store.com</code> to Shopify's servers.
+                  Shopify handles all DNS, SSL, and server infrastructure.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">2</div>
+              <h4 class="step-title">Route Matching</h4>
+              <div class="step-content">
+                <p>
+                  Shopify recognizes <code>/collections/summer</code> as a collection page.
+                  It loads the <code>summer</code> collection from the database.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">3</div>
+              <h4 class="step-title">Template Selection</h4>
+              <div class="step-content">
+                <p>
+                  Shopify checks if this collection has an assigned alternate template. If not,
+                  it uses <code>templates/collection.json</code>.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">4</div>
+              <h4 class="step-title">Data Preparation</h4>
+              <div class="step-content">
+                <p>
+                  Shopify prepares the <code>collection</code> object with all its products,
+                  pagination info, and metadata. It also prepares global objects (<code>shop</code>,
+                  <code>settings</code>, <code>cart</code>, etc.).
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">5</div>
+              <h4 class="step-title">Section Rendering</h4>
+              <div class="step-content">
+                <p>
+                  Each section listed in <code>collection.json</code> is rendered. The Liquid
+                  engine processes all <code>{{ }}</code> outputs and <code>{% %}</code> logic.
+                  Snippets referenced by <code>{% render %}</code> are included.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">6</div>
+              <h4 class="step-title">Layout Assembly</h4>
+              <div class="step-content">
+                <p>
+                  The rendered sections are placed into <code>{{ content_for_layout }}</code>
+                  inside <code>layout/theme.liquid</code>. The header and footer section groups
+                  are rendered and placed.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">7</div>
+              <h4 class="step-title">HTML Delivery</h4>
+              <div class="step-content">
+                <p>
+                  The complete HTML document is sent to the browser. CSS and JS files are loaded
+                  from Shopify's CDN. The page renders.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="os2-vs-os1">Online Store 2.0 vs. 1.0</h2>
+
+          <p>
+            You may encounter older themes or tutorials based on Online Store 1.0. Here are the
+            key differences:
+          </p>
+
+          <div class="table-wrapper">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>OS 1.0 (Legacy)</th>
+                  <th>OS 2.0 (Current)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Templates</td>
+                  <td>Liquid files (<code>.liquid</code>)</td>
+                  <td>JSON files (<code>.json</code>)</td>
+                </tr>
+                <tr>
+                  <td>Sections on homepage</td>
+                  <td class="check-yes">✓</td>
+                  <td class="check-yes">✓</td>
+                </tr>
+                <tr>
+                  <td>Sections on all pages</td>
+                  <td class="check-no">✗</td>
+                  <td class="check-yes">✓</td>
+                </tr>
+                <tr>
+                  <td>App blocks</td>
+                  <td class="check-no">✗</td>
+                  <td class="check-yes">✓</td>
+                </tr>
+                <tr>
+                  <td>Metafield access</td>
+                  <td>Limited</td>
+                  <td>Full support</td>
+                </tr>
+                <tr>
+                  <td>Section groups</td>
+                  <td class="check-no">✗</td>
+                  <td class="check-yes">✓</td>
+                </tr>
+                <tr>
+                  <td>Alternate templates</td>
+                  <td>Liquid-based</td>
+                  <td>JSON-based (easier to manage)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Important</div>
+            <p>
+              <strong>Always build for Online Store 2.0.</strong> OS 1.0 themes are legacy and
+              will eventually lose support for new features. If you encounter a tutorial that
+              shows Liquid templates (not JSON) or uses <code>{{ content_for_index }}</code>,
+              it's an OS 1.0 pattern — skip it and find a modern resource.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="mental-model">Your Mental Model</h2>
+
+          <p>
+            Here's the mental model I want you to carry through the rest of this handbook:
+          </p>
+
+          <blockquote>
+            <p>
+              A Shopify theme is a collection of <strong>Liquid files</strong> organized into
+              <strong>layouts</strong>, <strong>templates</strong>, <strong>sections</strong>,
+              and <strong>snippets</strong>. Templates are JSON files that reference sections.
+              Sections are modular components with configurable settings. The layout wraps
+              everything in a consistent HTML shell with global elements like the header and footer.
+            </p>
+            <cite>— Your guiding mental model</cite>
+          </blockquote>
+
+          <p>Memorize this hierarchy:</p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Theme Hierarchy</span>
+            </div>
+            <pre><code>Layout (theme.liquid)
+  └── Section Groups (header, footer)
+  └── Template (JSON)
+        └── Sections (Liquid components)
+              └── Blocks (sub-components)
+              └── Snippets (reusable partials)</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="key-takeaways">Key Takeaways</h2>
+
+          <ul class="checklist">
+            <li>Shopify handles servers, databases, security — you handle front-end presentation</li>
+            <li>The rendering pipeline: URL → Template → Sections → Layout → HTML</li>
+            <li>Layouts wrap everything; templates define page structure; sections are modular components</li>
+            <li>Snippets are reusable code fragments without schemas</li>
+            <li>JSON templates make themes modular and merchant-customizable</li>
+            <li>Global objects (<code>shop</code>, <code>settings</code>, <code>cart</code>) are available everywhere</li>
+            <li>Page-specific objects (<code>product</code>, <code>collection</code>) depend on the page type</li>
+            <li>CSS custom properties bridge theme settings and stylesheets</li>
+            <li>Always build for Online Store 2.0</li>
+          </ul>
+
+          <p>
+            In the next chapter, we'll learn the Liquid templating language — the tool that
+            lets you access all this data and build dynamic, data-driven templates.
+          </p>
+
+          <!-- Page Navigation -->
+          <div class="page-nav">
+            <a href="setup.html" class="page-nav-link">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Development Setup</span>
+            </a>
+            <a href="liquid-basics.html" class="page-nav-link page-nav-link--next">
+              <span class="page-nav-label">Next Chapter →</span>
+              <span class="page-nav-title">Liquid Basics</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <footer class="doc-footer">
+        <p>
+          Shopify Theme Developer Handbook — Built with care for <strong>Gamal</strong><br>
+          <small>Not affiliated with Shopify Inc. For educational purposes only.</small>
+        </p>
+      </footer>
+
+    </main>
+
+  </div>
+
+</body>
+</html

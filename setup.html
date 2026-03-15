@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Set up your Shopify theme development environment with WSL, Node.js, Shopify CLI, and Git">
+  <title>Development Setup — Shopify Theme Developer Handbook</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script defer src="assets/js/script.js"></script>
+</head>
+<body>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar">
+    <div class="progress-bar-fill"></div>
+  </div>
+
+  <div class="doc-layout">
+
+    <!-- ============================================================
+         SIDEBAR NAVIGATION
+         ============================================================ -->
+    <aside class="sidebar" role="navigation" aria-label="Main navigation">
+
+      <div class="sidebar-brand">
+        <a href="index.html" class="sidebar-brand-link">
+          <div class="sidebar-brand-icon">S</div>
+          <div class="sidebar-brand-text">
+            <span class="sidebar-brand-title">Shopify Handbook</span>
+            <span class="sidebar-brand-subtitle">Theme Development Guide</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="sidebar-search">
+        <div class="sidebar-search-wrapper">
+          <span class="sidebar-search-icon">🔍</span>
+          <input type="text" class="sidebar-search-input" placeholder="Search docs... (Ctrl+K)" aria-label="Search documentation">
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Getting Started</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item">
+              <a href="index.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">🏠</span> Introduction
+              </a>
+            </li>
+            <li class="sidebar-nav-item">
+              <a href="setup.html" class="sidebar-nav-link active">
+                <span class="sidebar-nav-link-icon">⚙️</span> Development Setup
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Core Concepts</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item">
+              <a href="shopify-architecture.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">🏗️</span> Shopify Architecture
+              </a>
+            </li>
+            <li class="sidebar-nav-item">
+              <a href="liquid-basics.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">💧</span> Liquid Basics
+              </a>
+            </li>
+            <li class="sidebar-nav-item">
+              <a href="theme-structure.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">📁</span> Theme Folder Structure
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Building Themes</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item">
+              <a href="sections-and-blocks.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">🧱</span> Sections &amp; Blocks
+              </a>
+            </li>
+            <li class="sidebar-nav-item">
+              <a href="theme-components.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">🧩</span> Theme Components
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Advanced</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item">
+              <a href="premium-theme-analysis.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">🔍</span> Premium Theme Analysis
+              </a>
+            </li>
+            <li class="sidebar-nav-item">
+              <a href="design-experiments.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">🎨</span> Design Experimentation
+              </a>
+            </li>
+            <li class="sidebar-nav-item">
+              <a href="performance.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">⚡</span> Performance
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Production</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item">
+              <a href="deployment.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">🚀</span> Deployment
+              </a>
+            </li>
+            <li class="sidebar-nav-item">
+              <a href="freelancing.html" class="sidebar-nav-link">
+                <span class="sidebar-nav-link-icon">💼</span> Freelance Strategy
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-theme-toggle" role="button" tabindex="0" aria-label="Toggle dark mode">
+          <span class="sidebar-theme-toggle-label">🌙 Dark Mode</span>
+          <div class="theme-toggle-switch"></div>
+        </div>
+      </div>
+
+    </aside>
+
+    <div class="sidebar-overlay"></div>
+
+    <!-- ============================================================
+         MAIN CONTENT
+         ============================================================ -->
+    <main class="main-wrapper">
+
+      <header class="top-header">
+        <div class="top-header-left">
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+          <div class="breadcrumbs">
+            <a href="index.html">Handbook</a>
+            <span class="breadcrumbs-separator">/</span>
+            <span class="breadcrumbs-current">Development Setup</span>
+          </div>
+        </div>
+        <div class="top-header-right">
+          <a href="https://github.com" class="header-link" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
+          <a href="https://shopify.dev" class="header-link" target="_blank" rel="noopener noreferrer"><span>Shopify Docs</span></a>
+        </div>
+      </header>
+
+      <div class="content-container">
+        <div class="content">
+
+          <h1>Development Setup</h1>
+          <p class="lead">
+            Configure your complete Shopify theme development environment on Windows with WSL. By the end
+            of this chapter you'll have every tool installed, a development store ready, and the Dawn theme
+            running locally with hot-reload.
+          </p>
+
+          <div class="callout callout-info">
+            <div class="callout-title">📌 Chapter Overview</div>
+            <p>
+              <strong>Time estimate:</strong> 45 – 90 minutes (first time)<br>
+              <strong>Tags:</strong>
+              <span class="tag tag-cli">CLI</span>
+              <span class="tag tag-html">WSL</span>
+            </p>
+          </div>
+
+          <!-- Table of Contents -->
+          <div id="table-of-contents" style="margin-bottom: var(--space-8);"></div>
+
+          <!-- ====================================================== -->
+          <h2 id="overview">Architecture of Your Dev Environment</h2>
+
+          <p>
+            Before installing anything, understand how the pieces connect. Your development
+            workflow looks like this:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Workflow Diagram</span>
+            </div>
+            <pre><code>┌──────────────────────────────────────────────────────────┐
+│  YOUR MACHINE  (Windows + WSL Ubuntu)                    │
+│                                                          │
+│  VS Code  ──→  Edit Liquid / CSS / JS files              │
+│     │                                                    │
+│     ▼                                                    │
+│  Shopify CLI  ──→  shopify theme dev                     │
+│     │               (local dev server on port 9292)      │
+│     │                                                    │
+│     ▼                                                    │
+│  Browser  ──→  http://127.0.0.1:9292                     │
+│               (live preview with hot reload)             │
+│                                                          │
+│  Git  ──→  Track changes ──→  Push to GitHub             │
+│                                                          │
+└──────────┬───────────────────────────────────────────────┘
+           │  Shopify CLI syncs files over the network
+           ▼
+┌──────────────────────────────────────────────────────────┐
+│  SHOPIFY CLOUD                                           │
+│                                                          │
+│  Development Store  ──→  Renders your theme live         │
+│  (your-store.myshopify.com)                              │
+│                                                          │
+└──────────────────────────────────────────────────────────┘</code></pre>
+          </div>
+
+          <p>
+            Shopify CLI creates a <strong>secure tunnel</strong> between your local files and a
+            real Shopify development store. When you edit a file and save, the change is pushed
+            to Shopify's servers and the browser refreshes automatically. This gives you the
+            speed of local development with the accuracy of a real Shopify environment.
+          </p>
+
+          <!-- ====================================================== -->
+          <h2 id="wsl-setup">Step 1 — Ensure WSL Is Ready</h2>
+
+          <p>
+            You mentioned you already have WSL installed. Let's verify it's properly configured.
+            Open <strong>PowerShell as Administrator</strong> and run:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">PowerShell (Admin)</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>wsl --list --verbose</code></pre>
+          </div>
+
+          <p>You should see output like:</p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Output</span>
+            </div>
+            <pre><code>  NAME      STATE           VERSION
+* Ubuntu    Running         2</code></pre>
+          </div>
+
+          <p>
+            Make sure the <strong>VERSION</strong> column shows <code>2</code>. WSL 2 is
+            significantly faster than WSL 1. If you see version 1, upgrade:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">PowerShell (Admin)</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>wsl --set-version Ubuntu 2</code></pre>
+          </div>
+
+          <p>Now open your WSL Ubuntu terminal. All subsequent commands run inside WSL.</p>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Pro Tip</div>
+            <p>
+              In VS Code, install the <strong>"WSL" extension</strong> by Microsoft. Then open your
+              project with <code>code .</code> from the WSL terminal. VS Code connects directly to the
+              Linux filesystem — giving you native performance instead of the slower cross-filesystem access.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="node-setup">Step 2 — Install Node.js via NVM</h2>
+
+          <p>
+            Shopify CLI requires Node.js. We'll use <strong>NVM (Node Version Manager)</strong>
+            so you can easily switch Node versions if needed.
+          </p>
+
+          <h3 id="install-nvm">Install NVM</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">WSL Terminal</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Download and install NVM
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+# Reload your shell configuration
+source ~/.bashrc
+
+# Verify NVM is installed
+nvm --version</code></pre>
+          </div>
+
+          <p>You should see a version number like <code>0.39.7</code>.</p>
+
+          <h3 id="install-node">Install Node.js LTS</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">WSL Terminal</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Install the latest LTS version
+nvm install --lts
+
+# Verify Node and npm
+node --version
+npm --version</code></pre>
+          </div>
+
+          <p>
+            You should see Node.js v18+ or v20+ (LTS). Shopify CLI requires Node.js 18 or higher.
+          </p>
+
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Common Pitfall</div>
+            <p>
+              Don't install Node.js using <code>sudo apt install nodejs</code>. The Ubuntu
+              repository often has outdated versions. Always use NVM for Node.js management —
+              it avoids permission issues and makes upgrades seamless.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="shopify-cli">Step 3 — Install Shopify CLI</h2>
+
+          <p>
+            Shopify CLI is the official command-line interface for Shopify development. It handles
+            theme previewing, file syncing, and deployment.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">WSL Terminal</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Install Shopify CLI globally via npm
+npm install -g @shopify/cli @shopify/theme
+
+# Verify the installation
+shopify version</code></pre>
+          </div>
+
+          <p>
+            You should see the version number (e.g., <code>3.x.x</code>). If you get permission
+            errors, it's because you installed Node.js without NVM — go back and use NVM.
+          </p>
+
+          <h3 id="cli-commands">Essential Shopify CLI Commands</h3>
+
+          <p>Here are the commands you'll use daily:</p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Command</th>
+                  <th>What It Does</th>
+                  <th>When to Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>shopify theme dev</code></td>
+                  <td>Starts a local development server with hot reload. Creates a secure tunnel to your development store.</td>
+                  <td>Every time you work on a theme</td>
+                </tr>
+                <tr>
+                  <td><code>shopify theme push</code></td>
+                  <td>Uploads your local theme files to the Shopify store, creating or updating a theme.</td>
+                  <td>Deploying changes to the store</td>
+                </tr>
+                <tr>
+                  <td><code>shopify theme pull</code></td>
+                  <td>Downloads the current theme files from a Shopify store to your local machine.</td>
+                  <td>Getting existing theme code, or syncing changes made in the theme editor</td>
+                </tr>
+                <tr>
+                  <td><code>shopify theme info</code></td>
+                  <td>Shows information about the current theme and connected store.</td>
+                  <td>Verifying your connection</td>
+                </tr>
+                <tr>
+                  <td><code>shopify theme list</code></td>
+                  <td>Lists all themes on the connected store.</td>
+                  <td>Checking which themes exist on the store</td>
+                </tr>
+                <tr>
+                  <td><code>shopify auth logout</code></td>
+                  <td>Logs out of the current Shopify account.</td>
+                  <td>Switching between stores or accounts</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Pro Tip</div>
+            <p>
+              Run <code>shopify theme dev --help</code> to see all available flags. The most useful
+              ones are <code>--store</code> (specify which store to connect to) and
+              <code>--theme</code> (specify which theme to preview).
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="partner-account">Step 4 — Create a Shopify Partner Account</h2>
+
+          <p>
+            A Shopify Partner account is <strong>free</strong> and gives you access to create
+            unlimited development stores for testing.
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h4 class="step-title">Go to Shopify Partners</h4>
+              <div class="step-content">
+                <p>
+                  Visit <a href="https://partners.shopify.com" target="_blank" rel="noopener noreferrer">partners.shopify.com</a>
+                  and click <strong>"Join now"</strong>.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">2</div>
+              <h4 class="step-title">Fill Out Registration</h4>
+              <div class="step-content">
+                <p>
+                  Provide your name, email, and basic business info. You can select
+                  "I'm a developer building themes" as your reason for joining.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">3</div>
+              <h4 class="step-title">Access the Dashboard</h4>
+              <div class="step-content">
+                <p>
+                  Once registered, you'll land on the Partner Dashboard. This is your command
+                  center for managing stores, themes, and apps.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="dev-store">Step 5 — Create a Development Store</h2>
+
+          <p>
+            Development stores are free Shopify stores specifically for building and testing
+            themes. They have all the features of a real store but don't require a paid plan.
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h4 class="step-title">Navigate to Stores</h4>
+              <div class="step-content">
+                <p>
+                  In your Partner Dashboard, click <strong>"Stores"</strong> in the left sidebar,
+                  then click <strong>"Add store"</strong>.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">2</div>
+              <h4 class="step-title">Select Store Type</h4>
+              <div class="step-content">
+                <p>
+                  Choose <strong>"Development store"</strong>. Select the purpose:
+                  <em>"Create a store to test and build"</em>.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">3</div>
+              <h4 class="step-title">Configure the Store</h4>
+              <div class="step-content">
+                <p>
+                  Give your store a name (e.g., <code>gamal-theme-dev</code>). The URL will be
+                  <code>gamal-theme-dev.myshopify.com</code>. Set a password and choose your country.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">4</div>
+              <h4 class="step-title">Add Sample Products</h4>
+              <div class="step-content">
+                <p>
+                  Once the store is created, add some sample products. You need real product data
+                  to test your theme properly. Add at least:
+                </p>
+                <ul>
+                  <li>5–10 products with images, descriptions, and prices</li>
+                  <li>2–3 collections (e.g., "New Arrivals", "Best Sellers", "Sale")</li>
+                  <li>Different product variants (sizes, colors)</li>
+                  <li>Products at different price points</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ Best Practice</div>
+            <p>
+              Use <strong>realistic product data</strong>. Don't use "Test Product 1" with no images.
+              Use real product photos from sites like <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer">Unsplash</a>
+              or <a href="https://burst.shopify.com" target="_blank" rel="noopener noreferrer">Burst by Shopify</a>
+              (Shopify's free stock photo library). Realistic data helps you see how your theme actually
+              looks and behaves.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="dawn-setup">Step 6 — Clone and Set Up the Dawn Theme</h2>
+
+          <p>
+            Now let's get the Dawn theme onto your local machine and connect it to your
+            development store.
+          </p>
+
+          <h3 id="create-project">Create Your Project Directory</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">WSL Terminal</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Create a directory for all your Shopify projects
+mkdir -p ~/shopify-projects
+cd ~/shopify-projects</code></pre>
+          </div>
+
+          <h3 id="clone-dawn">Option A — Clone Dawn from GitHub</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">WSL Terminal</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Clone the Dawn theme repository
+git clone https://github.com/Shopify/dawn.git my-first-theme
+
+# Enter the project directory
+cd my-first-theme
+
+# Remove the original Git history (start fresh)
+rm -rf .git
+
+# Initialize your own Git repository
+git init
+git add .
+git commit -m "Initial commit: Dawn theme base"</code></pre>
+          </div>
+
+          <h3 id="shopify-init">Option B — Use Shopify CLI to Create a Theme</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">WSL Terminal</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Create a new theme project (will clone Dawn automatically)
+shopify theme init my-first-theme
+
+# Enter the project directory
+cd my-first-theme</code></pre>
+          </div>
+
+          <p>
+            Both options give you the same result: a complete Dawn theme on your local machine.
+            Option A gives you more control over the Git history. Option B is faster.
+          </p>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 My Recommendation</div>
+            <p>
+              Use <strong>Option A</strong> for your learning projects. Removing the original Git
+              history and starting fresh helps you track your own changes clearly. When you push to
+              GitHub, your commit history will show <em>your</em> modifications, not Shopify's
+              entire Dawn development history.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="first-dev-server">Step 7 — Start Your First Dev Server</h2>
+
+          <p>
+            This is the moment of truth. Let's connect your local theme to the development store
+            and see it live in your browser.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">WSL Terminal</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Make sure you're in the theme directory
+cd ~/shopify-projects/my-first-theme
+
+# Start the development server
+shopify theme dev --store gamal-theme-dev.myshopify.com</code></pre>
+          </div>
+
+          <p>
+            The first time you run this, Shopify CLI will:
+          </p>
+
+          <ol>
+            <li>Open your browser for <strong>authentication</strong> — log in with your Partner account</li>
+            <li>Create a <strong>development theme</strong> on your store</li>
+            <li>Upload your local files to that development theme</li>
+            <li>Start a local server (usually at <code>http://127.0.0.1:9292</code>)</li>
+            <li>Begin watching for file changes</li>
+          </ol>
+
+          <p>You'll see output like this:</p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Terminal Output</span>
+            </div>
+            <pre><code>╭─ info ──────────────────────────────────────────────────╮
+│                                                         │
+│  Your theme was created successfully!                   │
+│                                                         │
+│  Preview your theme:                                    │
+│    • http://127.0.0.1:9292                              │
+│                                                         │
+│  Customize this theme in the Theme Editor:              │
+│    • https://gamal-theme-dev.myshopify.com/admin/       │
+│      themes/XXXXXXXXX/editor                            │
+│                                                         │
+│  Share your theme preview:                              │
+│    • https://gamal-theme-dev.myshopify.com/             │
+│      ?preview_theme_id=XXXXXXXXX                        │
+│                                                         │
+╰─────────────────────────────────────────────────────────╯
+
+Watching for file changes in the theme directory...
+
+14:23:01 Synced: sections/header.liquid
+14:23:01 Synced: layout/theme.liquid</code></pre>
+          </div>
+
+          <p>
+            Open <code>http://127.0.0.1:9292</code> in your browser. You should see your
+            development store rendered with the Dawn theme. 🎉
+          </p>
+
+          <h3 id="hot-reload">Understanding Hot Reload</h3>
+
+          <p>
+            Now try editing a file. Open <code>sections/header.liquid</code> in VS Code and
+            add a comment at the top:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">sections/header.liquid</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{% comment %}
+  Gamal is learning Shopify theme development!
+{% endcomment %}
+
+{%- comment -%}
+  The rest of the original header code below...
+{%- endcomment -%}</code></pre>
+          </div>
+
+          <p>
+            Save the file. Look at your terminal — you'll see a sync message. Your browser
+            will automatically refresh. This is <strong>hot reload</strong> in action.
+          </p>
+
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Important</div>
+            <p>
+              The dev server uses a <strong>development theme</strong>, not the live theme.
+              Your changes won't affect the published store until you explicitly run
+              <code>shopify theme push</code>. This makes it completely safe to experiment.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="vscode-setup">Step 8 — Configure VS Code</h2>
+
+          <p>
+            Let's optimize VS Code for Shopify development.
+          </p>
+
+          <h3 id="extensions">Essential Extensions</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Extension</th>
+                  <th>Purpose</th>
+                  <th>Publisher</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Shopify Liquid</strong></td>
+                  <td>Syntax highlighting, autocomplete, formatting for Liquid files</td>
+                  <td>Shopify</td>
+                </tr>
+                <tr>
+                  <td><strong>WSL</strong></td>
+                  <td>Connect VS Code to your WSL filesystem</td>
+                  <td>Microsoft</td>
+                </tr>
+                <tr>
+                  <td><strong>GitLens</strong></td>
+                  <td>Enhanced Git integration — blame, history, comparisons</td>
+                  <td>GitKraken</td>
+                </tr>
+                <tr>
+                  <td><strong>Prettier</strong></td>
+                  <td>Code formatter for CSS, JS, JSON (configure to skip .liquid files)</td>
+                  <td>Prettier</td>
+                </tr>
+                <tr>
+                  <td><strong>Auto Rename Tag</strong></td>
+                  <td>Automatically renames paired HTML tags</td>
+                  <td>Jun Han</td>
+                </tr>
+                <tr>
+                  <td><strong>Color Highlight</strong></td>
+                  <td>Visualizes color codes inline in CSS</td>
+                  <td>naumovs</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="vscode-settings">Recommended VS Code Settings</h3>
+
+          <p>Add these to your <code>settings.json</code>:</p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">.vscode/settings.json</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{
+  "files.associations": {
+    "*.liquid": "liquid"
+  },
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "editor.minimap.enabled": false,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": true,
+  "emmet.includeLanguages": {
+    "liquid": "html"
+  },
+  "[liquid]": {
+    "editor.defaultFormatter": null,
+    "editor.formatOnSave": false
+  },
+  "files.exclude": {
+    "**/.git": false
+  }
+}</code></pre>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Emmet in Liquid Files</div>
+            <p>
+              The <code>emmet.includeLanguages</code> setting is crucial. It lets you use Emmet
+              shortcuts (like typing <code>div.container&gt;h2+p</code> and pressing Tab) inside
+              <code>.liquid</code> files. This dramatically speeds up your HTML writing.
+            </p>
+          </div>
+
+          <h3 id="open-in-vscode">Opening Your Project</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">WSL Terminal</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Navigate to your project
+cd ~/shopify-projects/my-first-theme
+
+# Open in VS Code (connected to WSL)
+code .</code></pre>
+          </div>
+
+          <p>
+            VS Code will open and show <strong>"WSL: Ubuntu"</strong> in the bottom-left corner.
+            This confirms it's connected directly to your Linux filesystem.
+          </p>
+
+          <!-- ====================================================== -->
+          <h2 id="git-workflow">Step 9 — Set Up Git Workflow</h2>
+
+          <p>
+            Version control is non-negotiable for professional development. Here's how to set up
+            a proper Git workflow for your Shopify themes.
+          </p>
+
+          <h3 id="git-config">Configure Git Identity</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">WSL Terminal</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Set your identity (used in commit messages)
+git config --global user.name "Gamal"
+git config --global user.email "your-email@example.com"
+
+# Set default branch name
+git config --global init.defaultBranch main
+
+# Enable colored output
+git config --global color.ui auto</code></pre>
+          </div>
+
+          <h3 id="github-repo">Create a GitHub Repository</h3>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h4 class="step-title">Create a New Repository on GitHub</h4>
+              <div class="step-content">
+                <p>
+                  Go to <a href="https://github.com/new" target="_blank" rel="noopener noreferrer">github.com/new</a>.
+                  Name it <code>my-first-shopify-theme</code>. Set it to <strong>Private</strong>.
+                  Don't initialize with a README (we already have local files).
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">2</div>
+              <h4 class="step-title">Connect Your Local Repo</h4>
+              <div class="step-content">
+                <div class="code-block">
+                  <div class="code-block-header">
+                    <span class="code-block-filename">WSL Terminal</span>
+                    <button class="copy-btn">📋 Copy</button>
+                  </div>
+                  <pre><code># Add the remote origin
+git remote add origin git@github.com:YOUR-USERNAME/my-first-shopify-theme.git
+
+# Push your initial commit
+git push -u origin main</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Always Use Private Repos for Learning Projects</div>
+            <p>
+              When you're studying themes or experimenting with ideas inspired by premium themes,
+              always use <strong>private repositories</strong>. This protects you legally and
+              respects the intellectual property of theme creators. Only make repositories public
+              when the code is entirely your own original work.
+            </p>
+          </div>
+
+          <h3 id="gitignore">Create a .gitignore</h3>
+
+          <p>
+            Some files should never be committed to Git:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">.gitignore</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+*.swp
+*.swo
+
+# Node modules (if using build tools)
+node_modules/
+
+# Shopify CLI
+.shopify/
+
+# Environment files
+.env
+.env.local</code></pre>
+          </div>
+
+          <h3 id="git-daily">Daily Git Workflow</h3>
+
+          <p>
+            Here's the workflow you should follow every day you work on your theme:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">WSL Terminal</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Start your work session
+cd ~/shopify-projects/my-first-theme
+
+# Check current status
+git status
+
+# Start the dev server
+shopify theme dev --store gamal-theme-dev.myshopify.com
+
+# ... make your changes ...
+
+# Stage and commit specific changes
+git add sections/my-new-section.liquid
+git commit -m "feat: add hero banner section with image and CTA"
+
+# Or stage all changes
+git add .
+git commit -m "refactor: update product card styling"
+
+# Push to GitHub
+git push</code></pre>
+          </div>
+
+          <h3 id="commit-messages">Writing Good Commit Messages</h3>
+
+          <p>
+            Professional developers write clear, descriptive commit messages. Use this pattern:
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Prefix</th>
+                  <th>Usage</th>
+                  <th>Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>feat:</code></td>
+                  <td>New feature or section</td>
+                  <td><code>feat: add featured collection section</code></td>
+                </tr>
+                <tr>
+                  <td><code>fix:</code></td>
+                  <td>Bug fix</td>
+                  <td><code>fix: resolve mobile menu z-index issue</code></td>
+                </tr>
+                <tr>
+                  <td><code>style:</code></td>
+                  <td>CSS/design changes</td>
+                  <td><code>style: update product card hover effect</code></td>
+                </tr>
+                <tr>
+                  <td><code>refactor:</code></td>
+                  <td>Code improvement without feature change</td>
+                  <td><code>refactor: simplify header section logic</code></td>
+                </tr>
+                <tr>
+                  <td><code>docs:</code></td>
+                  <td>Documentation updates</td>
+                  <td><code>docs: add schema descriptions</code></td>
+                </tr>
+                <tr>
+                  <td><code>perf:</code></td>
+                  <td>Performance improvement</td>
+                  <td><code>perf: lazy-load below-fold images</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ Best Practice</div>
+            <p>
+              Commit frequently with small, focused changes. One commit per feature or fix. This
+              makes it easy to review changes, revert if needed, and understand your project
+              history. Never make "mega commits" that change 50 files at once.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="branching">Step 10 — Git Branching Strategy</h2>
+
+          <p>
+            Use branches to experiment without risking your working code:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">WSL Terminal</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Create a new branch for a feature
+git checkout -b feature/hero-banner
+
+# ... work on the hero banner ...
+
+# Commit your work
+git add .
+git commit -m "feat: add hero banner section"
+
+# Switch back to main
+git checkout main
+
+# Merge the feature branch when it's ready
+git merge feature/hero-banner
+
+# Push everything
+git push
+
+# Delete the feature branch (optional)
+git branch -d feature/hero-banner</code></pre>
+          </div>
+
+          <p>My recommended branching model for learning:</p>
+
+          <ul>
+            <li><code>main</code> — Your stable, working theme</li>
+            <li><code>feature/*</code> — New sections or features (e.g., <code>feature/mega-menu</code>)</li>
+            <li><code>experiment/*</code> — Design experiments you may or may not keep (e.g., <code>experiment/dark-mode</code>)</li>
+            <li><code>fix/*</code> — Bug fixes (e.g., <code>fix/mobile-nav</code>)</li>
+          </ul>
+
+          <!-- ====================================================== -->
+          <h2 id="workflow-summary">Complete Workflow Summary</h2>
+
+          <p>
+            Here's your complete daily workflow in one place:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Complete Daily Workflow</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># 1. Open your project
+cd ~/shopify-projects/my-first-theme
+code .
+
+# 2. Create a feature branch
+git checkout -b feature/new-section
+
+# 3. Start the dev server (in a separate terminal tab)
+shopify theme dev --store gamal-theme-dev.myshopify.com
+
+# 4. Open browser to http://127.0.0.1:9292
+
+# 5. Edit files in VS Code — changes reflect instantly
+
+# 6. Commit when a unit of work is complete
+git add .
+git commit -m "feat: add announcement bar section"
+
+# 7. Merge back to main when feature is complete
+git checkout main
+git merge feature/new-section
+git push
+
+# 8. When you're done for the day — stop the dev server
+# Press Ctrl+C in the terminal running shopify theme dev
+
+# 9. (Optional) Deploy to the store
+shopify theme push --store gamal-theme-dev.myshopify.com</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="push-pull">Understanding Push and Pull</h2>
+
+          <p>
+            Two commands that can cause confusion if misunderstood:
+          </p>
+
+          <h3 id="theme-push"><code>shopify theme push</code></h3>
+
+          <p>
+            This command <strong>uploads</strong> your local theme to the Shopify store. Use it
+            when you want to deploy your changes.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">WSL Terminal</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Push to a new unpublished theme
+shopify theme push --unpublished --store gamal-theme-dev.myshopify.com
+
+# Push to a specific existing theme
+shopify theme push --theme THEME_ID --store gamal-theme-dev.myshopify.com
+
+# Push and overwrite (be careful!)
+shopify theme push --allow-live --store gamal-theme-dev.myshopify.com</code></pre>
+          </div>
+
+          <h3 id="theme-pull"><code>shopify theme pull</code></h3>
+
+          <p>
+            This command <strong>downloads</strong> theme files from Shopify to your local machine.
+            Use it when the merchant (or you) made changes through the theme editor and you want
+            to sync those changes locally.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">WSL Terminal</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Pull the live theme
+shopify theme pull --store gamal-theme-dev.myshopify.com
+
+# Pull a specific theme
+shopify theme pull --theme THEME_ID --store gamal-theme-dev.myshopify.com</code></pre>
+          </div>
+
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Critical Warning</div>
+            <p>
+              <code>shopify theme pull</code> will <strong>overwrite</strong> your local files.
+              Always commit your local changes to Git before pulling. This way you can always
+              recover your work if something goes wrong.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="troubleshooting">Troubleshooting Common Issues</h2>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Problem</th>
+                  <th>Cause</th>
+                  <th>Solution</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>shopify: command not found</code></td>
+                  <td>Shopify CLI not installed or not in PATH</td>
+                  <td>Run <code>npm install -g @shopify/cli @shopify/theme</code> again</td>
+                </tr>
+                <tr>
+                  <td>Authentication loop — browser keeps opening</td>
+                  <td>Session expired or browser cookie issue</td>
+                  <td>Run <code>shopify auth logout</code> then try again</td>
+                </tr>
+                <tr>
+                  <td><code>EACCES</code> permission error with npm</td>
+                  <td>Node.js installed without NVM (using sudo)</td>
+                  <td>Uninstall Node, install NVM, then reinstall Node via NVM</td>
+                </tr>
+                <tr>
+                  <td>Port 9292 already in use</td>
+                  <td>Another dev server is running</td>
+                  <td>Kill the existing process or use <code>--port 9293</code></td>
+                </tr>
+                <tr>
+                  <td>Files not syncing</td>
+                  <td>File watcher limit reached</td>
+                  <td>Increase inotify limit: <code>echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p</code></td>
+                </tr>
+                <tr>
+                  <td>Slow file system in WSL</td>
+                  <td>Working on Windows filesystem (<code>/mnt/c/</code>)</td>
+                  <td>Move project to Linux filesystem (<code>~/</code>). Always work in <code>~</code>, not <code>/mnt/c/</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Pro Tip — WSL Performance</div>
+            <p>
+              This is critical: <strong>always keep your project files inside the Linux filesystem</strong>
+              (<code>~/shopify-projects/</code>), not in <code>/mnt/c/Users/...</code>. Accessing
+              Windows files from WSL is slow due to filesystem translation. Keeping files in
+              <code>~/</code> gives you native Linux speed.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="verification">Verification Checklist</h2>
+
+          <p>
+            Before moving to the next chapter, verify everything is working:
+          </p>
+
+          <ul class="checklist">
+            <li>WSL 2 is running Ubuntu</li>
+            <li>Node.js is installed via NVM (v18+)</li>
+            <li><code>shopify version</code> shows the CLI version</li>
+            <li>You have a Shopify Partner account</li>
+            <li>You have a development store with sample products</li>
+            <li>Dawn theme is cloned locally</li>
+            <li><code>shopify theme dev</code> starts successfully</li>
+            <li>You can see the theme at <code>http://127.0.0.1:9292</code></li>
+            <li>VS Code opens with WSL connection</li>
+            <li>Shopify Liquid extension is installed</li>
+            <li>Git is configured with your identity</li>
+            <li>Private GitHub repository is created and connected</li>
+            <li>You've made at least one test commit and push</li>
+          </ul>
+
+          <div class="callout callout-success">
+            <div class="callout-title">🎉 Congratulations!</div>
+            <p>
+              You now have a professional Shopify theme development environment. This same setup
+              is used by developers at agencies and freelancers building premium themes. In the
+              next chapter, we'll explore how Shopify's architecture works under the hood.
+            </p>
+          </div>
+
+          <!-- Page Navigation -->
+          <div class="page-nav">
+            <a href="index.html" class="page-nav-link">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Introduction</span>
+            </a>
+            <a href="shopify-architecture.html" class="page-nav-link page-nav-link--next">
+              <span class="page-nav-label">Next Chapter →</span>
+              <span class="page-nav-title">Shopify Architecture</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <footer class="doc-footer">
+        <p>
+          Shopify Theme Developer Handbook — Built with care for <strong>Gamal</strong><br>
+          <small>Not affiliated with Shopify Inc. For educational purposes only.</small>
+        </p>
+      </footer>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

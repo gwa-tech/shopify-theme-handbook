@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Master Shopify Liquid templating language — objects, tags, filters, loops, conditionals, and data access">
+  <title>Liquid Basics — Shopify Theme Developer Handbook</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script defer src="assets/js/script.js"></script>
+</head>
+<body>
+
+  <div class="progress-bar">
+    <div class="progress-bar-fill"></div>
+  </div>
+
+  <div class="doc-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation" aria-label="Main navigation">
+      <div class="sidebar-brand">
+        <a href="index.html" class="sidebar-brand-link">
+          <div class="sidebar-brand-icon">S</div>
+          <div class="sidebar-brand-text">
+            <span class="sidebar-brand-title">Shopify Handbook</span>
+            <span class="sidebar-brand-subtitle">Theme Development Guide</span>
+          </div>
+        </a>
+      </div>
+      <div class="sidebar-search">
+        <div class="sidebar-search-wrapper">
+          <span class="sidebar-search-icon">🔍</span>
+          <input type="text" class="sidebar-search-input" placeholder="Search docs... (Ctrl+K)" aria-label="Search documentation">
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Getting Started</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="index.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🏠</span> Introduction</a></li>
+            <li class="sidebar-nav-item"><a href="setup.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">⚙️</span> Development Setup</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Core Concepts</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="shopify-architecture.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🏗️</span> Shopify Architecture</a></li>
+            <li class="sidebar-nav-item"><a href="liquid-basics.html" class="sidebar-nav-link active"><span class="sidebar-nav-link-icon">💧</span> Liquid Basics</a></li>
+            <li class="sidebar-nav-item"><a href="theme-structure.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">📁</span> Theme Folder Structure</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Building Themes</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="sections-and-blocks.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🧱</span> Sections &amp; Blocks</a></li>
+            <li class="sidebar-nav-item"><a href="theme-components.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🧩</span> Theme Components</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Advanced</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="premium-theme-analysis.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🔍</span> Premium Theme Analysis</a></li>
+            <li class="sidebar-nav-item"><a href="design-experiments.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🎨</span> Design Experimentation</a></li>
+            <li class="sidebar-nav-item"><a href="performance.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">⚡</span> Performance</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Production</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="deployment.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🚀</span> Deployment</a></li>
+            <li class="sidebar-nav-item"><a href="freelancing.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">💼</span> Freelance Strategy</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-theme-toggle" role="button" tabindex="0" aria-label="Toggle dark mode">
+          <span class="sidebar-theme-toggle-label">🌙 Dark Mode</span>
+          <div class="theme-toggle-switch"></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-wrapper">
+
+      <header class="top-header">
+        <div class="top-header-left">
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+          <div class="breadcrumbs">
+            <a href="index.html">Handbook</a>
+            <span class="breadcrumbs-separator">/</span>
+            <span class="breadcrumbs-current">Liquid Basics</span>
+          </div>
+        </div>
+        <div class="top-header-right">
+          <a href="https://github.com" class="header-link" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
+          <a href="https://shopify.dev/docs/api/liquid" class="header-link" target="_blank" rel="noopener noreferrer"><span>Liquid Reference</span></a>
+        </div>
+      </header>
+
+      <div class="content-container">
+        <div class="content">
+
+          <h1>Liquid Basics</h1>
+          <p class="lead">
+            Liquid is the templating language that powers every Shopify theme. It bridges your
+            HTML/CSS skills with Shopify's dynamic data — products, collections, cart, and more.
+            This chapter teaches you everything you need to read, write, and debug Liquid code
+            confidently.
+          </p>
+
+          <div class="callout callout-info">
+            <div class="callout-title">📌 Chapter Overview</div>
+            <p>
+              <strong>Time estimate:</strong> 60 – 90 minutes<br>
+              <strong>Tags:</strong>
+              <span class="tag tag-liquid">Liquid</span>
+              <span class="tag tag-html">HTML</span>
+            </p>
+          </div>
+
+          <div id="table-of-contents" style="margin-bottom: var(--space-8);"></div>
+
+          <!-- ====================================================== -->
+          <h2 id="what-is-liquid">What Is Liquid?</h2>
+
+          <p>
+            Liquid is a template language created by Shopify and written in Ruby. It's designed to
+            be <strong>safe</strong> (no arbitrary code execution), <strong>readable</strong>
+            (close to natural language), and <strong>flexible</strong> (handles complex data structures).
+          </p>
+
+          <p>Liquid has three fundamental building blocks:</p>
+
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-icon">📦</div>
+              <h3 class="card-title">Objects</h3>
+              <p class="card-description">
+                Output data using double curly braces. Objects represent store data like products,
+                collections, and settings.
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🏷️</div>
+              <h3 class="card-title">Tags</h3>
+              <p class="card-description">
+                Control flow and logic using curly braces with percent signs. Tags handle
+                conditionals, loops, assignments, and more.
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🔧</div>
+              <h3 class="card-title">Filters</h3>
+              <p class="card-description">
+                Transform output using the pipe character. Filters modify strings, numbers,
+                dates, URLs, and more.
+              </p>
+            </div>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="objects">Objects — Outputting Data</h2>
+
+          <p>
+            Objects are the simplest Liquid concept. They output data to the page using
+            <strong>double curly braces</strong> <code>{{ }}</code>.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Basic Object Output</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Store name --&gt;
+&lt;h1&gt;{{ shop.name }}&lt;/h1&gt;
+
+&lt;!-- Product title --&gt;
+&lt;h2&gt;{{ product.title }}&lt;/h2&gt;
+
+&lt;!-- Product price (formatted as money) --&gt;
+&lt;span&gt;{{ product.price | money }}&lt;/span&gt;
+
+&lt;!-- Collection description --&gt;
+&lt;div&gt;{{ collection.description }}&lt;/div&gt;
+
+&lt;!-- Current page title --&gt;
+&lt;title&gt;{{ page_title }}&lt;/title&gt;</code></pre>
+          </div>
+
+          <p>
+            Objects use <strong>dot notation</strong> to access properties, just like JavaScript.
+            <code>product.title</code> accesses the <code>title</code> property of the
+            <code>product</code> object.
+          </p>
+
+          <h3 id="global-objects">Important Global Objects</h3>
+
+          <p>These objects are available on <strong>every page</strong> of the theme:</p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Object</th>
+                  <th>Description</th>
+                  <th>Example Properties</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>shop</code></td>
+                  <td>The entire store</td>
+                  <td><code>shop.name</code>, <code>shop.url</code>, <code>shop.currency</code>, <code>shop.email</code></td>
+                </tr>
+                <tr>
+                  <td><code>settings</code></td>
+                  <td>Global theme settings</td>
+                  <td><code>settings.color_primary</code>, <code>settings.font_body</code></td>
+                </tr>
+                <tr>
+                  <td><code>cart</code></td>
+                  <td>Current shopping cart</td>
+                  <td><code>cart.item_count</code>, <code>cart.total_price</code>, <code>cart.items</code></td>
+                </tr>
+                <tr>
+                  <td><code>request</code></td>
+                  <td>Current request info</td>
+                  <td><code>request.locale</code>, <code>request.host</code>, <code>request.path</code></td>
+                </tr>
+                <tr>
+                  <td><code>linklists</code></td>
+                  <td>Navigation menus</td>
+                  <td><code>linklists.main-menu.links</code></td>
+                </tr>
+                <tr>
+                  <td><code>page_title</code></td>
+                  <td>Current page's title</td>
+                  <td>Used in <code>&lt;title&gt;</code> tags</td>
+                </tr>
+                <tr>
+                  <td><code>canonical_url</code></td>
+                  <td>Canonical URL of current page</td>
+                  <td>Used for SEO <code>&lt;link rel="canonical"&gt;</code></td>
+                </tr>
+                <tr>
+                  <td><code>content_for_header</code></td>
+                  <td>Shopify-injected scripts</td>
+                  <td><strong>Required</strong> in <code>&lt;head&gt;</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="page-objects">Page-Specific Objects</h3>
+
+          <p>These objects are only available on their respective page types:</p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Page Type</th>
+                  <th>Available Object</th>
+                  <th>Key Properties</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Product page</td>
+                  <td><code>product</code></td>
+                  <td><code>.title</code>, <code>.price</code>, <code>.description</code>, <code>.images</code>, <code>.variants</code>, <code>.url</code>, <code>.vendor</code>, <code>.type</code>, <code>.tags</code></td>
+                </tr>
+                <tr>
+                  <td>Collection page</td>
+                  <td><code>collection</code></td>
+                  <td><code>.title</code>, <code>.products</code>, <code>.description</code>, <code>.products_count</code>, <code>.image</code></td>
+                </tr>
+                <tr>
+                  <td>Cart page</td>
+                  <td><code>cart</code></td>
+                  <td><code>.items</code>, <code>.total_price</code>, <code>.item_count</code>, <code>.note</code></td>
+                </tr>
+                <tr>
+                  <td>Blog page</td>
+                  <td><code>blog</code></td>
+                  <td><code>.title</code>, <code>.articles</code>, <code>.tags</code></td>
+                </tr>
+                <tr>
+                  <td>Article page</td>
+                  <td><code>article</code></td>
+                  <td><code>.title</code>, <code>.content</code>, <code>.author</code>, <code>.published_at</code>, <code>.image</code></td>
+                </tr>
+                <tr>
+                  <td>Search results</td>
+                  <td><code>search</code></td>
+                  <td><code>.terms</code>, <code>.results</code>, <code>.results_count</code></td>
+                </tr>
+                <tr>
+                  <td>Custom page</td>
+                  <td><code>page</code></td>
+                  <td><code>.title</code>, <code>.content</code>, <code>.url</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 How to Explore Objects</div>
+            <p>
+              When you're unsure what properties an object has, use the
+              <a href="https://shopify.dev/docs/api/liquid" target="_blank" rel="noopener noreferrer">Shopify Liquid Reference</a>.
+              Bookmark it — you'll use it daily. You can also output an entire object for debugging:
+              <code>{{ product | json }}</code> will show all the product's data as JSON.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="tags">Tags — Logic and Control Flow</h2>
+
+          <p>
+            Tags use <strong>curly braces with percent signs</strong> <code>{% %}</code>.
+            They don't output anything visible — they control <em>what</em> gets rendered
+            and <em>how</em>.
+          </p>
+
+          <h3 id="conditionals">Conditionals: if, elsif, else, unless</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Conditional Examples</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Basic if/else --&gt;
+{% if product.available %}
+  &lt;button type="submit"&gt;Add to Cart&lt;/button&gt;
+{% else %}
+  &lt;button disabled&gt;Sold Out&lt;/button&gt;
+{% endif %}
+
+&lt;!-- Multiple conditions with elsif --&gt;
+{% if cart.item_count == 0 %}
+  &lt;p&gt;Your cart is empty&lt;/p&gt;
+{% elsif cart.item_count == 1 %}
+  &lt;p&gt;You have 1 item in your cart&lt;/p&gt;
+{% else %}
+  &lt;p&gt;You have {{ cart.item_count }} items in your cart&lt;/p&gt;
+{% endif %}
+
+&lt;!-- Unless (opposite of if) --&gt;
+{% unless product.title == blank %}
+  &lt;h1&gt;{{ product.title }}&lt;/h1&gt;
+{% endunless %}
+
+&lt;!-- Checking if a value exists --&gt;
+{% if product.featured_image %}
+  &lt;img src="{{ product.featured_image | image_url: width: 600 }}"
+       alt="{{ product.featured_image.alt | escape }}"&gt;
+{% endif %}
+
+&lt;!-- Compound conditions --&gt;
+{% if product.available and product.price &gt; 0 %}
+  &lt;span class="price"&gt;{{ product.price | money }}&lt;/span&gt;
+{% endif %}
+
+{% if product.type == 'shirt' or product.type == 'pants' %}
+  &lt;span class="badge"&gt;Clothing&lt;/span&gt;
+{% endif %}</code></pre>
+          </div>
+
+          <h3 id="comparison-operators">Comparison Operators</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Operator</th>
+                  <th>Meaning</th>
+                  <th>Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>==</code></td>
+                  <td>Equals</td>
+                  <td><code>{% if product.type == 'shirt' %}</code></td>
+                </tr>
+                <tr>
+                  <td><code>!=</code></td>
+                  <td>Not equals</td>
+                  <td><code>{% if product.vendor != 'Nike' %}</code></td>
+                </tr>
+                <tr>
+                  <td><code>&gt;</code></td>
+                  <td>Greater than</td>
+                  <td><code>{% if product.price &gt; 5000 %}</code></td>
+                </tr>
+                <tr>
+                  <td><code>&lt;</code></td>
+                  <td>Less than</td>
+                  <td><code>{% if cart.item_count &lt; 3 %}</code></td>
+                </tr>
+                <tr>
+                  <td><code>&gt;=</code></td>
+                  <td>Greater or equal</td>
+                  <td><code>{% if product.variants.size &gt;= 2 %}</code></td>
+                </tr>
+                <tr>
+                  <td><code>&lt;=</code></td>
+                  <td>Less or equal</td>
+                  <td><code>{% if collection.products_count &lt;= 10 %}</code></td>
+                </tr>
+                <tr>
+                  <td><code>contains</code></td>
+                  <td>String/array includes</td>
+                  <td><code>{% if product.tags contains 'sale' %}</code></td>
+                </tr>
+                <tr>
+                  <td><code>and</code></td>
+                  <td>Logical AND</td>
+                  <td><code>{% if a and b %}</code></td>
+                </tr>
+                <tr>
+                  <td><code>or</code></td>
+                  <td>Logical OR</td>
+                  <td><code>{% if a or b %}</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Prices Are in Cents</div>
+            <p>
+              Shopify stores prices in <strong>cents</strong> (or the smallest currency unit).
+              So <code>$50.00</code> is stored as <code>5000</code>. When comparing prices,
+              use the cents value: <code>{% if product.price &gt; 5000 %}</code>. Use the
+              <code>money</code> filter for display: <code>{{ product.price | money }}</code>.
+            </p>
+          </div>
+
+          <h3 id="case-when">Case / When</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Case Statement</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{% case template.name %}
+  {% when 'product' %}
+    &lt;!-- Product page specific content --&gt;
+  {% when 'collection' %}
+    &lt;!-- Collection page specific content --&gt;
+  {% when 'index' %}
+    &lt;!-- Home page specific content --&gt;
+  {% else %}
+    &lt;!-- Default content --&gt;
+{% endcase %}</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="loops">Loops — Iterating Over Data</h2>
+
+          <p>
+            Loops are essential in Shopify themes. You'll loop through products, collections,
+            images, variants, cart items, navigation links, and more.
+          </p>
+
+          <h3 id="for-loop">The for Loop</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Basic For Loop</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Loop through products in a collection --&gt;
+&lt;div class="product-grid"&gt;
+  {% for product in collection.products %}
+    &lt;div class="product-card"&gt;
+      &lt;h3&gt;{{ product.title }}&lt;/h3&gt;
+      &lt;span&gt;{{ product.price | money }}&lt;/span&gt;
+    &lt;/div&gt;
+  {% endfor %}
+&lt;/div&gt;
+
+&lt;!-- Loop through product images --&gt;
+&lt;div class="product-gallery"&gt;
+  {% for image in product.images %}
+    &lt;img
+      src="{{ image | image_url: width: 800 }}"
+      alt="{{ image.alt | escape }}"
+      loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+    &gt;
+  {% endfor %}
+&lt;/div&gt;
+
+&lt;!-- Loop through navigation links --&gt;
+&lt;nav&gt;
+  &lt;ul&gt;
+    {% for link in linklists.main-menu.links %}
+      &lt;li&gt;
+        &lt;a href="{{ link.url }}"
+           {% if link.active %} class="active"{% endif %}&gt;
+          {{ link.title }}
+        &lt;/a&gt;
+      &lt;/li&gt;
+    {% endfor %}
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+          </div>
+
+          <h3 id="forloop-object">The forloop Object</h3>
+
+          <p>
+            Inside every <code>for</code> loop, Liquid provides the special <code>forloop</code>
+            object with useful properties:
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Property</th>
+                  <th>Description</th>
+                  <th>Example Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>forloop.index</code></td>
+                  <td>Current iteration (1-based)</td>
+                  <td>Display item number</td>
+                </tr>
+                <tr>
+                  <td><code>forloop.index0</code></td>
+                  <td>Current iteration (0-based)</td>
+                  <td>CSS class names</td>
+                </tr>
+                <tr>
+                  <td><code>forloop.first</code></td>
+                  <td><code>true</code> on first iteration</td>
+                  <td>Eager-load first image</td>
+                </tr>
+                <tr>
+                  <td><code>forloop.last</code></td>
+                  <td><code>true</code> on last iteration</td>
+                  <td>Skip trailing comma</td>
+                </tr>
+                <tr>
+                  <td><code>forloop.length</code></td>
+                  <td>Total number of iterations</td>
+                  <td>Show "X items" count</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Using forloop Properties</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{% for product in collection.products %}
+  &lt;div class="product-card
+    {% if forloop.first %} product-card--featured{% endif %}
+    {% if forloop.last %} product-card--last{% endif %}"
+  &gt;
+    &lt;span class="product-number"&gt;{{ forloop.index }} of {{ forloop.length }}&lt;/span&gt;
+    &lt;h3&gt;{{ product.title }}&lt;/h3&gt;
+  &lt;/div&gt;
+{% endfor %}</code></pre>
+          </div>
+
+          <h3 id="loop-limit-offset">Limit and Offset</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Limit and Offset</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Show only the first 4 products --&gt;
+{% for product in collection.products limit: 4 %}
+  &lt;div class="product-card"&gt;{{ product.title }}&lt;/div&gt;
+{% endfor %}
+
+&lt;!-- Skip the first 2 products, show next 4 --&gt;
+{% for product in collection.products offset: 2 limit: 4 %}
+  &lt;div class="product-card"&gt;{{ product.title }}&lt;/div&gt;
+{% endfor %}
+
+&lt;!-- Loop through a number range --&gt;
+{% for i in (1..5) %}
+  &lt;span&gt;Star {{ i }}&lt;/span&gt;
+{% endfor %}</code></pre>
+          </div>
+
+          <h3 id="else-in-loops">Empty State with else</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">For Loop with Else</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Handle empty collections gracefully --&gt;
+{% for product in collection.products %}
+  &lt;div class="product-card"&gt;
+    &lt;h3&gt;{{ product.title }}&lt;/h3&gt;
+  &lt;/div&gt;
+{% else %}
+  &lt;p class="empty-state"&gt;No products found in this collection.&lt;/p&gt;
+{% endfor %}</code></pre>
+          </div>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ Best Practice</div>
+            <p>
+              <strong>Always handle empty states.</strong> Use <code>{% else %}</code> in for loops
+              or check <code>{% if collection.products.size &gt; 0 %}</code> before rendering grids.
+              A blank page with no feedback is a terrible user experience.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="filters">Filters — Transforming Output</h2>
+
+          <p>
+            Filters modify the output of objects. They use the <strong>pipe character</strong>
+            <code>|</code> and can be chained together.
+          </p>
+
+          <h3 id="string-filters">String Filters</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">String Filters</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Capitalize --&gt;
+{{ 'hello world' | capitalize }}
+&lt;!-- Output: Hello world --&gt;
+
+&lt;!-- Upcase / Downcase --&gt;
+{{ product.title | upcase }}
+{{ product.title | downcase }}
+
+&lt;!-- Replace --&gt;
+{{ product.title | replace: ' ', '-' }}
+
+&lt;!-- Truncate --&gt;
+{{ product.description | strip_html | truncate: 100 }}
+&lt;!-- Strips HTML tags, then limits to 100 characters --&gt;
+
+&lt;!-- Strip HTML --&gt;
+{{ product.description | strip_html }}
+
+&lt;!-- Escape (for use in attributes) --&gt;
+&lt;img alt="{{ product.title | escape }}"&gt;
+
+&lt;!-- Append / Prepend --&gt;
+{{ 'world' | prepend: 'hello ' }}
+&lt;!-- Output: hello world --&gt;
+
+&lt;!-- Handle blank values --&gt;
+{{ product.vendor | default: 'Unknown Vendor' }}</code></pre>
+          </div>
+
+          <h3 id="number-filters">Number Filters</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Number Filters</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Math operations --&gt;
+{{ 100 | plus: 50 }}         &lt;!-- 150 --&gt;
+{{ 100 | minus: 30 }}        &lt;!-- 70 --&gt;
+{{ 10 | times: 5 }}          &lt;!-- 50 --&gt;
+{{ 100 | divided_by: 3 }}    &lt;!-- 33 --&gt;
+{{ 100 | modulo: 3 }}        &lt;!-- 1 --&gt;
+
+&lt;!-- Round --&gt;
+{{ 4.567 | round: 2 }}       &lt;!-- 4.57 --&gt;
+{{ 4.567 | ceil }}            &lt;!-- 5 --&gt;
+{{ 4.567 | floor }}           &lt;!-- 4 --&gt;</code></pre>
+          </div>
+
+          <h3 id="money-filters">Money Filters</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Money Filters</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Format price as money (uses store's format) --&gt;
+{{ product.price | money }}
+&lt;!-- Output: $25.00 --&gt;
+
+&lt;!-- Money with currency code --&gt;
+{{ product.price | money_with_currency }}
+&lt;!-- Output: $25.00 USD --&gt;
+
+&lt;!-- Money without trailing zeros --&gt;
+{{ product.price | money_without_trailing_zeros }}
+&lt;!-- Output: $25 (if price is $25.00) --&gt;
+
+&lt;!-- Calculate sale percentage --&gt;
+{% if product.compare_at_price &gt; product.price %}
+  {% assign discount = product.compare_at_price | minus: product.price %}
+  {% assign percentage = discount | times: 100 | divided_by: product.compare_at_price %}
+  &lt;span class="sale-badge"&gt;-{{ percentage }}%&lt;/span&gt;
+{% endif %}</code></pre>
+          </div>
+
+          <h3 id="url-filters">URL Filters</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">URL Filters</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Asset URL (for files in assets/ folder) --&gt;
+{{ 'style.css' | asset_url }}
+&lt;!-- Output: //cdn.shopify.com/s/files/.../style.css --&gt;
+
+&lt;!-- Stylesheet tag --&gt;
+{{ 'base.css' | asset_url | stylesheet_tag }}
+&lt;!-- Output: &lt;link href="..." rel="stylesheet"&gt; --&gt;
+
+&lt;!-- Script tag --&gt;
+{{ 'global.js' | asset_url | script_tag }}
+&lt;!-- Output: &lt;script src="..."&gt;&lt;/script&gt; --&gt;
+
+&lt;!-- Product image URL with size --&gt;
+{{ product.featured_image | image_url: width: 600 }}
+{{ product.featured_image | image_url: width: 600, height: 400, crop: 'center' }}
+
+&lt;!-- Link to a specific page type --&gt;
+{{ product.url }}            &lt;!-- /products/product-handle --&gt;
+{{ collection.url }}         &lt;!-- /collections/collection-handle --&gt;
+{{ page.url }}               &lt;!-- /pages/page-handle --&gt;</code></pre>
+          </div>
+
+          <h3 id="image-filters">Image URL Filter (Critical Knowledge)</h3>
+
+          <p>
+            The <code>image_url</code> filter is one of the most important filters in Shopify
+            theme development. It generates optimized image URLs:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Image URL Filter</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Basic responsive image --&gt;
+&lt;img
+  src="{{ product.featured_image | image_url: width: 800 }}"
+  srcset="
+    {{ product.featured_image | image_url: width: 400 }} 400w,
+    {{ product.featured_image | image_url: width: 800 }} 800w,
+    {{ product.featured_image | image_url: width: 1200 }} 1200w
+  "
+  sizes="(max-width: 768px) 100vw, 50vw"
+  alt="{{ product.featured_image.alt | escape }}"
+  width="{{ product.featured_image.width }}"
+  height="{{ product.featured_image.height }}"
+  loading="lazy"
+&gt;
+
+&lt;!-- With cropping --&gt;
+{{ image | image_url: width: 400, height: 400, crop: 'center' }}
+
+&lt;!-- Available crop values: top, center, bottom, left, right --&gt;</code></pre>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Always Include width and height Attributes</div>
+            <p>
+              Always set <code>width</code> and <code>height</code> attributes on images. This
+              prevents <strong>Cumulative Layout Shift (CLS)</strong> — a Core Web Vital metric.
+              Without dimensions, the browser doesn't know how much space to reserve, causing
+              content to jump as images load.
+            </p>
+          </div>
+
+          <h3 id="filter-chaining">Filter Chaining</h3>
+
+          <p>
+            Filters can be chained — the output of one filter becomes the input of the next:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Filter Chaining</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Chain multiple filters --&gt;
+{{ product.description | strip_html | truncate: 150 | escape }}
+
+&lt;!-- Build a CSS class from a product title --&gt;
+{{ product.title | downcase | replace: ' ', '-' | prepend: 'product-' }}
+&lt;!-- "Summer Shirt" becomes "product-summer-shirt" --&gt;
+
+&lt;!-- Format a date --&gt;
+{{ article.published_at | date: '%B %d, %Y' }}
+&lt;!-- Output: January 15, 2024 --&gt;</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="variables">Variables and Assignment</h2>
+
+          <p>
+            You can create local variables using <code>assign</code> and <code>capture</code>.
+          </p>
+
+          <h3 id="assign-tag">assign</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Assign Variables</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Simple assignment --&gt;
+{% assign featured_product = collections.frontpage.products.first %}
+&lt;h2&gt;{{ featured_product.title }}&lt;/h2&gt;
+
+&lt;!-- Boolean flag --&gt;
+{% assign show_sale_badge = false %}
+{% if product.compare_at_price &gt; product.price %}
+  {% assign show_sale_badge = true %}
+{% endif %}
+
+{% if show_sale_badge %}
+  &lt;span class="badge badge--sale"&gt;Sale&lt;/span&gt;
+{% endif %}
+
+&lt;!-- Calculate values --&gt;
+{% assign columns = section.settings.columns %}
+{% assign column_width = 100 | divided_by: columns %}
+
+&lt;!-- String assignment with filter --&gt;
+{% assign product_handle = product.title | handleize %}
+&lt;div id="{{ product_handle }}"&gt;...&lt;/div&gt;</code></pre>
+          </div>
+
+          <h3 id="capture-tag">capture</h3>
+
+          <p>
+            <code>capture</code> stores a block of rendered content into a variable:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Capture Tag</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Capture complex HTML into a variable --&gt;
+{% capture price_html %}
+  {% if product.compare_at_price &gt; product.price %}
+    &lt;s class="price--compare"&gt;{{ product.compare_at_price | money }}&lt;/s&gt;
+    &lt;span class="price--sale"&gt;{{ product.price | money }}&lt;/span&gt;
+  {% else %}
+    &lt;span class="price"&gt;{{ product.price | money }}&lt;/span&gt;
+  {% endif %}
+{% endcapture %}
+
+&lt;!-- Use the captured content --&gt;
+&lt;div class="product-price"&gt;{{ price_html }}&lt;/div&gt;</code></pre>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 When to Use assign vs. capture</div>
+            <p>
+              Use <code>assign</code> for simple values (strings, numbers, object references).
+              Use <code>capture</code> when you need to store rendered HTML or complex string
+              concatenations. <code>capture</code> processes Liquid inside it before storing the result.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="render-include">render vs. include</h2>
+
+          <p>
+            Both tags insert snippets, but they work differently:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">render vs. include</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- RENDER (recommended — creates isolated scope) --&gt;
+{% render 'product-card', product: product, show_vendor: true %}
+
+&lt;!-- INCLUDE (legacy — shares parent scope) --&gt;
+{% include 'product-card' %}</code></pre>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th><code>render</code></th>
+                  <th><code>include</code></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Variable scope</td>
+                  <td>Isolated (must pass variables explicitly)</td>
+                  <td>Shared (accesses parent variables)</td>
+                </tr>
+                <tr>
+                  <td>Performance</td>
+                  <td class="check-yes">✓ Better (can be cached)</td>
+                  <td class="check-no">✗ Slower</td>
+                </tr>
+                <tr>
+                  <td>Recommended</td>
+                  <td class="check-yes">✓ Yes</td>
+                  <td class="check-no">✗ Deprecated</td>
+                </tr>
+                <tr>
+                  <td>Predictability</td>
+                  <td>High (no side effects)</td>
+                  <td>Low (can create unexpected variable conflicts)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Always Use <code>render</code>, Not <code>include</code></div>
+            <p>
+              <code>include</code> is deprecated in Shopify themes. Always use <code>render</code>.
+              It creates an isolated scope, which means variables from the parent template don't
+              leak into the snippet and vice versa. This makes your code predictable and prevents
+              subtle bugs.
+            </p>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Passing Variables to Snippets</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- In your section: pass all needed variables explicitly --&gt;
+{% for product in collection.products %}
+  {% render 'product-card',
+    product: product,
+    show_vendor: section.settings.show_vendor,
+    show_sale_badge: true,
+    image_size: 400,
+    lazy_load: true
+  %}
+{% endfor %}
+
+&lt;!-- In snippets/product-card.liquid: use the passed variables --&gt;
+&lt;div class="product-card"&gt;
+  &lt;img
+    src="{{ product.featured_image | image_url: width: image_size }}"
+    alt="{{ product.featured_image.alt | escape }}"
+    {% if lazy_load %}loading="lazy"{% endif %}
+  &gt;
+  &lt;h3&gt;{{ product.title }}&lt;/h3&gt;
+  {% if show_vendor %}
+    &lt;span&gt;{{ product.vendor }}&lt;/span&gt;
+  {% endif %}
+  &lt;span&gt;{{ product.price | money }}&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="whitespace">Whitespace Control</h2>
+
+          <p>
+            Liquid tags produce whitespace in the output HTML. Use the <strong>hyphen syntax</strong>
+            to strip whitespace:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Whitespace Control</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Without whitespace control (leaves blank lines) --&gt;
+{% if product.available %}
+  &lt;span&gt;In Stock&lt;/span&gt;
+{% endif %}
+
+&lt;!-- With whitespace control (clean output) --&gt;
+{%- if product.available -%}
+  &lt;span&gt;In Stock&lt;/span&gt;
+{%- endif -%}
+
+&lt;!-- Also works with output tags --&gt;
+{{- product.title -}}</code></pre>
+          </div>
+
+          <p>
+            The hyphens (<code>-</code>) strip whitespace from the side they're on:
+          </p>
+
+          <ul>
+            <li><code>{%-</code> strips whitespace <strong>before</strong> the tag</li>
+            <li><code>-%}</code> strips whitespace <strong>after</strong> the tag</li>
+            <li><code>{%- -%}</code> strips both sides</li>
+          </ul>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ Best Practice</div>
+            <p>
+              Use whitespace-stripping hyphens (<code>{%- -%}</code>) on logic tags like
+              <code>if</code>, <code>for</code>, <code>assign</code>, and <code>capture</code>.
+              This keeps your rendered HTML clean without random blank lines. Dawn uses this
+              pattern extensively — study its code for examples.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="comments">Comments</h2>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Liquid Comments</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- HTML comment: visible in page source --&gt;
+
+{% comment %}
+  Liquid comment: NOT visible in page source.
+  Use these for developer notes.
+{% endcomment %}
+
+{%- comment -%}
+  With whitespace stripping.
+  This is the preferred style.
+{%- endcomment -%}
+
+{% # Inline comment (Shopify Liquid only, newer syntax) %}</code></pre>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Comment Strategy</div>
+            <p>
+              Use <strong>Liquid comments</strong> (<code>{% comment %}</code>) for developer notes — 
+              they won't appear in the page source. Use HTML comments sparingly, as they increase
+              page size and are visible to anyone who views the source.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="section-object">The section Object</h2>
+
+          <p>
+            Inside every section file, you have access to the <code>section</code> object.
+            This is how you access the settings and blocks defined in the schema:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Section Object Usage</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Access section settings --&gt;
+&lt;h2&gt;{{ section.settings.heading }}&lt;/h2&gt;
+
+&lt;!-- Unique section ID (for CSS scoping) --&gt;
+&lt;div id="section-{{ section.id }}"&gt;
+  ...
+&lt;/div&gt;
+
+&lt;!-- Loop through blocks --&gt;
+{% for block in section.blocks %}
+  &lt;div {{ block.shopify_attributes }}&gt;
+    {% case block.type %}
+      {% when 'heading' %}
+        &lt;h2&gt;{{ block.settings.heading }}&lt;/h2&gt;
+      {% when 'text' %}
+        &lt;p&gt;{{ block.settings.text }}&lt;/p&gt;
+      {% when 'button' %}
+        &lt;a href="{{ block.settings.link }}" class="btn"&gt;
+          {{ block.settings.label }}
+        &lt;/a&gt;
+    {% endcase %}
+  &lt;/div&gt;
+{% endfor %}</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="practical-patterns">Practical Liquid Patterns</h2>
+
+          <p>
+            Here are real-world patterns you'll use constantly in theme development:
+          </p>
+
+          <h3 id="pattern-sale">Sale Price Display</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Sale Price Pattern</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- if product.compare_at_price &gt; product.price -%}
+  &lt;div class="price price--on-sale"&gt;
+    &lt;s class="price__compare"&gt;{{ product.compare_at_price | money }}&lt;/s&gt;
+    &lt;span class="price__current"&gt;{{ product.price | money }}&lt;/span&gt;
+    {%- assign savings = product.compare_at_price | minus: product.price -%}
+    &lt;span class="price__savings"&gt;Save {{ savings | money }}&lt;/span&gt;
+  &lt;/div&gt;
+{%- else -%}
+  &lt;div class="price"&gt;
+    &lt;span class="price__current"&gt;{{ product.price | money }}&lt;/span&gt;
+  &lt;/div&gt;
+{%- endif -%}</code></pre>
+          </div>
+
+          <h3 id="pattern-responsive-image">Responsive Image with srcset</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Responsive Image Pattern</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- if product.featured_image -%}
+  {%- assign image = product.featured_image -%}
+  &lt;img
+    src="{{ image | image_url: width: 800 }}"
+    srcset="
+      {{ image | image_url: width: 200 }} 200w,
+      {{ image | image_url: width: 400 }} 400w,
+      {{ image | image_url: width: 600 }} 600w,
+      {{ image | image_url: width: 800 }} 800w,
+      {{ image | image_url: width: 1000 }} 1000w
+    "
+    sizes="(max-width: 749px) calc(100vw - 40px), (max-width: 999px) 50vw, 33vw"
+    alt="{{ image.alt | escape }}"
+    width="{{ image.width }}"
+    height="{{ image.height }}"
+    loading="lazy"
+  &gt;
+{%- else -%}
+  &lt;div class="placeholder-image"&gt;
+    {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
+  &lt;/div&gt;
+{%- endif -%}</code></pre>
+          </div>
+
+          <h3 id="pattern-nav-active">Active Navigation Link</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Active Nav Link Pattern</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;nav class="main-nav"&gt;
+  &lt;ul&gt;
+    {%- for link in linklists.main-menu.links -%}
+      &lt;li class="nav-item"&gt;
+        &lt;a
+          href="{{ link.url }}"
+          class="nav-link{% if link.active %} nav-link--active{% endif %}{% if link.child_active %} nav-link--child-active{% endif %}"
+          {% if link.current %} aria-current="page"{% endif %}
+        &gt;
+          {{ link.title | escape }}
+        &lt;/a&gt;
+
+        {%- if link.links.size &gt; 0 -%}
+          &lt;ul class="nav-dropdown"&gt;
+            {%- for child_link in link.links -%}
+              &lt;li&gt;
+                &lt;a href="{{ child_link.url }}"
+                   class="nav-dropdown__link{% if child_link.active %} active{% endif %}"&gt;
+                  {{ child_link.title | escape }}
+                &lt;/a&gt;
+              &lt;/li&gt;
+            {%- endfor -%}
+          &lt;/ul&gt;
+        {%- endif -%}
+      &lt;/li&gt;
+    {%- endfor -%}
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+          </div>
+
+          <h3 id="pattern-pagination">Pagination</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Pagination Pattern</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- paginate collection.products by 12 -%}
+  &lt;div class="product-grid"&gt;
+    {%- for product in collection.products -%}
+      {% render 'product-card', product: product %}
+    {%- endfor -%}
+  &lt;/div&gt;
+
+  {%- if paginate.pages &gt; 1 -%}
+    &lt;nav class="pagination" aria-label="Pagination"&gt;
+      {%- if paginate.previous -%}
+        &lt;a href="{{ paginate.previous.url }}" aria-label="Previous page"&gt;
+          &amp;larr; Previous
+        &lt;/a&gt;
+      {%- endif -%}
+
+      {%- for part in paginate.parts -%}
+        {%- if part.is_link -%}
+          &lt;a href="{{ part.url }}"&gt;{{ part.title }}&lt;/a&gt;
+        {%- else -%}
+          &lt;span class="current" aria-current="page"&gt;{{ part.title }}&lt;/span&gt;
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if paginate.next -%}
+        &lt;a href="{{ paginate.next.url }}" aria-label="Next page"&gt;
+          Next &amp;rarr;
+        &lt;/a&gt;
+      {%- endif -%}
+    &lt;/nav&gt;
+  {%- endif -%}
+{%- endpaginate -%}</code></pre>
+          </div>
+
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Pagination Is Required</div>
+            <p>
+              Shopify limits the number of products returned in a single loop to <strong>50</strong>.
+              Always wrap collection product loops in <code>{% paginate %}</code> tags. Without
+              pagination, stores with more than 50 products will have missing items.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="debugging">Debugging Liquid</h2>
+
+          <p>
+            Debugging Liquid can be challenging since there's no console or debugger. Here are
+            professional techniques:
+          </p>
+
+          <h3 id="debug-json">Output as JSON</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Debug with JSON</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Output any object as JSON for inspection --&gt;
+&lt;pre&gt;{{ product | json }}&lt;/pre&gt;
+
+&lt;!-- Check section settings --&gt;
+&lt;pre&gt;{{ section.settings | json }}&lt;/pre&gt;
+
+&lt;!-- Check what blocks exist --&gt;
+&lt;pre&gt;{{ section.blocks | json }}&lt;/pre&gt;
+
+&lt;!-- Inspect a specific variable --&gt;
+{% assign my_var = product.variants.first %}
+&lt;pre&gt;{{ my_var | json }}&lt;/pre&gt;
+
+&lt;!-- Wrap in a details element to collapse --&gt;
+&lt;details&gt;
+  &lt;summary&gt;Debug: product data&lt;/summary&gt;
+  &lt;pre style="font-size: 12px; max-height: 400px; overflow: auto;"&gt;
+    {{ product | json }}
+  &lt;/pre&gt;
+&lt;/details&gt;</code></pre>
+          </div>
+
+          <h3 id="debug-comments">Debug Comments</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Debug Comments</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- DEBUG: product.available = {{ product.available }} --&gt;
+&lt;!-- DEBUG: collection.products.size = {{ collection.products.size }} --&gt;
+&lt;!-- DEBUG: section.blocks.size = {{ section.blocks.size }} --&gt;
+&lt;!-- DEBUG: template.name = {{ template.name }} --&gt;</code></pre>
+          </div>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ My Debugging Workflow</div>
+            <p>
+              <strong>1.</strong> Check if the object exists: <code>{{ product | json }}</code><br>
+              <strong>2.</strong> Check specific properties: <code>{{ product.title }}</code><br>
+              <strong>3.</strong> Test conditions separately: wrap <code>if</code> conditions in HTML comments<br>
+              <strong>4.</strong> Use the browser's "View Source" to see rendered output<br>
+              <strong>5.</strong> Check the Shopify CLI terminal for Liquid errors<br>
+              <strong>6.</strong> Remove debug output before committing!
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="common-mistakes">Common Liquid Mistakes</h2>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mistake</th>
+                  <th>Problem</th>
+                  <th>Fix</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>{{ product.price }}</code> without <code>money</code> filter</td>
+                  <td>Shows price in cents (e.g., "2500" instead of "$25.00")</td>
+                  <td><code>{{ product.price | money }}</code></td>
+                </tr>
+                <tr>
+                  <td>Using <code>include</code> instead of <code>render</code></td>
+                  <td>Variable scope leaks, harder to debug</td>
+                  <td>Always use <code>{% render %}</code></td>
+                </tr>
+                <tr>
+                  <td>Missing <code>| escape</code> on user content</td>
+                  <td>Potential XSS vulnerability in alt tags, attributes</td>
+                  <td><code>{{ product.title | escape }}</code> in attributes</td>
+                </tr>
+                <tr>
+                  <td>Forgetting <code>{% endfor %}</code> or <code>{% endif %}</code></td>
+                  <td>Liquid error — page won't render</td>
+                  <td>Always close your tags immediately after opening</td>
+                </tr>
+                <tr>
+                  <td>Not handling blank/nil values</td>
+                  <td>Empty HTML elements, broken layouts</td>
+                  <td>Check with <code>{% if value != blank %}</code> or use <code>| default:</code></td>
+                </tr>
+                <tr>
+                  <td>No <code>paginate</code> wrapper on collection loops</td>
+                  <td>Only first 50 products shown</td>
+                  <td>Always use <code>{% paginate collection.products by 12 %}</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="liquid-cheatsheet">Quick Reference Cheat Sheet</h2>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Liquid Cheat Sheet</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>╔══════════════════════════════════════════════════════════╗
+║  LIQUID CHEAT SHEET FOR SHOPIFY THEMES                   ║
+╠══════════════════════════════════════════════════════════╣
+║                                                          ║
+║  OUTPUT:     {{ object.property }}                        ║
+║  FILTER:     {{ value | filter_name }}                    ║
+║  LOGIC:      {% if condition %} ... {% endif %}           ║
+║  LOOP:       {% for item in array %} ... {% endfor %}     ║
+║  ASSIGN:     {% assign var = value %}                     ║
+║  CAPTURE:    {% capture var %} ... {% endcapture %}       ║
+║  RENDER:     {% render 'snippet', var: value %}           ║
+║  COMMENT:    {% comment %} ... {% endcomment %}           ║
+║  STRIP WS:   {%- tag -%}  or  {{- output -}}             ║
+║  PAGINATE:   {% paginate array by 12 %} ... {% endpag %}  ║
+║                                                          ║
+║  COMMON FILTERS:                                         ║
+║  | money              Format as currency                 ║
+║  | image_url: width:  Generate image URL                 ║
+║  | asset_url          CDN URL for asset files             ║
+║  | escape             HTML-safe output                   ║
+║  | strip_html         Remove HTML tags                    ║
+║  | truncate: 100      Limit string length                ║
+║  | date: '%B %d, %Y'  Format dates                       ║
+║  | default: 'fallback' Default value if blank             ║
+║  | handleize          URL-safe string                    ║
+║  | json               Output as JSON                     ║
+║  | stylesheet_tag     Wrap in &lt;link&gt; tag                 ║
+║  | script_tag         Wrap in &lt;script&gt; tag               ║
+║                                                          ║
+║  SECTION ACCESS:                                         ║
+║  section.id           Unique section ID                  ║
+║  section.settings     Section schema settings             ║
+║  section.blocks       Section blocks array                ║
+║  block.type           Block type identifier              ║
+║  block.settings       Block schema settings               ║
+║  block.shopify_attributes  Required for theme editor     ║
+║                                                          ║
+╚══════════════════════════════════════════════════════════╝</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="key-takeaways">Key Takeaways</h2>
+
+          <ul class="checklist">
+            <li>Liquid has three building blocks: objects (<code>{{ }}</code>), tags (<code>{% %}</code>), and filters (<code>|</code>)</li>
+            <li>Global objects like <code>shop</code>, <code>settings</code>, <code>cart</code> are available everywhere</li>
+            <li>Page-specific objects like <code>product</code> and <code>collection</code> depend on the page type</li>
+            <li>Use <code>for</code> loops with <code>forloop</code> properties for iteration</li>
+            <li>Always handle empty states with <code>{% else %}</code> in loops</li>
+            <li>Prices are in cents — always use the <code>money</code> filter for display</li>
+            <li>Use <code>render</code> not <code>include</code> for snippets</li>
+            <li>Use whitespace-stripping hyphens <code>{%- -%}</code> on logic tags</li>
+            <li>Debug with <code>| json</code> filter and HTML comments</li>
+            <li>Always use <code>paginate</code> for collection product loops</li>
+          </ul>
+
+          <p>
+            With Liquid fundamentals in place, you're ready to explore the complete folder
+            structure of a Shopify theme and understand what every file does.
+          </p>
+
+          <!-- Page Navigation -->
+          <div class="page-nav">
+            <a href="shopify-architecture.html" class="page-nav-link">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Shopify Architecture</span>
+            </a>
+            <a href="theme-structure.html" class="page-nav-link page-nav-link--next">
+              <span class="page-nav-label">Next Chapter →</span>
+              <span class="page-nav-title">Theme Folder Structure</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <footer class="doc-footer">
+        <p>
+          Shopify Theme Developer Handbook — Built with care for <strong>Gamal</strong><br>
+          <small>Not affiliated with Shopify Inc. For educational purposes only.</small>
+        </p>
+      </footer>
+
+    </main>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Complete guide to Shopify theme folder structure — every directory, file type, and naming convention explained">
+  <title>Theme Folder Structure — Shopify Theme Developer Handbook</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script defer src="assets/js/script.js"></script>
+</head>
+<body>
+
+  <div class="progress-bar">
+    <div class="progress-bar-fill"></div>
+  </div>
+
+  <div class="doc-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation" aria-label="Main navigation">
+      <div class="sidebar-brand">
+        <a href="index.html" class="sidebar-brand-link">
+          <div class="sidebar-brand-icon">S</div>
+          <div class="sidebar-brand-text">
+            <span class="sidebar-brand-title">Shopify Handbook</span>
+            <span class="sidebar-brand-subtitle">Theme Development Guide</span>
+          </div>
+        </a>
+      </div>
+      <div class="sidebar-search">
+        <div class="sidebar-search-wrapper">
+          <span class="sidebar-search-icon">🔍</span>
+          <input type="text" class="sidebar-search-input" placeholder="Search docs... (Ctrl+K)" aria-label="Search documentation">
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Getting Started</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="index.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🏠</span> Introduction</a></li>
+            <li class="sidebar-nav-item"><a href="setup.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">⚙️</span> Development Setup</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Core Concepts</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="shopify-architecture.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🏗️</span> Shopify Architecture</a></li>
+            <li class="sidebar-nav-item"><a href="liquid-basics.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">💧</span> Liquid Basics</a></li>
+            <li class="sidebar-nav-item"><a href="theme-structure.html" class="sidebar-nav-link active"><span class="sidebar-nav-link-icon">📁</span> Theme Folder Structure</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Building Themes</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="sections-and-blocks.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🧱</span> Sections &amp; Blocks</a></li>
+            <li class="sidebar-nav-item"><a href="theme-components.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🧩</span> Theme Components</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Advanced</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="premium-theme-analysis.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🔍</span> Premium Theme Analysis</a></li>
+            <li class="sidebar-nav-item"><a href="design-experiments.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🎨</span> Design Experimentation</a></li>
+            <li class="sidebar-nav-item"><a href="performance.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">⚡</span> Performance</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Production</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="deployment.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🚀</span> Deployment</a></li>
+            <li class="sidebar-nav-item"><a href="freelancing.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">💼</span> Freelance Strategy</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-theme-toggle" role="button" tabindex="0" aria-label="Toggle dark mode">
+          <span class="sidebar-theme-toggle-label">🌙 Dark Mode</span>
+          <div class="theme-toggle-switch"></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-wrapper">
+
+      <header class="top-header">
+        <div class="top-header-left">
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+          <div class="breadcrumbs">
+            <a href="index.html">Handbook</a>
+            <span class="breadcrumbs-separator">/</span>
+            <span class="breadcrumbs-current">Theme Folder Structure</span>
+          </div>
+        </div>
+        <div class="top-header-right">
+          <a href="https://github.com" class="header-link" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
+          <a href="https://shopify.dev" class="header-link" target="_blank" rel="noopener noreferrer"><span>Shopify Docs</span></a>
+        </div>
+      </header>
+
+      <div class="content-container">
+        <div class="content">
+
+          <h1>Theme Folder Structure</h1>
+          <p class="lead">
+            Every Shopify theme follows a strict directory structure. Shopify expects specific
+            folders and filenames — there's no flexibility here. This chapter maps every directory,
+            explains every file type, and shows you how the Dawn theme organizes its codebase.
+          </p>
+
+          <div class="callout callout-info">
+            <div class="callout-title">📌 Chapter Overview</div>
+            <p>
+              <strong>Time estimate:</strong> 30 – 45 minutes<br>
+              <strong>Tags:</strong>
+              <span class="tag tag-liquid">Liquid</span>
+              <span class="tag tag-html">Architecture</span>
+              <span class="tag tag-css">CSS</span>
+              <span class="tag tag-js">JavaScript</span>
+            </p>
+          </div>
+
+          <div id="table-of-contents" style="margin-bottom: var(--space-8);"></div>
+
+          <!-- ====================================================== -->
+          <h2 id="complete-tree">The Complete Directory Tree</h2>
+
+          <p>
+            Open your Dawn theme project in VS Code and you'll see this structure. Every Shopify
+            theme — from Dawn to the most complex premium theme — follows this exact layout:
+          </p>
+
+          <div class="file-tree">
+<span class="file-tree-folder">📦 my-shopify-theme/</span>
+├── <span class="file-tree-folder">📂 assets/</span>               <span class="file-tree-muted">← CSS, JS, images, fonts</span>
+│   ├── <span class="file-tree-file">base.css</span>
+│   ├── <span class="file-tree-file">component-card.css</span>
+│   ├── <span class="file-tree-file">global.js</span>
+│   ├── <span class="file-tree-file">product-form.js</span>
+│   └── <span class="file-tree-file">logo.png</span>
+│
+├── <span class="file-tree-folder">📂 config/</span>               <span class="file-tree-muted">← Theme settings definitions &amp; values</span>
+│   ├── <span class="file-tree-highlight">settings_schema.json</span>  <span class="file-tree-muted">← Settings UI definition</span>
+│   └── <span class="file-tree-highlight">settings_data.json</span>   <span class="file-tree-muted">← Saved setting values (auto-generated)</span>
+│
+├── <span class="file-tree-folder">📂 layout/</span>               <span class="file-tree-muted">← Outermost HTML shell</span>
+│   ├── <span class="file-tree-highlight">theme.liquid</span>         <span class="file-tree-muted">← Main layout (every page)</span>
+│   └── <span class="file-tree-file">password.liquid</span>      <span class="file-tree-muted">← Password protection page layout</span>
+│
+├── <span class="file-tree-folder">📂 locales/</span>              <span class="file-tree-muted">← Translation files</span>
+│   ├── <span class="file-tree-file">en.default.json</span>      <span class="file-tree-muted">← English (default)</span>
+│   ├── <span class="file-tree-file">fr.json</span>
+│   └── <span class="file-tree-file">es.json</span>
+│
+├── <span class="file-tree-folder">📂 sections/</span>             <span class="file-tree-muted">← Modular page components</span>
+│   ├── <span class="file-tree-highlight">header.liquid</span>
+│   ├── <span class="file-tree-highlight">footer.liquid</span>
+│   ├── <span class="file-tree-file">announcement-bar.liquid</span>
+│   ├── <span class="file-tree-file">main-product.liquid</span>
+│   ├── <span class="file-tree-file">main-collection.liquid</span>
+│   ├── <span class="file-tree-file">featured-collection.liquid</span>
+│   ├── <span class="file-tree-file">image-banner.liquid</span>
+│   ├── <span class="file-tree-file">rich-text.liquid</span>
+│   ├── <span class="file-tree-file">header-group.json</span>     <span class="file-tree-muted">← Section group</span>
+│   └── <span class="file-tree-file">footer-group.json</span>     <span class="file-tree-muted">← Section group</span>
+│
+├── <span class="file-tree-folder">📂 snippets/</span>             <span class="file-tree-muted">← Reusable code fragments</span>
+│   ├── <span class="file-tree-file">product-card.liquid</span>
+│   ├── <span class="file-tree-file">price.liquid</span>
+│   ├── <span class="file-tree-file">icon-cart.liquid</span>
+│   └── <span class="file-tree-file">meta-tags.liquid</span>
+│
+└── <span class="file-tree-folder">📂 templates/</span>            <span class="file-tree-muted">← Page type definitions</span>
+    ├── <span class="file-tree-highlight">index.json</span>          <span class="file-tree-muted">← Homepage</span>
+    ├── <span class="file-tree-highlight">product.json</span>        <span class="file-tree-muted">← Product page</span>
+    ├── <span class="file-tree-file">collection.json</span>      <span class="file-tree-muted">← Collection page</span>
+    ├── <span class="file-tree-file">list-collections.json</span>
+    ├── <span class="file-tree-file">page.json</span>            <span class="file-tree-muted">← Custom page</span>
+    ├── <span class="file-tree-file">blog.json</span>
+    ├── <span class="file-tree-file">article.json</span>
+    ├── <span class="file-tree-file">cart.json</span>
+    ├── <span class="file-tree-file">search.json</span>
+    ├── <span class="file-tree-file">404.json</span>
+    ├── <span class="file-tree-file">page.contact.json</span>    <span class="file-tree-muted">← Alternate template</span>
+    ├── <span class="file-tree-file">gift_card.liquid</span>     <span class="file-tree-muted">← Special Liquid template</span>
+    ├── <span class="file-tree-file">password.json</span>
+    └── <span class="file-tree-folder">📂 customers/</span>        <span class="file-tree-muted">← Customer account pages</span>
+        ├── <span class="file-tree-file">account.liquid</span>
+        ├── <span class="file-tree-file">login.liquid</span>
+        ├── <span class="file-tree-file">register.liquid</span>
+        ├── <span class="file-tree-file">order.liquid</span>
+        ├── <span class="file-tree-file">addresses.liquid</span>
+        ├── <span class="file-tree-file">activate_account.liquid</span>
+        └── <span class="file-tree-file">reset_password.liquid</span>
+          </div>
+
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ No Custom Folders Allowed</div>
+            <p>
+              Shopify only recognizes these specific directories. You <strong>cannot</strong>
+              create custom folders like <code>components/</code> or <code>partials/</code>.
+              All reusable code goes in <code>snippets/</code>. All static files go in
+              <code>assets/</code>. This is a hard platform constraint.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="assets-dir">The <code>assets/</code> Directory</h2>
+
+          <p>
+            The <code>assets/</code> folder contains all static files: CSS, JavaScript, images,
+            fonts, and SVGs. This is a <strong>flat directory</strong> — no subdirectories are allowed.
+          </p>
+
+          <h3 id="assets-naming">Naming Conventions</h3>
+
+          <p>
+            Since you can't use subdirectories, use <strong>naming prefixes</strong> to organize
+            your files. Here's the pattern Dawn uses:
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Prefix</th>
+                  <th>Purpose</th>
+                  <th>Examples</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>base-*</code></td>
+                  <td>Foundation styles (reset, typography, variables)</td>
+                  <td><code>base.css</code></td>
+                </tr>
+                <tr>
+                  <td><code>component-*</code></td>
+                  <td>Reusable UI component styles</td>
+                  <td><code>component-card.css</code>, <code>component-badge.css</code></td>
+                </tr>
+                <tr>
+                  <td><code>section-*</code></td>
+                  <td>Section-specific styles</td>
+                  <td><code>section-featured-collection.css</code></td>
+                </tr>
+                <tr>
+                  <td><code>template-*</code></td>
+                  <td>Template-specific styles</td>
+                  <td><code>template-product.css</code></td>
+                </tr>
+                <tr>
+                  <td><code>global.*</code></td>
+                  <td>Global JavaScript functionality</td>
+                  <td><code>global.js</code></td>
+                </tr>
+                <tr>
+                  <td><code>product-*</code></td>
+                  <td>Product-related JS modules</td>
+                  <td><code>product-form.js</code>, <code>product-modal.js</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="assets-css">CSS Organization Strategy</h3>
+
+          <p>
+            Dawn splits CSS into many small files and loads them conditionally. This is a
+            performance optimization — pages only load the CSS they need:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Conditional CSS Loading in a Section</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- comment -%}
+  Only load this CSS file when this section is present on the page.
+  This avoids loading unnecessary CSS on pages that don't use this section.
+{%- endcomment -%}
+
+{{ 'section-featured-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+
+&lt;section class="featured-collection"&gt;
+  {%- for product in section.settings.collection.products limit: 4 -%}
+    {% render 'product-card', product: product %}
+  {%- endfor -%}
+&lt;/section&gt;</code></pre>
+          </div>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ Best Practice — CSS Architecture</div>
+            <p>
+              <strong>Split your CSS into logical files</strong> rather than one massive stylesheet.
+              Use prefix naming to keep them organized. Load section-specific CSS at the top of
+              each section file. This keeps unused CSS off pages that don't need it and improves
+              load times.
+            </p>
+          </div>
+
+          <h3 id="assets-js">JavaScript Organization</h3>
+
+          <p>
+            Dawn uses vanilla JavaScript with Web Components and custom elements. JS files
+            follow the same flat structure:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Loading JS in a Section</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Deferred loading for non-critical JavaScript --&gt;
+&lt;script src="{{ 'product-form.js' | asset_url }}" defer="defer"&gt;&lt;/script&gt;
+
+&lt;!-- Or conditionally load based on section presence --&gt;
+{%- if section.settings.enable_slideshow -%}
+  &lt;script src="{{ 'slideshow.js' | asset_url }}" defer="defer"&gt;&lt;/script&gt;
+{%- endif -%}</code></pre>
+          </div>
+
+          <h3 id="assets-images">Image and Font Files</h3>
+
+          <p>
+            Static images (logos, icons, backgrounds) and custom font files also go in
+            <code>assets/</code>:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Referencing Static Assets</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Logo image --&gt;
+&lt;img src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name }}"&gt;
+
+&lt;!-- SVG icon --&gt;
+&lt;img src="{{ 'icon-cart.svg' | asset_url }}" alt="" width="20" height="20"&gt;
+
+&lt;!-- Custom font in CSS --&gt;
+@font-face {
+  font-family: 'MyCustomFont';
+  src: url('{{ "my-font.woff2" | asset_url }}') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}</code></pre>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 SVG Icons as Snippets</div>
+            <p>
+              Instead of storing SVG icons as image files, many professional themes store them as
+              <strong>Liquid snippets</strong>. This lets you inline SVGs for better performance
+              and CSS styling control. Create files like <code>snippets/icon-cart.liquid</code>
+              containing the raw SVG code, then use <code>{% render 'icon-cart' %}</code>.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="config-dir">The <code>config/</code> Directory</h2>
+
+          <p>
+            The <code>config/</code> directory contains exactly two files that control theme-wide
+            settings:
+          </p>
+
+          <h3 id="settings-schema">settings_schema.json</h3>
+
+          <p>
+            This file <strong>defines the UI</strong> for global theme settings. It specifies
+            what settings appear in the theme editor under "Theme settings" and how they're
+            organized into groups.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">config/settings_schema.json (structure)</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>[
+  {
+    "name": "theme_info",
+    "theme_name": "My Custom Theme",
+    "theme_version": "1.0.0",
+    "theme_author": "Gamal",
+    "theme_documentation_url": "https://example.com/docs",
+    "theme_support_url": "https://example.com/support"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Primary Colors"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary brand color",
+        "default": "#6366f1",
+        "info": "Used for buttons, links, and accents"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text color",
+        "default": "#1a1a2e"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Page background",
+        "default": "#ffffff"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading font",
+        "default": "helvetica_n7"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body font",
+        "default": "helvetica_n4"
+      },
+      {
+        "type": "range",
+        "id": "font_body_scale",
+        "label": "Body font size scale",
+        "min": 80,
+        "max": 130,
+        "step": 5,
+        "default": 100,
+        "unit": "%"
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social accounts"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "Twitter",
+        "info": "https://twitter.com/your-handle"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook"
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image",
+        "info": "32 x 32px .png recommended"
+      }
+    ]
+  }
+]</code></pre>
+          </div>
+
+          <h3 id="settings-data">settings_data.json</h3>
+
+          <p>
+            This file stores the <strong>actual values</strong> that merchants have set through
+            the theme editor. It's auto-generated and should rarely be edited manually.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">config/settings_data.json (auto-generated excerpt)</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{
+  "current": {
+    "color_primary": "#6366f1",
+    "color_text": "#1a1a2e",
+    "color_background": "#ffffff",
+    "font_heading": "helvetica_n7",
+    "font_body": "helvetica_n4",
+    "font_body_scale": 100,
+    "social_twitter_link": "https://twitter.com/shopify",
+    "social_instagram_link": "https://instagram.com/shopify",
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "logo_position": "middle-center"
+        }
+      }
+    }
+  }
+}</code></pre>
+          </div>
+
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Careful with settings_data.json</div>
+            <p>
+              This file contains the merchant's customizations. If you're working on a client's
+              store and you push your local <code>settings_data.json</code>, it could overwrite
+              their settings. Use the <code>--ignore</code> flag when pushing:
+              <code>shopify theme push --ignore config/settings_data.json</code>
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="layout-dir">The <code>layout/</code> Directory</h2>
+
+          <p>
+            The layout directory typically contains two files:
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>File</th>
+                  <th>Purpose</th>
+                  <th>Used By</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>theme.liquid</code></td>
+                  <td>Main layout for all pages. Contains <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, header, footer, and <code>{{ content_for_layout }}</code>.</td>
+                  <td>Every page except password page</td>
+                </tr>
+                <tr>
+                  <td><code>password.liquid</code></td>
+                  <td>Layout for the password protection page shown when the store isn't public yet.</td>
+                  <td>Store password page only</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="theme-liquid-anatomy">Anatomy of theme.liquid</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">layout/theme.liquid (annotated)</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!doctype html&gt;
+&lt;html class="no-js" lang="{{ request.locale.iso_code }}"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
+
+  &lt;!-- Page title with store name --&gt;
+  &lt;title&gt;
+    {{ page_title }}
+    {%- if current_tags %} &amp;ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+    {%- if current_page != 1 %} &amp;ndash; Page {{ current_page }}{% endif -%}
+    {%- unless page_title contains shop.name %} &amp;ndash; {{ shop.name }}{% endunless -%}
+  &lt;/title&gt;
+
+  &lt;!-- SEO meta tags --&gt;
+  {%- if page_description -%}
+    &lt;meta name="description" content="{{ page_description | escape }}"&gt;
+  {%- endif -%}
+
+  &lt;!-- Canonical URL --&gt;
+  &lt;link rel="canonical" href="{{ canonical_url }}"&gt;
+
+  &lt;!-- REQUIRED: Shopify analytics, apps, meta tags --&gt;
+  {{ content_for_header }}
+
+  &lt;!-- Theme CSS variables from settings --&gt;
+  {%- style -%}
+    :root {
+      --color-primary: {{ settings.color_primary }};
+      --color-text: {{ settings.color_text }};
+      --color-background: {{ settings.color_background }};
+      --font-heading-family: {{ settings.font_heading.family }},
+        {{ settings.font_heading.fallback_families }};
+      --font-body-family: {{ settings.font_body.family }},
+        {{ settings.font_body.fallback_families }};
+    }
+  {%- endstyle -%}
+
+  &lt;!-- Base stylesheet --&gt;
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+
+  &lt;!-- Preload critical fonts --&gt;
+  &lt;link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin&gt;
+
+  &lt;!-- Favicon --&gt;
+  {%- if settings.favicon -%}
+    &lt;link rel="icon" type="image/png"
+          href="{{ settings.favicon | image_url: width: 32, height: 32 }}"&gt;
+  {%- endif -%}
+
+  &lt;!-- No-JS detection --&gt;
+  &lt;script&gt;
+    document.documentElement.className =
+      document.documentElement.className.replace('no-js', 'js');
+  &lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body class="template-{{ template.name }}"&gt;
+  &lt;a class="skip-to-content-link" href="#MainContent"&gt;
+    {{ 'accessibility.skip_to_content' | t }}
+  &lt;/a&gt;
+
+  {%- sections 'header-group' -%}
+
+  &lt;main id="MainContent" class="content-for-layout" role="main"
+        tabindex="-1"&gt;
+    {{ content_for_layout }}
+  &lt;/main&gt;
+
+  {%- sections 'footer-group' -%}
+
+  &lt;!-- Global JavaScript --&gt;
+  &lt;script src="{{ 'global.js' | asset_url }}" defer="defer"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Study This File Carefully</div>
+            <p>
+              The <code>theme.liquid</code> file is the most important file in any theme. Study
+              Dawn's version line by line. Pay attention to the SEO meta tags, the skip-to-content
+              link for accessibility, the CSS variable bridge from settings, and the font preloading.
+              Every line serves a purpose.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="templates-dir">The <code>templates/</code> Directory</h2>
+
+          <p>
+            Templates define which sections appear on each page type. In Online Store 2.0,
+            templates are <strong>JSON files</strong>.
+          </p>
+
+          <h3 id="template-types">Required Template Types</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Template</th>
+                  <th>Page Type</th>
+                  <th>Main Object Available</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>index.json</code></td>
+                  <td>Homepage</td>
+                  <td><code>shop</code></td>
+                </tr>
+                <tr>
+                  <td><code>product.json</code></td>
+                  <td>Product detail page</td>
+                  <td><code>product</code></td>
+                </tr>
+                <tr>
+                  <td><code>collection.json</code></td>
+                  <td>Collection page</td>
+                  <td><code>collection</code></td>
+                </tr>
+                <tr>
+                  <td><code>list-collections.json</code></td>
+                  <td>All collections page</td>
+                  <td><code>collections</code></td>
+                </tr>
+                <tr>
+                  <td><code>page.json</code></td>
+                  <td>Custom content page</td>
+                  <td><code>page</code></td>
+                </tr>
+                <tr>
+                  <td><code>blog.json</code></td>
+                  <td>Blog listing page</td>
+                  <td><code>blog</code></td>
+                </tr>
+                <tr>
+                  <td><code>article.json</code></td>
+                  <td>Blog article page</td>
+                  <td><code>article</code></td>
+                </tr>
+                <tr>
+                  <td><code>cart.json</code></td>
+                  <td>Cart page</td>
+                  <td><code>cart</code></td>
+                </tr>
+                <tr>
+                  <td><code>search.json</code></td>
+                  <td>Search results page</td>
+                  <td><code>search</code></td>
+                </tr>
+                <tr>
+                  <td><code>404.json</code></td>
+                  <td>404 error page</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>password.json</code></td>
+                  <td>Store password page</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td><code>gift_card.liquid</code></td>
+                  <td>Gift card page</td>
+                  <td><code>gift_card</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="json-template-anatomy">Anatomy of a JSON Template</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">templates/index.json (Homepage)</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{
+  "sections": {
+    "image_banner": {
+      "type": "image-banner",
+      "settings": {
+        "image": "shopify://shop_images/hero.jpg",
+        "heading": "Welcome to Our Store",
+        "heading_size": "h1",
+        "button_label": "Shop Now",
+        "button_link": "shopify://collections/all"
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "heading": "Featured Products",
+        "collection": "frontpage",
+        "products_to_show": 8
+      }
+    },
+    "rich_text": {
+      "type": "rich-text",
+      "settings": {
+        "heading": "About Our Brand",
+        "text": "&lt;p&gt;We create premium products...&lt;/p&gt;"
+      }
+    }
+  },
+  "order": [
+    "image_banner",
+    "featured_collection",
+    "rich_text"
+  ]
+}</code></pre>
+          </div>
+
+          <p>Understanding the structure:</p>
+
+          <ul>
+            <li><strong><code>"sections"</code></strong> — Object containing all sections. Each key is a unique ID you define.</li>
+            <li><strong><code>"type"</code></strong> — References a file in <code>sections/</code> (without <code>.liquid</code> extension).</li>
+            <li><strong><code>"settings"</code></strong> — Pre-set values matching the section's schema settings.</li>
+            <li><strong><code>"order"</code></strong> — Array defining the display order of sections.</li>
+          </ul>
+
+          <h3 id="alternate-templates">Alternate Templates</h3>
+
+          <p>
+            Create alternate templates by adding a suffix after a dot:
+          </p>
+
+          <div class="file-tree">
+<span class="file-tree-folder">📂 templates/</span>
+├── <span class="file-tree-file">product.json</span>              <span class="file-tree-muted">← Default product template</span>
+├── <span class="file-tree-highlight">product.with-video.json</span>   <span class="file-tree-muted">← Alternate: "with-video"</span>
+├── <span class="file-tree-highlight">product.minimal.json</span>      <span class="file-tree-muted">← Alternate: "minimal"</span>
+├── <span class="file-tree-file">page.json</span>                 <span class="file-tree-muted">← Default page template</span>
+├── <span class="file-tree-highlight">page.contact.json</span>         <span class="file-tree-muted">← Alternate: "contact"</span>
+└── <span class="file-tree-highlight">page.faq.json</span>             <span class="file-tree-muted">← Alternate: "faq"</span>
+          </div>
+
+          <p>
+            Merchants assign alternate templates to specific products or pages in the Shopify admin.
+            This is how a store can have different layouts for different product types.
+          </p>
+
+          <h3 id="customer-templates">Customer Templates</h3>
+
+          <p>
+            Customer account pages still use <strong>Liquid templates</strong> (not JSON) because
+            they have special form requirements:
+          </p>
+
+          <div class="file-tree">
+<span class="file-tree-folder">📂 templates/customers/</span>
+├── <span class="file-tree-file">account.liquid</span>           <span class="file-tree-muted">← My account dashboard</span>
+├── <span class="file-tree-file">login.liquid</span>             <span class="file-tree-muted">← Login form</span>
+├── <span class="file-tree-file">register.liquid</span>          <span class="file-tree-muted">← Registration form</span>
+├── <span class="file-tree-file">order.liquid</span>             <span class="file-tree-muted">← Order detail page</span>
+├── <span class="file-tree-file">addresses.liquid</span>         <span class="file-tree-muted">← Manage addresses</span>
+├── <span class="file-tree-file">activate_account.liquid</span>  <span class="file-tree-muted">← Account activation</span>
+└── <span class="file-tree-file">reset_password.liquid</span>    <span class="file-tree-muted">← Password reset</span>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="sections-dir">The <code>sections/</code> Directory</h2>
+
+          <p>
+            This is where most of your development work happens. Each file in <code>sections/</code>
+            is a self-contained module with markup, optional CSS/JS, and a schema.
+          </p>
+
+          <h3 id="section-naming">Section Naming Conventions</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Prefix</th>
+                  <th>Purpose</th>
+                  <th>Examples</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>main-*</code></td>
+                  <td>Primary content section for a page type. Usually renders the core page-specific object.</td>
+                  <td><code>main-product.liquid</code>, <code>main-collection.liquid</code>, <code>main-cart.liquid</code></td>
+                </tr>
+                <tr>
+                  <td>(no prefix)</td>
+                  <td>Reusable sections that can be added to any page through the theme editor.</td>
+                  <td><code>featured-collection.liquid</code>, <code>image-banner.liquid</code>, <code>rich-text.liquid</code></td>
+                </tr>
+                <tr>
+                  <td><code>*-group.json</code></td>
+                  <td>Section groups that appear on every page (header, footer).</td>
+                  <td><code>header-group.json</code>, <code>footer-group.json</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="section-anatomy">Section File Anatomy</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">sections/example-section.liquid (complete anatomy)</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- comment -%}
+  PART 1: CSS Loading
+  Load section-specific CSS only when this section is used
+{%- endcomment -%}
+{{ 'section-example.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  PART 2: Liquid Markup (HTML)
+  The visual output of the section
+{%- endcomment -%}
+&lt;section
+  id="section-{{ section.id }}"
+  class="example-section color-{{ section.settings.color_scheme }}"
+&gt;
+  &lt;div class="page-width"&gt;
+    {%- if section.settings.heading != blank -%}
+      &lt;h2 class="example-section__heading"&gt;
+        {{ section.settings.heading }}
+      &lt;/h2&gt;
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      &lt;div class="example-section__block" {{ block.shopify_attributes }}&gt;
+        {% case block.type %}
+          {% when 'text' %}
+            &lt;p&gt;{{ block.settings.text }}&lt;/p&gt;
+          {% when 'image' %}
+            &lt;img src="{{ block.settings.image | image_url: width: 600 }}"
+                 alt="{{ block.settings.image.alt | escape }}"&gt;
+        {% endcase %}
+      &lt;/div&gt;
+    {%- endfor -%}
+  &lt;/div&gt;
+&lt;/section&gt;
+
+{%- comment -%}
+  PART 3: Schema (JSON)
+  Defines settings, blocks, and presets for the theme editor
+{%- endcomment -%}
+{% schema %}
+{
+  "name": "Example Section",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Section Heading"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "light", "label": "Light" },
+        { "value": "dark", "label": "Dark" }
+      ],
+      "default": "light"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text Block",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "&lt;p&gt;Share your story...&lt;/p&gt;"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image Block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Example Section",
+      "blocks": [
+        { "type": "text" },
+        { "type": "image" }
+      ]
+    }
+  ]
+}
+{% endschema %}</code></pre>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 The Presets Key</div>
+            <p>
+              The <code>"presets"</code> array in the schema is what makes a section available in
+              the <strong>"Add section"</strong> menu of the theme editor. Without presets, a
+              section can only be used if it's already referenced in a JSON template. Sections
+              like <code>main-product</code> typically don't have presets because they're always
+              present on their respective page type.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="snippets-dir">The <code>snippets/</code> Directory</h2>
+
+          <p>
+            Snippets are reusable Liquid fragments. They're included using
+            <code>{% render 'snippet-name' %}</code>. Snippets have no schema — they receive
+            all their data through explicitly passed variables.
+          </p>
+
+          <h3 id="snippet-examples">Common Snippets in Dawn</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Snippet</th>
+                  <th>Purpose</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>product-card.liquid</code></td>
+                  <td>Renders a product card (used in collection grids, featured collections, search results)</td>
+                </tr>
+                <tr>
+                  <td><code>price.liquid</code></td>
+                  <td>Renders price display with sale/compare-at logic</td>
+                </tr>
+                <tr>
+                  <td><code>icon-*.liquid</code></td>
+                  <td>Inline SVG icons (cart, search, menu, close, etc.)</td>
+                </tr>
+                <tr>
+                  <td><code>meta-tags.liquid</code></td>
+                  <td>SEO meta tags, Open Graph, Twitter cards</td>
+                </tr>
+                <tr>
+                  <td><code>cart-notification.liquid</code></td>
+                  <td>Ajax cart notification popup</td>
+                </tr>
+                <tr>
+                  <td><code>header-search.liquid</code></td>
+                  <td>Search form component used in header</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="snippet-pattern">Well-Structured Snippet Pattern</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">snippets/product-card.liquid (documented pattern)</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- comment -%}
+  ============================================================
+  Product Card Snippet
+  ============================================================
+
+  Renders a product card for grids and carousels.
+
+  Accepts:
+  - product:        {Object}  Product Liquid object (required)
+  - show_vendor:    {Boolean} Display vendor name (default: false)
+  - show_rating:    {Boolean} Display star rating (default: false)
+  - image_ratio:    {String}  Image aspect ratio: 'square', 'portrait',
+                              'landscape', 'adapt' (default: 'adapt')
+  - lazy_load:      {Boolean} Lazy-load the image (default: true)
+  - card_class:     {String}  Additional CSS class (default: '')
+
+  Usage:
+  {% render 'product-card',
+    product: product,
+    show_vendor: true,
+    image_ratio: 'square',
+    lazy_load: forloop.index > 4
+  %}
+
+  Dependencies:
+  - component-card.css
+  - snippets/price.liquid
+  ============================================================
+{%- endcomment -%}
+
+{%- liquid
+  assign lazy = lazy_load | default: true
+  assign ratio = image_ratio | default: 'adapt'
+  assign show_vendor_name = show_vendor | default: false
+-%}
+
+&lt;div class="product-card {{ card_class }}"&gt;
+  &lt;a href="{{ product.url }}" class="product-card__link"
+     aria-label="{{ product.title | escape }}"&gt;
+
+    &lt;!-- Image --&gt;
+    &lt;div class="product-card__media product-card__media--{{ ratio }}"&gt;
+      {%- if product.featured_image -%}
+        &lt;img
+          src="{{ product.featured_image | image_url: width: 600 }}"
+          srcset="
+            {{ product.featured_image | image_url: width: 300 }} 300w,
+            {{ product.featured_image | image_url: width: 450 }} 450w,
+            {{ product.featured_image | image_url: width: 600 }} 600w
+          "
+          sizes="(max-width: 749px) calc(50vw - 30px), 300px"
+          alt="{{ product.featured_image.alt | escape }}"
+          width="{{ product.featured_image.width }}"
+          height="{{ product.featured_image.height }}"
+          {% if lazy %}loading="lazy" decoding="async"{% endif %}
+        &gt;
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'product-card__placeholder' }}
+      {%- endif -%}
+    &lt;/div&gt;
+
+    &lt;!-- Info --&gt;
+    &lt;div class="product-card__info"&gt;
+      {%- if show_vendor_name and product.vendor != blank -%}
+        &lt;span class="product-card__vendor"&gt;{{ product.vendor }}&lt;/span&gt;
+      {%- endif -%}
+
+      &lt;h3 class="product-card__title"&gt;{{ product.title | escape }}&lt;/h3&gt;
+
+      {% render 'price', product: product %}
+    &lt;/div&gt;
+  &lt;/a&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ Best Practice — Document Your Snippets</div>
+            <p>
+              Always add a comment block at the top of every snippet listing:
+              what it renders, what variables it accepts (with types and defaults), usage examples,
+              and CSS dependencies. This is how professional theme developers work. When you
+              revisit code months later — or when another developer reads it — this documentation
+              is invaluable.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="locales-dir">The <code>locales/</code> Directory</h2>
+
+          <p>
+            The <code>locales/</code> directory contains translation files. Even if your theme
+            only supports English, you should use the locales system for all user-facing strings.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">locales/en.default.json (excerpt)</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{
+  "general": {
+    "search": "Search",
+    "close": "Close",
+    "loading": "Loading..."
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable",
+      "price": {
+        "from": "From {{ price }}",
+        "sale_price": "Sale price",
+        "regular_price": "Regular price"
+      }
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Your cart",
+      "empty": "Your cart is empty",
+      "continue_shopping": "Continue shopping"
+    }
+  },
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "close": "Close"
+  }
+}</code></pre>
+          </div>
+
+          <p>Access translations in Liquid using the <code>t</code> filter:</p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Using Translations</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Simple translation --&gt;
+&lt;button&gt;{{ 'products.product.add_to_cart' | t }}&lt;/button&gt;
+&lt;!-- Output: Add to cart --&gt;
+
+&lt;!-- Translation with variable --&gt;
+&lt;span&gt;{{ 'products.product.price.from' | t: price: product.price | money }}&lt;/span&gt;
+&lt;!-- Output: From $25.00 --&gt;
+
+&lt;!-- Accessibility label --&gt;
+&lt;a href="#MainContent"&gt;{{ 'accessibility.skip_to_content' | t }}&lt;/a&gt;</code></pre>
+          </div>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ Why Use Translations Even for Single-Language Themes?</div>
+            <p>
+              <strong>1. Future-proofing:</strong> Adding languages later is trivial — just add
+              new JSON files.<br>
+              <strong>2. Merchant control:</strong> Merchants can edit text through the theme editor
+              language settings without touching code.<br>
+              <strong>3. Consistency:</strong> All strings are in one place, making it easy to find
+              and update wording.<br>
+              <strong>4. Theme Store requirement:</strong> Shopify requires translations for themes
+              submitted to the Theme Store.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="dawn-walkthrough">Dawn File-by-File Walkthrough</h2>
+
+          <p>
+            Let's walk through the most important files in Dawn to understand how a real theme
+            connects everything:
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h4 class="step-title">layout/theme.liquid</h4>
+              <div class="step-content">
+                <p>
+                  Open this file first. Notice the CSS custom properties generated from settings,
+                  the <code>content_for_header</code> placement, and how section groups are
+                  rendered for header and footer.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">2</div>
+              <h4 class="step-title">templates/index.json</h4>
+              <div class="step-content">
+                <p>
+                  See how the homepage is composed from sections. Each section reference in the
+                  <code>"sections"</code> object corresponds to a file in <code>sections/</code>.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">3</div>
+              <h4 class="step-title">sections/image-banner.liquid</h4>
+              <div class="step-content">
+                <p>
+                  Study this section's schema. See how it defines settings for the image, heading,
+                  button text, and button link. Notice the blocks for flexible content arrangement.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">4</div>
+              <h4 class="step-title">sections/main-product.liquid</h4>
+              <div class="step-content">
+                <p>
+                  This is the most complex section in Dawn. Study how it uses blocks for the
+                  product form layout — title, price, variant picker, quantity selector, buy
+                  button, and description are all individual blocks.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">5</div>
+              <h4 class="step-title">snippets/product-card.liquid</h4>
+              <div class="step-content">
+                <p>
+                  See how this snippet is used in multiple sections (featured collection,
+                  search results, product recommendations). Notice the variable parameters
+                  it accepts and how it handles missing images.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">6</div>
+              <h4 class="step-title">config/settings_schema.json</h4>
+              <div class="step-content">
+                <p>
+                  Explore how Dawn organizes global settings into logical groups: colors,
+                  typography, social media, favicon, layout. Notice the <code>info</code>
+                  fields that help merchants understand each setting.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="exercise">Exercise: Explore Your Dawn Theme</h2>
+
+          <div class="exercise">
+            <div class="exercise-header">
+              <div class="exercise-icon">🧪</div>
+              <div>
+                <div class="exercise-label">Hands-On Exercise</div>
+                <h3 class="exercise-title">Theme Structure Exploration</h3>
+              </div>
+            </div>
+            <div class="exercise-meta">
+              <span class="exercise-meta-item">⏱️ 20 minutes</span>
+              <span class="exercise-meta-item">📁 All directories</span>
+            </div>
+
+            <p><strong>Objective:</strong> Build a mental map of how Dawn's files connect to each other.</p>
+
+            <p><strong>Tasks:</strong></p>
+            <ol>
+              <li>Open <code>templates/index.json</code>. List all the section types referenced.</li>
+              <li>For each section type, find the corresponding <code>.liquid</code> file in <code>sections/</code>.</li>
+              <li>Open <code>sections/featured-collection.liquid</code>. Find every <code>{% render %}</code> call and note which snippets it uses.</li>
+              <li>Open those snippets in <code>snippets/</code> and trace how data flows from section → snippet.</li>
+              <li>Count how many CSS files are in <code>assets/</code>. How many JS files?</li>
+              <li>Open <code>config/settings_schema.json</code>. How many setting groups are there? How many individual settings?</li>
+              <li>Open <code>locales/en.default.json</code>. Find the translation key for the "Add to cart" button text.</li>
+            </ol>
+
+            <p><strong>Learning goal:</strong> You should be able to trace any visual element on the storefront back to its source file in the theme.</p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="key-takeaways">Key Takeaways</h2>
+
+          <ul class="checklist">
+            <li>Shopify themes have a strict folder structure — no custom directories allowed</li>
+            <li><code>assets/</code> is flat — use naming prefixes to organize files</li>
+            <li><code>config/</code> has two files: schema (definition) and data (saved values)</li>
+            <li><code>layout/theme.liquid</code> is the outermost HTML shell for every page</li>
+            <li><code>templates/</code> are JSON files defining which sections appear on each page type</li>
+            <li>Alternate templates use dot-suffix naming: <code>product.special.json</code></li>
+            <li><code>sections/</code> contain modular components with markup, CSS, JS, and schema</li>
+            <li><code>snippets/</code> contain reusable Liquid fragments — always document their parameters</li>
+            <li><code>locales/</code> hold translations — use them even for single-language themes</li>
+            <li>CSS should be split into small, conditionally-loaded files for performance</li>
+          </ul>
+
+          <!-- Page Navigation -->
+          <div class="page-nav">
+            <a href="liquid-basics.html" class="page-nav-link">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Liquid Basics</span>
+            </a>
+            <a href="sections-and-blocks.html" class="page-nav-link page-nav-link--next">
+              <span class="page-nav-label">Next Chapter →</span>
+              <span class="page-nav-title">Sections &amp; Blocks</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <footer class="doc-footer">
+        <p>
+          Shopify Theme Developer Handbook — Built with care for <strong>Gamal</strong><br>
+          <small>Not affiliated with Shopify Inc. For educational purposes only.</small>
+        </p>
+      </footer>
+
+    </main>
+  </div>
+
+</body>
+</html>

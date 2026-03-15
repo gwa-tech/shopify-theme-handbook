@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Professional design experimentation strategies for Shopify themes — layouts, typography, colors, product grids, and responsive testing">
+  <title>Design Experimentation — Shopify Theme Developer Handbook</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script defer src="assets/js/script.js"></script>
+</head>
+<body>
+
+  <div class="progress-bar">
+    <div class="progress-bar-fill"></div>
+  </div>
+
+  <div class="doc-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation" aria-label="Main navigation">
+      <div class="sidebar-brand">
+        <a href="index.html" class="sidebar-brand-link">
+          <div class="sidebar-brand-icon">S</div>
+          <div class="sidebar-brand-text">
+            <span class="sidebar-brand-title">Shopify Handbook</span>
+            <span class="sidebar-brand-subtitle">Theme Development Guide</span>
+          </div>
+        </a>
+      </div>
+      <div class="sidebar-search">
+        <div class="sidebar-search-wrapper">
+          <span class="sidebar-search-icon">🔍</span>
+          <input type="text" class="sidebar-search-input" placeholder="Search docs... (Ctrl+K)" aria-label="Search documentation">
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Getting Started</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="index.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🏠</span> Introduction</a></li>
+            <li class="sidebar-nav-item"><a href="setup.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">⚙️</span> Development Setup</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Core Concepts</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="shopify-architecture.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🏗️</span> Shopify Architecture</a></li>
+            <li class="sidebar-nav-item"><a href="liquid-basics.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">💧</span> Liquid Basics</a></li>
+            <li class="sidebar-nav-item"><a href="theme-structure.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">📁</span> Theme Folder Structure</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Building Themes</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="sections-and-blocks.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🧱</span> Sections &amp; Blocks</a></li>
+            <li class="sidebar-nav-item"><a href="theme-components.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🧩</span> Theme Components</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Advanced</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="premium-theme-analysis.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🔍</span> Premium Theme Analysis</a></li>
+            <li class="sidebar-nav-item"><a href="design-experiments.html" class="sidebar-nav-link active"><span class="sidebar-nav-link-icon">🎨</span> Design Experimentation</a></li>
+            <li class="sidebar-nav-item"><a href="performance.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">⚡</span> Performance</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Production</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="deployment.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🚀</span> Deployment</a></li>
+            <li class="sidebar-nav-item"><a href="freelancing.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">💼</span> Freelance Strategy</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-theme-toggle" role="button" tabindex="0" aria-label="Toggle dark mode">
+          <span class="sidebar-theme-toggle-label">🌙 Dark Mode</span>
+          <div class="theme-toggle-switch"></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-wrapper">
+
+      <header class="top-header">
+        <div class="top-header-left">
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+          <div class="breadcrumbs">
+            <a href="index.html">Handbook</a>
+            <span class="breadcrumbs-separator">/</span>
+            <span class="breadcrumbs-current">Design Experimentation</span>
+          </div>
+        </div>
+        <div class="top-header-right">
+          <a href="https://github.com" class="header-link" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
+          <a href="https://shopify.dev" class="header-link" target="_blank" rel="noopener noreferrer"><span>Shopify Docs</span></a>
+        </div>
+      </header>
+
+      <div class="content-container">
+        <div class="content">
+
+          <h1>Design &amp; Content Experimentation for Shopify Themes</h1>
+          <p class="lead">
+            Great Shopify themes aren't born — they're refined through experimentation. This
+            chapter teaches you the professional techniques developers use to test, iterate, and
+            perfect theme designs. You'll learn how to create demo content, test layout variations,
+            and make data-informed design decisions.
+          </p>
+
+          <div class="callout callout-info">
+            <div class="callout-title">📌 Chapter Overview</div>
+            <p>
+              <strong>Time estimate:</strong> 60 – 90 minutes<br>
+              <strong>Tags:</strong>
+              <span class="tag tag-css">CSS</span>
+              <span class="tag tag-html">UX Design</span>
+            </p>
+          </div>
+
+          <div id="table-of-contents" style="margin-bottom: var(--space-8);"></div>
+
+          <!-- ====================================================== -->
+          <h2 id="why-experiment">Why Design Experimentation Matters</h2>
+
+          <p>
+            Amateur developers build a feature once and ship it. Professional developers
+            build three variations, test them, and ship the best one. Experimentation is
+            what separates <em>functional</em> themes from <em>premium-quality</em> themes.
+          </p>
+
+          <p>Experimentation helps you:</p>
+
+          <ul>
+            <li><strong>Discover better solutions</strong> — Your first idea is rarely your best idea</li>
+            <li><strong>Build a design intuition</strong> — Pattern recognition comes from seeing many variations</li>
+            <li><strong>Justify decisions</strong> — "I chose this layout because I tested three options and this one performed best"</li>
+            <li><strong>Speed up future work</strong> — Once you've tested patterns, you know what works</li>
+            <li><strong>Impress clients</strong> — Showing multiple options demonstrates professionalism</li>
+          </ul>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ The Experiment Branch Workflow</div>
+            <p>
+              Always use Git branches for design experiments. Create a branch like
+              <code>experiment/hero-v2</code>, try your ideas, and compare them against the
+              current version. If the experiment wins, merge it. If not, you haven't broken
+              anything. This is how professional teams work.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="demo-content">Creating Realistic Demo Content</h2>
+
+          <p>
+            Your theme is only as good as the content it showcases. Testing with "Lorem ipsum"
+            and placeholder squares gives you a false picture. Here's how professionals create
+            demo content:
+          </p>
+
+          <h3 id="demo-products">Product Catalog Strategy</h3>
+
+          <p>
+            Create a diverse product catalog that tests edge cases:
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Product Type</th>
+                  <th>Why You Need It</th>
+                  <th>What It Tests</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Product with long title</td>
+                  <td>Tests text overflow and wrapping</td>
+                  <td>"Premium Organic Extra-Virgin Cold-Pressed Olive Oil Gift Set — Family Edition"</td>
+                </tr>
+                <tr>
+                  <td>Product with short title</td>
+                  <td>Tests alignment with other cards</td>
+                  <td>"T-Shirt"</td>
+                </tr>
+                <tr>
+                  <td>Product on sale</td>
+                  <td>Tests compare-at price, sale badge</td>
+                  <td>Set compare-at $80, price $49</td>
+                </tr>
+                <tr>
+                  <td>Product with many variants</td>
+                  <td>Tests variant selector, swatch overflow</td>
+                  <td>5 colors × 6 sizes = 30 variants</td>
+                </tr>
+                <tr>
+                  <td>Product with single variant</td>
+                  <td>Tests hidden variant selector</td>
+                  <td>One-size item</td>
+                </tr>
+                <tr>
+                  <td>Sold-out product</td>
+                  <td>Tests sold-out badge, disabled button</td>
+                  <td>Set inventory to 0</td>
+                </tr>
+                <tr>
+                  <td>High-price product</td>
+                  <td>Tests price formatting, layout</td>
+                  <td>$1,299.99</td>
+                </tr>
+                <tr>
+                  <td>Free product</td>
+                  <td>Tests $0.00 display</td>
+                  <td>Set price to $0</td>
+                </tr>
+                <tr>
+                  <td>Product with many images</td>
+                  <td>Tests gallery performance, thumbnails</td>
+                  <td>8–10 product images</td>
+                </tr>
+                <tr>
+                  <td>Product with one image</td>
+                  <td>Tests no-secondary-image hover</td>
+                  <td>Single product image</td>
+                </tr>
+                <tr>
+                  <td>Product with no image</td>
+                  <td>Tests placeholder display</td>
+                  <td>No images uploaded</td>
+                </tr>
+                <tr>
+                  <td>Product with long description</td>
+                  <td>Tests content overflow, tab behavior</td>
+                  <td>2000+ characters with formatting</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="demo-images">Image Sources for Demo Content</h3>
+
+          <p>
+            Use these free, legal image sources for your development stores:
+          </p>
+
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-icon">📸</div>
+              <h3 class="card-title">Burst by Shopify</h3>
+              <p class="card-description">
+                <a href="https://burst.shopify.com" target="_blank" rel="noopener noreferrer">burst.shopify.com</a> —
+                Free stock photos specifically for eCommerce. Categories include fashion,
+                beauty, food, tech, and more. No attribution required.
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🖼️</div>
+              <h3 class="card-title">Unsplash</h3>
+              <p class="card-description">
+                <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer">unsplash.com</a> —
+                High-quality, free-to-use photos. Great for lifestyle images, hero banners,
+                and background images. No attribution required for most uses.
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🎨</div>
+              <h3 class="card-title">Pexels</h3>
+              <p class="card-description">
+                <a href="https://pexels.com" target="_blank" rel="noopener noreferrer">pexels.com</a> —
+                Free stock photos and videos. Great variety for product mockups,
+                lifestyle shots, and model photography.
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🧊</div>
+              <h3 class="card-title">Shopify Placeholder SVGs</h3>
+              <p class="card-description">
+                Built into Liquid: <code>{{ 'product-1' | placeholder_svg_tag }}</code>.
+                Perfect for development when you need quick placeholder images without
+                downloading anything.
+              </p>
+            </div>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Create Multiple Demo Stores</div>
+            <p>
+              Professional theme developers create <strong>multiple development stores</strong>,
+              each with a different niche: fashion, electronics, food, beauty, furniture.
+              This lets you test how your theme looks across different product types and
+              photography styles. Shopify Partner accounts allow unlimited free dev stores.
+            </p>
+          </div>
+
+          <h3 id="demo-collections">Collection Structure for Testing</h3>
+
+          <p>Create these collections in your development store:</p>
+
+          <ul>
+            <li><strong>All Products</strong> — Auto-generated, tests large grids and pagination</li>
+            <li><strong>New Arrivals</strong> — 8–12 products, tests standard collection page</li>
+            <li><strong>Best Sellers</strong> — 6–8 products, tests featured collection sections</li>
+            <li><strong>Sale</strong> — Products with compare-at prices, tests sale displays</li>
+            <li><strong>Single Product Collection</strong> — Just 1 product, tests edge cases</li>
+            <li><strong>Empty Collection</strong> — No products, tests empty state handling</li>
+            <li><strong>Large Collection</strong> — 50+ products, tests pagination and performance</li>
+          </ul>
+
+          <!-- ====================================================== -->
+          <h2 id="homepage-experiments">Homepage Layout Experiments</h2>
+
+          <p>
+            The homepage is your theme's first impression. Professional developers test
+            multiple homepage compositions before settling on a default. Here are proven
+            homepage patterns to experiment with:
+          </p>
+
+          <h3 id="homepage-pattern-1">Pattern 1: Hero-First (Most Common)</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Homepage Layout</span>
+            </div>
+            <pre><code>┌─────────────────────────────────────────────┐
+│           ANNOUNCEMENT BAR                  │
+├─────────────────────────────────────────────┤
+│              HEADER / NAV                   │
+├─────────────────────────────────────────────┤
+│                                             │
+│          HERO BANNER (full width)           │
+│     Heading + Subtext + CTA Button          │
+│                                             │
+├─────────────────────────────────────────────┤
+│    🚚 Free Shipping  │  🔒 Secure  │  ↩️    │
+│     VALUE PROPOSITION BAR                   │
+├─────────────────────────────────────────────┤
+│         FEATURED COLLECTION GRID            │
+│   ┌───┐  ┌───┐  ┌───┐  ┌───┐              │
+│   │   │  │   │  │   │  │   │              │
+│   └───┘  └───┘  └───┘  └───┘              │
+├─────────────────────────────────────────────┤
+│     IMAGE WITH TEXT (split layout)          │
+│  ┌──────────┐  ┌──────────────────┐        │
+│  │  IMAGE   │  │  Text + CTA      │        │
+│  └──────────┘  └──────────────────┘        │
+├─────────────────────────────────────────────┤
+│       SECOND COLLECTION GRID                │
+├─────────────────────────────────────────────┤
+│         TESTIMONIALS CAROUSEL               │
+├─────────────────────────────────────────────┤
+│           NEWSLETTER SIGNUP                 │
+├─────────────────────────────────────────────┤
+│               FOOTER                        │
+└─────────────────────────────────────────────┘</code></pre>
+          </div>
+
+          <h3 id="homepage-pattern-2">Pattern 2: Product-First (Conversion-Focused)</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Homepage Layout</span>
+            </div>
+            <pre><code>┌─────────────────────────────────────────────┐
+│           ANNOUNCEMENT BAR                  │
+├─────────────────────────────────────────────┤
+│              HEADER / NAV                   │
+├─────────────────────────────────────────────┤
+│  SLIM HERO (shorter, with category links)   │
+├─────────────────────────────────────────────┤
+│         COLLECTION LIST (tiles)             │
+│   ┌─────────┐  ┌─────────┐  ┌─────────┐   │
+│   │ Women's │  │  Men's  │  │  Kids   │   │
+│   └─────────┘  └─────────┘  └─────────┘   │
+├─────────────────────────────────────────────┤
+│      BEST SELLERS GRID (8 products)         │
+├─────────────────────────────────────────────┤
+│          PROMOTIONAL BANNER                 │
+├─────────────────────────────────────────────┤
+│       NEW ARRIVALS GRID (4 products)        │
+├─────────────────────────────────────────────┤
+│          BRAND LOGO LIST                    │
+├─────────────────────────────────────────────┤
+│               FOOTER                        │
+└─────────────────────────────────────────────┘</code></pre>
+          </div>
+
+          <h3 id="homepage-pattern-3">Pattern 3: Story-First (Brand-Focused)</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Homepage Layout</span>
+            </div>
+            <pre><code>┌─────────────────────────────────────────────┐
+│              HEADER / NAV                   │
+├─────────────────────────────────────────────┤
+│                                             │
+│       FULL-SCREEN VIDEO HERO               │
+│                                             │
+├─────────────────────────────────────────────┤
+│       RICH TEXT (brand mission)             │
+├─────────────────────────────────────────────┤
+│       IMAGE WITH TEXT (story)               │
+├─────────────────────────────────────────────┤
+│      FEATURED PRODUCT (single hero)         │
+├─────────────────────────────────────────────┤
+│      IMAGE WITH TEXT (reversed)             │
+├─────────────────────────────────────────────┤
+│      TESTIMONIALS                           │
+├─────────────────────────────────────────────┤
+│      INSTAGRAM FEED                         │
+├─────────────────────────────────────────────┤
+│               FOOTER                        │
+└─────────────────────────────────────────────┘</code></pre>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Test With JSON Templates</div>
+            <p>
+              Create alternate index templates to quickly test different homepage layouts:
+              <code>templates/index.json</code> (default), <code>templates/index.hero-first.json</code>,
+              <code>templates/index.product-first.json</code>. Each references different sections
+              in different orders. Switch between them in the Shopify admin to compare.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="product-grid-experiments">Product Grid Experiments</h2>
+
+          <p>
+            The product grid is the most critical eCommerce layout. Small changes have big
+            impacts on browsing experience and conversion. Here's what to test:
+          </p>
+
+          <h3 id="grid-columns">Column Count Testing</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Columns</th>
+                  <th>Best For</th>
+                  <th>Trade-offs</th>
+                  <th>Breakpoint Strategy</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>2 columns</strong></td>
+                  <td>Luxury, large product images, minimal stores</td>
+                  <td>Less products visible, more scrolling</td>
+                  <td>2 → 2 → 1 (desktop → tablet → mobile)</td>
+                </tr>
+                <tr>
+                  <td><strong>3 columns</strong></td>
+                  <td>Most stores, balanced visibility</td>
+                  <td>Good compromise between image size and density</td>
+                  <td>3 → 2 → 2 (desktop → tablet → mobile)</td>
+                </tr>
+                <tr>
+                  <td><strong>4 columns</strong></td>
+                  <td>Large catalogs, browsing-focused stores</td>
+                  <td>More products visible, smaller images</td>
+                  <td>4 → 3 → 2 (desktop → tablet → mobile)</td>
+                </tr>
+                <tr>
+                  <td><strong>5 columns</strong></td>
+                  <td>Marketplace-style, catalog-heavy stores</td>
+                  <td>Very dense, small images, text hard to read</td>
+                  <td>5 → 3 → 2 (desktop → tablet → mobile)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="grid-card-experiments">Product Card Variations to Test</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Product Card Experiment Ideas</span>
+            </div>
+            <pre><code>VARIATION A: Minimal Card
+┌─────────────────┐
+│                  │
+│    [Product      │
+│     Image]       │
+│                  │
+├─────────────────┤
+│ Product Title    │
+│ $49.00           │
+└─────────────────┘
+
+VARIATION B: Info-Rich Card
+┌─────────────────┐
+│  [SALE -20%]     │
+│    [Product      │
+│     Image]       │
+│   [Quick Add]    │
+├─────────────────┤
+│ VENDOR NAME      │
+│ Product Title    │
+│ $̶6̶0̶ $49.00       │
+│ ★★★★☆ (23)      │
+│ ⬤ ⬤ ⬤ +2 colors │
+└─────────────────┘
+
+VARIATION C: Overlay Card
+┌─────────────────┐
+│                  │
+│    [Product      │
+│     Image]       │
+│                  │
+│  ┌─────────────┐│
+│  │Title  $49.00││
+│  └─────────────┘│
+└─────────────────┘
+
+VARIATION D: Horizontal Card
+┌──────────┬──────────────────┐
+│ [Image]  │ Title            │
+│          │ $49.00           │
+│          │ [Add to Cart]    │
+└──────────┴──────────────────┘</code></pre>
+          </div>
+
+          <p>
+            Each variation serves a different purpose. Minimal cards let images speak. Info-rich
+            cards reduce product page visits. Overlay cards create a gallery feel. Test multiple
+            styles and observe how they affect browsing behavior.
+          </p>
+
+          <h3 id="grid-image-ratio">Image Aspect Ratio Testing</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Ratio</th>
+                  <th>CSS</th>
+                  <th>Best For</th>
+                  <th>Feel</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Square (1:1)</strong></td>
+                  <td><code>aspect-ratio: 1/1</code></td>
+                  <td>Instagram-style, consistent grids</td>
+                  <td>Modern, clean, uniform</td>
+                </tr>
+                <tr>
+                  <td><strong>Portrait (3:4)</strong></td>
+                  <td><code>aspect-ratio: 3/4</code></td>
+                  <td>Fashion, apparel, beauty</td>
+                  <td>Elegant, editorial</td>
+                </tr>
+                <tr>
+                  <td><strong>Tall Portrait (2:3)</strong></td>
+                  <td><code>aspect-ratio: 2/3</code></td>
+                  <td>Fashion lookbooks, tall products</td>
+                  <td>Magazine-like, dramatic</td>
+                </tr>
+                <tr>
+                  <td><strong>Landscape (4:3)</strong></td>
+                  <td><code>aspect-ratio: 4/3</code></td>
+                  <td>Electronics, home goods, food</td>
+                  <td>Practical, product-focused</td>
+                </tr>
+                <tr>
+                  <td><strong>Adaptive</strong></td>
+                  <td><code>aspect-ratio: auto</code></td>
+                  <td>Mixed product types</td>
+                  <td>Natural but uneven grid</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="typography-experiments">Typography Experiments</h2>
+
+          <p>
+            Typography is responsible for roughly 90% of eCommerce design. Testing different
+            type combinations dramatically changes the feel of your theme.
+          </p>
+
+          <h3 id="type-pairings">Font Pairing Strategies</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Heading Font</th>
+                  <th>Body Font</th>
+                  <th>Vibe</th>
+                  <th>Best For</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Playfair Display</td>
+                  <td>Source Sans Pro</td>
+                  <td>Elegant, luxurious</td>
+                  <td>Fashion, jewelry, beauty</td>
+                </tr>
+                <tr>
+                  <td>Montserrat</td>
+                  <td>Open Sans</td>
+                  <td>Modern, clean</td>
+                  <td>General purpose, tech</td>
+                </tr>
+                <tr>
+                  <td>Oswald</td>
+                  <td>Lato</td>
+                  <td>Bold, athletic</td>
+                  <td>Sports, outdoor, fitness</td>
+                </tr>
+                <tr>
+                  <td>Cormorant Garamond</td>
+                  <td>Proza Libre</td>
+                  <td>Classic, refined</td>
+                  <td>Wine, artisan, heritage brands</td>
+                </tr>
+                <tr>
+                  <td>DM Sans</td>
+                  <td>DM Sans</td>
+                  <td>Minimal, contemporary</td>
+                  <td>Minimalist, modern brands</td>
+                </tr>
+                <tr>
+                  <td>Inter</td>
+                  <td>Inter</td>
+                  <td>Neutral, professional</td>
+                  <td>Any niche, safe default</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="type-scale">Typography Scale Testing</h3>
+
+          <p>
+            Professional themes use a consistent type scale. Here's a recommended scale to
+            start with and adjust:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Typography Scale (CSS Custom Properties)</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>:root {
+  /* Modular scale ratio: 1.25 (Major Third) */
+  --font-size-xs: 0.75rem;    /* 12px — captions, badges */
+  --font-size-sm: 0.875rem;   /* 14px — small text, meta info */
+  --font-size-base: 1rem;     /* 16px — body text */
+  --font-size-md: 1.125rem;   /* 18px — lead text */
+  --font-size-lg: 1.25rem;    /* 20px — h4, card titles */
+  --font-size-xl: 1.5rem;     /* 24px — h3 */
+  --font-size-2xl: 1.875rem;  /* 30px — h2 */
+  --font-size-3xl: 2.25rem;   /* 36px — h1 on content pages */
+  --font-size-4xl: 3rem;      /* 48px — hero headings */
+  --font-size-5xl: 3.75rem;   /* 60px — large hero headings */
+
+  /* Line heights */
+  --line-height-tight: 1.2;    /* Headings */
+  --line-height-snug: 1.4;     /* Sub-headings */
+  --line-height-normal: 1.6;   /* Body text */
+  --line-height-relaxed: 1.8;  /* Long-form content */
+
+  /* Letter spacing */
+  --tracking-tight: -0.025em;  /* Large headings */
+  --tracking-normal: 0;        /* Body text */
+  --tracking-wide: 0.05em;     /* Uppercase labels */
+  --tracking-wider: 0.1em;     /* Nav items, badges */
+}</code></pre>
+          </div>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ Typography Testing Checklist</div>
+            <p>
+              When testing typography, check these scenarios:<br>
+              <strong>□</strong> Headings at all 6 levels (h1–h6)<br>
+              <strong>□</strong> Body text in paragraphs (readability at 60–75 characters per line)<br>
+              <strong>□</strong> Product titles at different lengths<br>
+              <strong>□</strong> Price display at different values ($9.99 vs. $1,299.99)<br>
+              <strong>□</strong> Navigation menu with varying text lengths<br>
+              <strong>□</strong> Mobile readability (minimum 16px body text)<br>
+              <strong>□</strong> Contrast ratios (use Chrome DevTools accessibility checker)
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="color-experiments">Color Palette Experiments</h2>
+
+          <p>
+            eCommerce color palettes should be intentional. Every color serves a function:
+          </p>
+
+          <h3 id="color-strategy">Functional Color System</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">eCommerce Color System</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>/* Primary brand color — CTAs, links, accents */
+--color-primary: #6366f1;
+
+/* Secondary — complementary actions, tags */
+--color-secondary: #8b5cf6;
+
+/* Backgrounds */
+--color-bg-primary: #ffffff;          /* Main background */
+--color-bg-secondary: #f8f9fb;       /* Alternate sections */
+--color-bg-tertiary: #f1f3f5;        /* Cards, inputs */
+
+/* Text */
+--color-text-primary: #1a1a2e;       /* Headings, strong text */
+--color-text-secondary: #4a5568;     /* Body text */
+--color-text-tertiary: #9ca3af;      /* Meta info, captions */
+
+/* Functional colors — DON'T make these brand colors */
+--color-sale: #ef4444;               /* Sale prices, sale badges */
+--color-success: #10b981;            /* In stock, success states */
+--color-warning: #f59e0b;            /* Low stock, warnings */
+--color-error: #ef4444;              /* Errors, out of stock */
+--color-info: #3b82f6;               /* Info messages */
+
+/* Border */
+--color-border: #e5e7eb;             /* Dividers, card borders */</code></pre>
+          </div>
+
+          <h3 id="color-scheme-testing">Testing Multiple Color Schemes</h3>
+
+          <p>
+            Premium themes offer multiple color schemes per section. Here's how to implement
+            this in your theme settings:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Color Scheme Settings Pattern</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- comment -%}
+  Define color schemes in settings_schema.json,
+  then apply them via CSS classes on sections
+{%- endcomment -%}
+
+{%- style -%}
+  .color-scheme-1 {
+    --scheme-bg: {{ settings.scheme_1_background }};
+    --scheme-text: {{ settings.scheme_1_text }};
+    --scheme-accent: {{ settings.scheme_1_accent }};
+    background-color: var(--scheme-bg);
+    color: var(--scheme-text);
+  }
+
+  .color-scheme-2 {
+    --scheme-bg: {{ settings.scheme_2_background }};
+    --scheme-text: {{ settings.scheme_2_text }};
+    --scheme-accent: {{ settings.scheme_2_accent }};
+    background-color: var(--scheme-bg);
+    color: var(--scheme-text);
+  }
+
+  .color-scheme-3 {
+    --scheme-bg: {{ settings.scheme_3_background }};
+    --scheme-text: {{ settings.scheme_3_text }};
+    --scheme-accent: {{ settings.scheme_3_accent }};
+    background-color: var(--scheme-bg);
+    color: var(--scheme-text);
+  }
+{%- endstyle -%}</code></pre>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Color Contrast Is Non-Negotiable</div>
+            <p>
+              Every text/background combination must meet <strong>WCAG AA contrast ratios</strong>:
+              4.5:1 for body text, 3:1 for large text. Use
+              <a href="https://webaim.org/resources/contrastchecker/" target="_blank" rel="noopener noreferrer">WebAIM's Contrast Checker</a>
+              to verify. Poor contrast isn't just an accessibility issue — it directly affects
+              readability and conversion rates.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="navigation-experiments">Navigation Structure Experiments</h2>
+
+          <p>
+            Navigation is one of the most impactful elements to test. Even small changes
+            can significantly affect how customers find products.
+          </p>
+
+          <h3 id="nav-header-layouts">Header Layout Variations</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Header Layout Experiments</span>
+            </div>
+            <pre><code>LAYOUT A: Logo Left (Most Common)
+┌──────────────────────────────────────────────┐
+│ [Logo]  Home  Shop  About  Contact  🔍 👤 🛒│
+└──────────────────────────────────────────────┘
+
+LAYOUT B: Logo Center
+┌──────────────────────────────────────────────┐
+│ Home  Shop  About  [Logo]  Blog  FAQ  🔍 🛒│
+└──────────────────────────────────────────────┘
+
+LAYOUT C: Logo Center, Nav Below
+┌──────────────────────────────────────────────┐
+│              [Logo]            🔍 👤 🛒      │
+├──────────────────────────────────────────────┤
+│    Home    Shop    About    Blog    Contact   │
+└──────────────────────────────────────────────┘
+
+LAYOUT D: Two-Row with Features
+┌──────────────────────────────────────────────┐
+│ 📧 contact@store.com    Free shipping over $50│
+├──────────────────────────────────────────────┤
+│ [Logo]  Home  Shop  About  Contact  🔍 👤 🛒│
+└──────────────────────────────────────────────┘</code></pre>
+          </div>
+
+          <h3 id="nav-mobile-patterns">Mobile Navigation Patterns to Test</h3>
+
+          <ul>
+            <li><strong>Slide-from-left drawer</strong> — Most common, familiar to users</li>
+            <li><strong>Slide-from-right drawer</strong> — Less common, feels cart-adjacent</li>
+            <li><strong>Full-screen overlay</strong> — Dramatic, focuses attention completely</li>
+            <li><strong>Bottom sheet (slide up)</strong> — Thumb-friendly, modern feel</li>
+            <li><strong>Accordion nested levels</strong> — Good for deep menus</li>
+          </ul>
+
+          <!-- ====================================================== -->
+          <h2 id="hero-experiments">Hero Banner Experiments</h2>
+
+          <p>
+            The hero banner is the most visible section. Test these variations:
+          </p>
+
+          <h3 id="hero-variations">Variation Ideas</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Variation</th>
+                  <th>Description</th>
+                  <th>When to Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Full-bleed image</strong></td>
+                  <td>Image covers entire viewport width and ~60% height, text overlay</td>
+                  <td>Strong product photography</td>
+                </tr>
+                <tr>
+                  <td><strong>Split hero</strong></td>
+                  <td>50/50 split — text on left, image on right (or vice versa)</td>
+                  <td>When text content is important</td>
+                </tr>
+                <tr>
+                  <td><strong>Video hero</strong></td>
+                  <td>Auto-playing muted video as background</td>
+                  <td>Lifestyle brands, immersive storytelling</td>
+                </tr>
+                <tr>
+                  <td><strong>Slideshow</strong></td>
+                  <td>Multiple slides with auto-rotation</td>
+                  <td>Multiple promotions or categories</td>
+                </tr>
+                <tr>
+                  <td><strong>Minimal hero</strong></td>
+                  <td>Text only, solid color background, no image</td>
+                  <td>Minimalist brands, text-focused messaging</td>
+                </tr>
+                <tr>
+                  <td><strong>Hero with product grid below</strong></td>
+                  <td>Slim hero banner with product grid immediately below</td>
+                  <td>Conversion-focused, returning customers</td>
+                </tr>
+                <tr>
+                  <td><strong>Parallax hero</strong></td>
+                  <td>Background image moves slower than foreground on scroll</td>
+                  <td>Dramatic effect for premium brands</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="responsive-testing">Responsive Breakpoint Testing</h2>
+
+          <p>
+            Every layout decision must be tested across devices. Here's a professional
+            testing strategy:
+          </p>
+
+          <h3 id="breakpoint-strategy">Recommended Breakpoints</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Breakpoint System</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>/* Mobile-first approach */
+
+/* Small mobile: 320px – 479px */
+/* Default styles target this range */
+
+/* Large mobile: 480px – 749px */
+@media (min-width: 480px) { }
+
+/* Tablet: 750px – 999px */
+@media (min-width: 750px) { }
+
+/* Small desktop: 1000px – 1199px */
+@media (min-width: 1000px) { }
+
+/* Desktop: 1200px – 1399px */
+@media (min-width: 1200px) { }
+
+/* Large desktop: 1400px+ */
+@media (min-width: 1400px) { }
+
+/* Dawn's breakpoints (for reference):
+   - 750px: mobile → tablet
+   - 990px: tablet → desktop
+*/</code></pre>
+          </div>
+
+          <h3 id="responsive-checklist">Device Testing Checklist</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Responsive Testing Checklist</span>
+            </div>
+            <pre><code>TEST EVERY PAGE AT THESE WIDTHS:
+═════════════════════════════════
+
+□ 320px  — iPhone SE (smallest common phone)
+□ 375px  — iPhone 12/13/14
+□ 414px  — iPhone 14 Plus
+□ 390px  — iPhone 14 Pro
+□ 768px  — iPad portrait
+□ 1024px — iPad landscape
+□ 1280px — Common laptop
+□ 1440px — Standard desktop
+□ 1920px — Large monitor
+
+FOR EACH WIDTH, CHECK:
+═════════════════════════════════
+
+□ Text is readable (no overflow, no tiny text)
+□ Images aren't stretched or cropped badly
+□ Buttons are tappable (minimum 44x44px touch target)
+□ Navigation is usable
+□ Product grid adapts columns correctly
+□ No horizontal scrollbar appears
+□ Forms are usable (inputs aren't too small)
+□ Spacing feels balanced (not too cramped or too sparse)
+□ Modal/drawer overlays cover correctly
+□ Sticky elements don't overlap content</code></pre>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Chrome DevTools Device Mode</div>
+            <p>
+              Press <kbd>F12</kbd> → click the device toolbar icon (or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd>).
+              Select preset devices or enter custom dimensions. Enable "responsive" mode and
+              drag the viewport width to find where your design breaks. Fix those breakpoints
+              first — they're more important than fitting specific device widths.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="spacing-experiments">Spacing and Whitespace Experiments</h2>
+
+          <p>
+            Whitespace is the most underappreciated design tool. Premium themes use generous
+            whitespace to create elegance and focus attention.
+          </p>
+
+          <h3 id="spacing-scale">Spacing Scale</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Spacing Scale (CSS Custom Properties)</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>:root {
+  /* 4px base unit — all spacing is a multiple of 4 */
+  --space-1: 0.25rem;   /* 4px  — tight gaps */
+  --space-2: 0.5rem;    /* 8px  — inline spacing */
+  --space-3: 0.75rem;   /* 12px — compact spacing */
+  --space-4: 1rem;      /* 16px — default spacing */
+  --space-5: 1.25rem;   /* 20px — comfortable spacing */
+  --space-6: 1.5rem;    /* 24px — section inner padding */
+  --space-8: 2rem;      /* 32px — component gaps */
+  --space-10: 2.5rem;   /* 40px — section padding */
+  --space-12: 3rem;     /* 48px — large section gaps */
+  --space-16: 4rem;     /* 64px — section separation */
+  --space-20: 5rem;     /* 80px — major section breaks */
+  --space-24: 6rem;     /* 96px — dramatic spacing */
+}</code></pre>
+          </div>
+
+          <p>Test these spacing experiments:</p>
+
+          <ul>
+            <li><strong>Section padding:</strong> Try 40px, 60px, 80px, and 100px vertical padding between sections</li>
+            <li><strong>Grid gaps:</strong> Test 16px, 20px, 24px, and 32px between product cards</li>
+            <li><strong>Container width:</strong> Try 1200px, 1320px, and 1440px max content width</li>
+            <li><strong>Card padding:</strong> Test 16px, 20px, and 24px internal card padding</li>
+            <li><strong>Text spacing:</strong> Test paragraph margin-bottom at 1rem, 1.25rem, and 1.5rem</li>
+          </ul>
+
+          <!-- ====================================================== -->
+          <h2 id="experiment-workflow">Complete Experiment Workflow</h2>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h4 class="step-title">Define the Hypothesis</h4>
+              <div class="step-content">
+                <p>
+                  "I think a 3-column product grid with portrait (3:4) images will look more
+                  premium than the current 4-column square grid."
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">2</div>
+              <h4 class="step-title">Create an Experiment Branch</h4>
+              <div class="step-content">
+                <div class="code-block">
+                  <div class="code-block-header">
+                    <span class="code-block-filename">WSL Terminal</span>
+                    <button class="copy-btn">📋 Copy</button>
+                  </div>
+                  <pre><code>git checkout -b experiment/portrait-grid</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">3</div>
+              <h4 class="step-title">Build the Variation</h4>
+              <div class="step-content">
+                <p>
+                  Implement the change. Test with your demo products. View on multiple
+                  screen sizes.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">4</div>
+              <h4 class="step-title">Compare Side by Side</h4>
+              <div class="step-content">
+                <p>
+                  Switch between <code>main</code> and <code>experiment/portrait-grid</code>
+                  branches. Take screenshots of both. Compare them at the same viewport widths.
+                </p>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">5</div>
+              <h4 class="step-title">Decide and Merge (or Discard)</h4>
+              <div class="step-content">
+                <div class="code-block">
+                  <div class="code-block-header">
+                    <span class="code-block-filename">If the experiment wins</span>
+                    <button class="copy-btn">📋 Copy</button>
+                  </div>
+                  <pre><code>git checkout main
+git merge experiment/portrait-grid
+git branch -d experiment/portrait-grid</code></pre>
+                </div>
+                <div class="code-block">
+                  <div class="code-block-header">
+                    <span class="code-block-filename">If the experiment loses</span>
+                    <button class="copy-btn">📋 Copy</button>
+                  </div>
+                  <pre><code>git checkout main
+git branch -D experiment/portrait-grid</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="key-takeaways">Key Takeaways</h2>
+
+          <ul class="checklist">
+            <li>Create realistic demo content with diverse product types and edge cases</li>
+            <li>Use Burst, Unsplash, and Pexels for free, legal demo images</li>
+            <li>Test multiple homepage layout compositions before settling on a default</li>
+            <li>Experiment with product grid columns, card designs, and image aspect ratios</li>
+            <li>Test at least 3 font pairings before committing to typography</li>
+            <li>Build a functional color system — not just pretty colors</li>
+            <li>Test multiple header layout variations and mobile nav patterns</li>
+            <li>Create hero banner variations for different use cases</li>
+            <li>Test at all common device widths — find where your design breaks</li>
+            <li>Use a consistent spacing scale based on a 4px unit</li>
+            <li>Use Git branches for every experiment — compare, decide, merge or discard</li>
+            <li>Create multiple dev stores for different niches (fashion, tech, food)</li>
+          </ul>
+
+          <!-- Page Navigation -->
+          <div class="page-nav">
+            <a href="premium-theme-analysis.html" class="page-nav-link">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Premium Theme Analysis</span>
+            </a>
+            <a href="performance.html" class="page-nav-link page-nav-link--next">
+              <span class="page-nav-label">Next Chapter →</span>
+              <span class="page-nav-title">Performance Optimization</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <footer class="doc-footer">
+        <p>
+          Shopify Theme Developer Handbook — Built with care for <strong>Gamal</strong><br>
+          <small>Not affiliated with Shopify Inc. For educational purposes only.</small>
+        </p>
+      </footer>
+
+    </main>
+  </div>
+
+</body>
+</html>

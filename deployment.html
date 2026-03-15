@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shopify theme deployment workflow — testing, debugging, Git strategies, CI/CD concepts, and production deployment best practices">
+  <title>Deployment — Shopify Theme Developer Handbook</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script defer src="assets/js/script.js"></script>
+</head>
+<body>
+
+  <div class="progress-bar">
+    <div class="progress-bar-fill"></div>
+  </div>
+
+  <div class="doc-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation" aria-label="Main navigation">
+      <div class="sidebar-brand">
+        <a href="index.html" class="sidebar-brand-link">
+          <div class="sidebar-brand-icon">S</div>
+          <div class="sidebar-brand-text">
+            <span class="sidebar-brand-title">Shopify Handbook</span>
+            <span class="sidebar-brand-subtitle">Theme Development Guide</span>
+          </div>
+        </a>
+      </div>
+      <div class="sidebar-search">
+        <div class="sidebar-search-wrapper">
+          <span class="sidebar-search-icon">🔍</span>
+          <input type="text" class="sidebar-search-input" placeholder="Search docs... (Ctrl+K)" aria-label="Search documentation">
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Getting Started</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="index.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🏠</span> Introduction</a></li>
+            <li class="sidebar-nav-item"><a href="setup.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">⚙️</span> Development Setup</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Core Concepts</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="shopify-architecture.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🏗️</span> Shopify Architecture</a></li>
+            <li class="sidebar-nav-item"><a href="liquid-basics.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">💧</span> Liquid Basics</a></li>
+            <li class="sidebar-nav-item"><a href="theme-structure.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">📁</span> Theme Folder Structure</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Building Themes</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="sections-and-blocks.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🧱</span> Sections &amp; Blocks</a></li>
+            <li class="sidebar-nav-item"><a href="theme-components.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🧩</span> Theme Components</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Advanced</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="premium-theme-analysis.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🔍</span> Premium Theme Analysis</a></li>
+            <li class="sidebar-nav-item"><a href="design-experiments.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🎨</span> Design Experimentation</a></li>
+            <li class="sidebar-nav-item"><a href="performance.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">⚡</span> Performance</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Production</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="deployment.html" class="sidebar-nav-link active"><span class="sidebar-nav-link-icon">🚀</span> Deployment</a></li>
+            <li class="sidebar-nav-item"><a href="freelancing.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">💼</span> Freelance Strategy</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-theme-toggle" role="button" tabindex="0" aria-label="Toggle dark mode">
+          <span class="sidebar-theme-toggle-label">🌙 Dark Mode</span>
+          <div class="theme-toggle-switch"></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-wrapper">
+
+      <header class="top-header">
+        <div class="top-header-left">
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+          <div class="breadcrumbs">
+            <a href="index.html">Handbook</a>
+            <span class="breadcrumbs-separator">/</span>
+            <span class="breadcrumbs-current">Deployment</span>
+          </div>
+        </div>
+        <div class="top-header-right">
+          <a href="https://github.com" class="header-link" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
+          <a href="https://shopify.dev" class="header-link" target="_blank" rel="noopener noreferrer"><span>Shopify Docs</span></a>
+        </div>
+      </header>
+
+      <div class="content-container">
+        <div class="content">
+
+          <h1>Deployment &amp; Production Workflow</h1>
+          <p class="lead">
+            Building a great theme means nothing if you can't deploy it safely. This chapter
+            covers the complete deployment pipeline — from testing and debugging to Git
+            workflows, safe deployment strategies, and preparing themes for production.
+          </p>
+
+          <div class="callout callout-info">
+            <div class="callout-title">📌 Chapter Overview</div>
+            <p>
+              <strong>Time estimate:</strong> 45 – 60 minutes<br>
+              <strong>Tags:</strong>
+              <span class="tag tag-cli">CLI</span>
+              <span class="tag tag-html">Workflow</span>
+            </p>
+          </div>
+
+          <div id="table-of-contents" style="margin-bottom: var(--space-8);"></div>
+
+          <!-- ====================================================== -->
+          <h2 id="testing-checklist">Pre-Deployment Testing Checklist</h2>
+
+          <p>
+            Before pushing any theme to production, run through this comprehensive checklist.
+            Professional developers never deploy without testing:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Pre-Deployment Checklist</span>
+            </div>
+            <pre><code>PRE-DEPLOYMENT TESTING CHECKLIST
+═══════════════════════════════════════════
+
+PAGES TO TEST
+□ Homepage (with all sections populated)
+□ Collection page (with products)
+□ Collection page (empty collection)
+□ Product page (with variants)
+□ Product page (single variant)
+□ Product page (sold out)
+□ Product page (on sale)
+□ Cart page (with items)
+□ Cart page (empty)
+□ Search page (with results)
+□ Search page (no results)
+□ Blog page
+□ Article page
+□ Custom page (e.g., About Us)
+□ Contact page
+□ 404 error page
+□ Password page
+□ Gift card page
+□ Customer login page
+□ Customer account page
+
+FUNCTIONALITY
+□ Add to cart works (all product types)
+□ Cart updates quantity correctly
+□ Cart removes items
+□ Navigation links all work (no broken links)
+□ Search returns relevant results
+□ Predictive search works (if implemented)
+□ Mobile menu opens and closes
+□ All forms submit correctly
+□ Variant selector updates price and image
+□ Newsletter signup submits
+□ Social media links open in new tabs
+
+RESPONSIVE DESIGN
+□ Test at 320px (smallest phone)
+□ Test at 375px (standard phone)
+□ Test at 768px (tablet portrait)
+□ Test at 1024px (tablet landscape)
+□ Test at 1440px (desktop)
+□ No horizontal scrollbar at any width
+□ All text is readable (no overflow)
+□ Buttons/links are tappable (44px min)
+□ Images don't overflow containers
+
+BROWSER TESTING
+□ Chrome (latest)
+□ Firefox (latest)
+□ Safari (latest — test on Mac/iPhone if possible)
+□ Edge (latest)
+□ Mobile Safari (iOS)
+□ Mobile Chrome (Android)
+
+PERFORMANCE
+□ Lighthouse score above 50 (ideally 70+)
+□ No render-blocking resources
+□ Images optimized with srcset
+□ Lazy loading implemented
+□ No console errors
+
+ACCESSIBILITY
+□ Skip-to-content link works
+□ All images have alt text
+□ Color contrast meets WCAG AA
+□ Keyboard navigation works (Tab through page)
+□ Focus states are visible
+□ Form labels are properly associated
+□ ARIA labels on interactive elements
+
+SEO
+□ Page titles are unique and descriptive
+□ Meta descriptions present
+□ Canonical URLs are correct
+□ Open Graph tags present
+□ Structured data (if implemented)
+□ No broken links</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="debugging">Debugging Shopify Themes</h2>
+
+          <h3 id="debug-liquid">Debugging Liquid Errors</h3>
+
+          <p>
+            When Liquid has errors, the Shopify CLI terminal shows them. Common patterns:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Common Liquid Errors and Fixes</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>ERROR: "Liquid error: Unknown tag 'endfor'"
+FIX:   Check for typos — ensure {% endfor %} matches {% for %}
+       Check nesting — every if/for/case needs a closing tag
+
+ERROR: "Liquid error: undefined variable"  
+FIX:   Variable doesn't exist in current scope.
+       If using {% render %}, pass the variable explicitly.
+       Check for typos in variable names.
+
+ERROR: "Liquid error: Array index out of bounds"
+FIX:   Check array .size before accessing by index.
+       Use {% if array.size > 0 %} before looping.
+
+ERROR: "Liquid error: wrong number of arguments"
+FIX:   Check filter syntax. Common mistake:
+       ❌ {{ image | image_url: 400 }}
+       ✅ {{ image | image_url: width: 400 }}
+
+ERROR: Page renders but section is blank
+FIX:   1. Check {% if %} conditions — something is probably blank/nil
+       2. Output debug: {{ section.settings | json }}
+       3. Check schema — setting IDs must match Liquid references
+       4. Check template JSON — is the section referenced?</code></pre>
+          </div>
+
+          <h3 id="debug-browser">Browser DevTools Debugging</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Issue</th>
+                  <th>DevTools Tool</th>
+                  <th>How to Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>CSS not applying</td>
+                  <td>Elements panel → Styles</td>
+                  <td>Inspect the element. Check if your CSS is loaded. Look for overriding rules (crossed out).</td>
+                </tr>
+                <tr>
+                  <td>Layout broken</td>
+                  <td>Elements panel → Layout</td>
+                  <td>Enable Grid/Flexbox overlays to visualize layout structure.</td>
+                </tr>
+                <tr>
+                  <td>JavaScript errors</td>
+                  <td>Console tab</td>
+                  <td>Look for red errors. Click the file:line link to see the source.</td>
+                </tr>
+                <tr>
+                  <td>Network issues</td>
+                  <td>Network tab</td>
+                  <td>Check for 404s (missing files), slow resources, large downloads.</td>
+                </tr>
+                <tr>
+                  <td>Performance issues</td>
+                  <td>Lighthouse tab</td>
+                  <td>Run Performance audit. Read opportunities and diagnostics.</td>
+                </tr>
+                <tr>
+                  <td>Mobile rendering</td>
+                  <td>Device toolbar (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd>)</td>
+                  <td>Toggle device mode. Select specific devices or set custom dimensions.</td>
+                </tr>
+                <tr>
+                  <td>Accessibility issues</td>
+                  <td>Lighthouse → Accessibility</td>
+                  <td>Run Accessibility audit. Also use Elements → Accessibility panel for individual elements.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="debug-theme-editor">Theme Editor Debugging</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Theme Editor Debugging Tips</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>PROBLEM: Section doesn't appear in "Add section" menu
+CHECK:  Does your schema have a "presets" array?
+        Without presets, the section can't be added manually.
+
+PROBLEM: Settings don't appear in theme editor sidebar
+CHECK:  Is the setting inside the "settings" array in schema?
+        Is the JSON valid? (missing comma, bracket, quote)
+        Validate JSON at jsonlint.com
+
+PROBLEM: Blocks can't be clicked in the editor preview
+CHECK:  Is {{ block.shopify_attributes }} on the block wrapper?
+        This is REQUIRED for editor interactivity.
+
+PROBLEM: Section shows in editor but not on live site
+CHECK:  Is the section in the JSON template's "order" array?
+        Is there a conditional that hides it?
+
+PROBLEM: Schema changes not reflecting
+FIX:    Save the section file, refresh the theme editor.
+        Sometimes you need to close and reopen the editor.
+        Clear browser cache if needed.</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="deployment-strategies">Deployment Strategies</h2>
+
+          <h3 id="deploy-unpublished">Strategy 1: Push to Unpublished Theme (Safest)</h3>
+
+          <p>
+            This is the <strong>recommended approach</strong> for client stores. Push your
+            changes to a new unpublished theme, let the client preview and approve it,
+            then publish.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Safe Deployment — Unpublished Theme</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Step 1: Push to a new unpublished theme
+shopify theme push --unpublished \
+  --store client-store.myshopify.com
+
+# This creates a new theme named "[development] Your Theme"
+# It does NOT affect the live store
+
+# Step 2: Share preview link with client
+# The CLI will output a preview URL like:
+# https://client-store.myshopify.com/?preview_theme_id=XXXXXXX
+
+# Step 3: After client approves, publish via Shopify Admin
+# Online Store → Themes → Actions → Publish
+
+# Or publish via CLI (use with caution):
+shopify theme publish --theme THEME_ID \
+  --store client-store.myshopify.com</code></pre>
+          </div>
+
+          <h3 id="deploy-existing">Strategy 2: Push to Existing Theme</h3>
+
+          <p>
+            Use this when updating an existing unpublished theme during development:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Push to Specific Theme</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># List existing themes to find the ID
+shopify theme list --store client-store.myshopify.com
+
+# Output:
+# ID           NAME                  ROLE
+# 123456789    Dawn (Live)           live
+# 987654321    My Custom Theme       unpublished
+
+# Push to the specific unpublished theme
+shopify theme push --theme 987654321 \
+  --store client-store.myshopify.com</code></pre>
+          </div>
+
+          <h3 id="deploy-live">Strategy 3: Push to Live Theme (Risky)</h3>
+
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Pushing to Live — Use Extreme Caution</div>
+            <p>
+              Pushing directly to the live theme affects the store <strong>immediately</strong>.
+              Customers will see changes in real-time. Only do this for small, well-tested
+              changes — never for major updates.
+            </p>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Push to Live (Only When Necessary)</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># This pushes directly to the live published theme
+# WARNING: Changes are immediately visible to customers
+shopify theme push --allow-live \
+  --store client-store.myshopify.com
+
+# SAFER: Push specific files only
+shopify theme push --allow-live \
+  --only sections/header.liquid \
+  --only assets/section-header.css \
+  --store client-store.myshopify.com</code></pre>
+          </div>
+
+          <h3 id="deploy-ignore">Ignoring Files During Push</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Protecting Merchant Settings</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Never overwrite the merchant's customized settings
+shopify theme push \
+  --ignore config/settings_data.json \
+  --store client-store.myshopify.com
+
+# You can also create a .shopifyignore file
+# in your project root:
+
+# .shopifyignore
+config/settings_data.json
+templates/*.json</code></pre>
+          </div>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ The .shopifyignore File</div>
+            <p>
+              Create a <code>.shopifyignore</code> file in your project root. It works like
+              <code>.gitignore</code> but for Shopify CLI. Any files listed here won't be
+              pushed or pulled. This protects merchant settings and template configurations
+              from being overwritten.
+            </p>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">.shopifyignore</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Don't overwrite merchant's theme settings
+config/settings_data.json
+
+# Don't overwrite template configurations
+# (merchant may have added/reordered sections)
+templates/*.json
+
+# Keep the default templates in your repo
+# but don't push them over merchant customizations
+!templates/product.json
+!templates/collection.json</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="git-production">Git Workflow for Production</h2>
+
+          <h3 id="git-branching-model">Professional Branching Model</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Branching Strategy</span>
+            </div>
+            <pre><code>RECOMMENDED BRANCHING MODEL
+═══════════════════════════════════════════
+
+main (or production)
+  │
+  ├── The stable, production-ready code
+  ├── Only merged from staging or hotfix branches
+  ├── Tagged with version numbers (v1.0.0, v1.1.0)
+  │
+  └── staging (or develop)
+        │
+        ├── Integration branch for testing
+        ├── Features merge here first
+        ├── Pushed to unpublished theme for review
+        │
+        ├── feature/hero-redesign
+        │     └── New feature development
+        │
+        ├── feature/mega-menu
+        │     └── Another feature in parallel
+        │
+        └── fix/mobile-nav-bug
+              └── Bug fix branch
+
+
+SIMPLIFIED MODEL (for solo developers):
+
+main
+  │
+  ├── Stable theme code
+  │
+  ├── feature/new-section
+  │     └── Develop → Test → Merge to main
+  │
+  └── fix/cart-bug
+        └── Fix → Test → Merge to main</code></pre>
+          </div>
+
+          <h3 id="git-workflow-daily">Complete Git Deployment Workflow</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Full Deployment Workflow</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># ── DEVELOPMENT PHASE ──────────────────────────
+
+# 1. Create a feature branch
+git checkout main
+git pull origin main
+git checkout -b feature/announcement-bar
+
+# 2. Develop with live preview
+shopify theme dev --store dev-store.myshopify.com
+
+# 3. Make changes, test, commit regularly
+git add sections/announcement-bar.liquid
+git add assets/section-announcement-bar.css
+git commit -m "feat: add announcement bar section with auto-rotate"
+
+git add sections/announcement-bar.liquid
+git commit -m "fix: announcement bar dismiss uses sessionStorage"
+
+# 4. Push branch to GitHub
+git push -u origin feature/announcement-bar
+
+
+# ── REVIEW PHASE ──────────────────────────────
+
+# 5. Merge to main when feature is complete
+git checkout main
+git merge feature/announcement-bar
+git push origin main
+
+# 6. Clean up feature branch
+git branch -d feature/announcement-bar
+git push origin --delete feature/announcement-bar
+
+
+# ── DEPLOYMENT PHASE ──────────────────────────
+
+# 7. Push to unpublished theme on client store
+shopify theme push --unpublished \
+  --ignore config/settings_data.json \
+  --store client-store.myshopify.com
+
+# 8. Share preview link with client for approval
+
+# 9. After approval, publish the theme
+# (via Shopify Admin or CLI)
+
+# 10. Tag the release in Git
+git tag -a v1.2.0 -m "Add announcement bar section"
+git push origin v1.2.0</code></pre>
+          </div>
+
+          <h3 id="git-tags">Version Tagging</h3>
+
+          <p>
+            Use semantic versioning to tag releases:
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Version</th>
+                  <th>When to Bump</th>
+                  <th>Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Major (X.0.0)</strong></td>
+                  <td>Complete theme redesign, breaking changes</td>
+                  <td>v1.0.0 → v2.0.0</td>
+                </tr>
+                <tr>
+                  <td><strong>Minor (0.X.0)</strong></td>
+                  <td>New sections, new features, non-breaking</td>
+                  <td>v1.0.0 → v1.1.0</td>
+                </tr>
+                <tr>
+                  <td><strong>Patch (0.0.X)</strong></td>
+                  <td>Bug fixes, small adjustments</td>
+                  <td>v1.1.0 → v1.1.1</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Git Tagging Commands</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Create an annotated tag
+git tag -a v1.0.0 -m "Initial theme release"
+
+# Push tags to GitHub
+git push origin v1.0.0
+
+# Push all tags
+git push origin --tags
+
+# List all tags
+git tag -l
+
+# View tag details
+git show v1.0.0</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="syncing">Syncing Theme Editor Changes</h2>
+
+          <p>
+            One of the trickiest aspects of Shopify development: merchants make changes
+            through the theme editor, which modifies <code>config/settings_data.json</code>
+            and template JSON files. You need to sync these changes with your local codebase.
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h4 class="step-title">Commit Your Local Changes First</h4>
+              <div class="step-content">
+                <div class="code-block">
+                  <div class="code-block-header">
+                    <span class="code-block-filename">WSL Terminal</span>
+                    <button class="copy-btn">📋 Copy</button>
+                  </div>
+                  <pre><code>git add .
+git commit -m "feat: my latest local changes"</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">2</div>
+              <h4 class="step-title">Pull Theme Editor Changes</h4>
+              <div class="step-content">
+                <div class="code-block">
+                  <div class="code-block-header">
+                    <span class="code-block-filename">WSL Terminal</span>
+                    <button class="copy-btn">📋 Copy</button>
+                  </div>
+                  <pre><code># Pull only settings and templates (what the editor changes)
+shopify theme pull \
+  --only config/settings_data.json \
+  --only "templates/*.json" \
+  --store client-store.myshopify.com</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="step">
+              <div class="step-number">3</div>
+              <h4 class="step-title">Review and Commit</h4>
+              <div class="step-content">
+                <div class="code-block">
+                  <div class="code-block-header">
+                    <span class="code-block-filename">WSL Terminal</span>
+                    <button class="copy-btn">📋 Copy</button>
+                  </div>
+                  <pre><code># Review what changed
+git diff
+
+# Commit the editor changes
+git add config/settings_data.json templates/
+git commit -m "sync: pull theme editor changes from client"</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Coordinate With Clients</div>
+            <p>
+              Establish a rule with clients: <strong>"Don't make theme editor changes while
+              I'm actively developing."</strong> Simultaneous local development and theme
+              editor changes create conflicts. Set specific times for development work and
+              merchant customization to avoid this.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="backup">Backup Strategies</h2>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Theme Backup Workflow</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Before ANY major deployment, create a backup:
+
+# Option 1: Download the live theme as a backup
+shopify theme pull \
+  --theme LIVE_THEME_ID \
+  --path ./backups/backup-$(date +%Y%m%d) \
+  --store client-store.myshopify.com
+
+# Option 2: Duplicate the live theme in Shopify Admin
+# Online Store → Themes → Actions → Duplicate
+# This creates a copy the merchant can revert to
+
+# Option 3: Git tags serve as backups
+git tag -a backup/pre-v2-launch -m "Backup before v2 launch"
+git push origin backup/pre-v2-launch</code></pre>
+          </div>
+
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Always Backup Before Major Deploys</div>
+            <p>
+              Before publishing a new theme version on a live store, <strong>always</strong>
+              duplicate the current live theme in Shopify Admin. If anything goes wrong, the
+              merchant can instantly revert by publishing the duplicate. This takes 10 seconds
+              and can save hours of crisis management.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="rollback">Rollback Procedures</h2>
+
+          <p>
+            When something goes wrong in production, you need to act fast:
+          </p>
+
+          <h3 id="rollback-shopify">Instant Rollback via Shopify Admin</h3>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h4 class="step-title">Go to Online Store → Themes</h4>
+              <div class="step-content">
+                <p>Find the backup/duplicate theme you created before deployment.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <h4 class="step-title">Click Actions → Publish</h4>
+              <div class="step-content">
+                <p>This instantly makes the old theme live again. The new theme becomes unpublished.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <h4 class="step-title">Debug the New Theme</h4>
+              <div class="step-content">
+                <p>Fix the issues on the now-unpublished new theme. Test thoroughly. Then publish again.</p>
+              </div>
+            </div>
+          </div>
+
+          <h3 id="rollback-git">Rollback via Git</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Git Rollback Options</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># Option 1: Revert a specific commit
+git revert HEAD    # Reverts the last commit
+git push
+
+# Option 2: Reset to a specific tag
+git checkout v1.1.0    # Go to a tagged version
+shopify theme push --unpublished \
+  --store client-store.myshopify.com
+
+# Option 3: Reset branch to a previous state (destructive!)
+git reset --hard v1.1.0
+git push --force     # CAUTION: rewrites remote history</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="production-checklist">Production Readiness Checklist</h2>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Production Readiness Checklist</span>
+            </div>
+            <pre><code>PRODUCTION READINESS
+═══════════════════════════════════════════
+
+CODE QUALITY
+□ All debug output removed ({{ product | json }}, HTML comments)
+□ No console.log() statements in JavaScript
+□ No TODO or FIXME comments left unresolved
+□ Code is consistently formatted
+□ Snippets are documented with accepted parameters
+□ Schema settings have helpful labels, info text, and defaults
+□ Translation keys used for all user-facing strings
+
+THEME SETTINGS
+□ settings_schema.json has theme_info block (name, version, author)
+□ All global settings have sensible defaults
+□ Color settings provide good default palette
+□ Typography defaults are readable and professional
+
+CONTENT
+□ All sections render placeholder content when no data is set
+□ Empty states are handled gracefully (empty cart, no results, etc.)
+□ All images have meaningful alt text
+□ Locales file has all required translation keys
+
+LEGAL
+□ No copyrighted code from premium themes
+□ No copyrighted images or fonts
+□ License information is clear (if distributing)
+□ Privacy-related features comply with GDPR (cookie consent, etc.)
+
+DEPLOYMENT
+□ .shopifyignore is configured
+□ .gitignore is configured
+□ Git repository is clean (no uncommitted changes)
+□ Live theme is backed up (duplicated in Shopify Admin)
+□ Client has been notified of deployment timing
+□ Post-deployment verification plan is ready</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="post-deploy">Post-Deployment Verification</h2>
+
+          <p>
+            After deploying, perform a quick verification:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Post-Deployment Checks (5 minutes)</span>
+            </div>
+            <pre><code>IMMEDIATELY AFTER PUBLISHING
+═══════════════════════════════════════════
+
+□ Visit the homepage — does it load correctly?
+□ Visit a product page — can you add to cart?
+□ Visit a collection page — do products display?
+□ Test on mobile (real phone, not just DevTools)
+□ Complete a test checkout (on dev store) or verify
+  checkout loads correctly (on live store)
+□ Check browser console for JavaScript errors
+□ Run a quick Lighthouse audit
+□ Verify header and footer render correctly
+□ Check that merchant's custom content is intact
+□ Notify the client that deployment is complete</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="ci-cd">Automated Deployment Concepts</h2>
+
+          <p>
+            As you grow, consider automating deployments with GitHub Actions. Here's a
+            basic concept:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">.github/workflows/deploy-theme.yml (concept)</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code># This is a conceptual example — adapt to your needs
+name: Deploy Shopify Theme
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Shopify CLI
+        run: npm install -g @shopify/cli @shopify/theme
+
+      - name: Deploy to Shopify
+        env:
+          SHOPIFY_CLI_THEME_TOKEN: ${{ secrets.SHOPIFY_CLI_THEME_TOKEN }}
+          SHOPIFY_FLAG_STORE: ${{ secrets.SHOPIFY_STORE }}
+        run: |
+          shopify theme push \
+            --theme ${{ secrets.THEME_ID }} \
+            --ignore config/settings_data.json</code></pre>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Start Manual, Automate Later</div>
+            <p>
+              CI/CD is powerful but adds complexity. As a beginner, focus on mastering the
+              manual deployment workflow first. Once you're confident and handling multiple
+              client stores, then set up automation. Premature automation creates more problems
+              than it solves.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="key-takeaways">Key Takeaways</h2>
+
+          <ul class="checklist">
+            <li>Always run the pre-deployment testing checklist before pushing to production</li>
+            <li>Use <code>--unpublished</code> flag for safe deployments to client stores</li>
+            <li>Protect merchant settings with <code>.shopifyignore</code> and <code>--ignore</code> flags</li>
+            <li>Never push directly to live themes without a backup</li>
+            <li>Duplicate the live theme in Shopify Admin before every major deployment</li>
+            <li>Use Git tags for version tracking and easy rollbacks</li>
+            <li>Coordinate with clients to avoid simultaneous theme editor and code changes</li>
+            <li>Sync theme editor changes with <code>shopify theme pull --only</code></li>
+            <li>Perform post-deployment verification immediately after publishing</li>
+            <li>Master manual deployment before setting up CI/CD automation</li>
+          </ul>
+
+          <!-- Page Navigation -->
+          <div class="page-nav">
+            <a href="performance.html" class="page-nav-link">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Performance</span>
+            </a>
+            <a href="freelancing.html" class="page-nav-link page-nav-link--next">
+              <span class="page-nav-label">Next Chapter →</span>
+              <span class="page-nav-title">Freelance Strategy</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <footer class="doc-footer">
+        <p>
+          Shopify Theme Developer Handbook — Built with care for <strong>Gamal</strong><br>
+          <small>Not affiliated with Shopify Inc. For educational purposes only.</small>
+        </p>
+      </footer>
+
+    </main>
+  </div>
+
+</body>
+</html>

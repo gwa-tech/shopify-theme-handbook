@@ -1,0 +1,1985 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Build real Shopify theme components — hero banners, product cards, collection grids, mega menus, announcement bars, and sticky add-to-cart">
+  <title>Theme Components — Shopify Theme Developer Handbook</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script defer src="assets/js/script.js"></script>
+</head>
+<body>
+
+  <div class="progress-bar">
+    <div class="progress-bar-fill"></div>
+  </div>
+
+  <div class="doc-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation" aria-label="Main navigation">
+      <div class="sidebar-brand">
+        <a href="index.html" class="sidebar-brand-link">
+          <div class="sidebar-brand-icon">S</div>
+          <div class="sidebar-brand-text">
+            <span class="sidebar-brand-title">Shopify Handbook</span>
+            <span class="sidebar-brand-subtitle">Theme Development Guide</span>
+          </div>
+        </a>
+      </div>
+      <div class="sidebar-search">
+        <div class="sidebar-search-wrapper">
+          <span class="sidebar-search-icon">🔍</span>
+          <input type="text" class="sidebar-search-input" placeholder="Search docs... (Ctrl+K)" aria-label="Search documentation">
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Getting Started</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="index.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🏠</span> Introduction</a></li>
+            <li class="sidebar-nav-item"><a href="setup.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">⚙️</span> Development Setup</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Core Concepts</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="shopify-architecture.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🏗️</span> Shopify Architecture</a></li>
+            <li class="sidebar-nav-item"><a href="liquid-basics.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">💧</span> Liquid Basics</a></li>
+            <li class="sidebar-nav-item"><a href="theme-structure.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">📁</span> Theme Folder Structure</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Building Themes</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="sections-and-blocks.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🧱</span> Sections &amp; Blocks</a></li>
+            <li class="sidebar-nav-item"><a href="theme-components.html" class="sidebar-nav-link active"><span class="sidebar-nav-link-icon">🧩</span> Theme Components</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Advanced</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="premium-theme-analysis.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🔍</span> Premium Theme Analysis</a></li>
+            <li class="sidebar-nav-item"><a href="design-experiments.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🎨</span> Design Experimentation</a></li>
+            <li class="sidebar-nav-item"><a href="performance.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">⚡</span> Performance</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Production</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="deployment.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🚀</span> Deployment</a></li>
+            <li class="sidebar-nav-item"><a href="freelancing.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">💼</span> Freelance Strategy</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-theme-toggle" role="button" tabindex="0" aria-label="Toggle dark mode">
+          <span class="sidebar-theme-toggle-label">🌙 Dark Mode</span>
+          <div class="theme-toggle-switch"></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-wrapper">
+
+      <header class="top-header">
+        <div class="top-header-left">
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+          <div class="breadcrumbs">
+            <a href="index.html">Handbook</a>
+            <span class="breadcrumbs-separator">/</span>
+            <span class="breadcrumbs-current">Theme Components</span>
+          </div>
+        </div>
+        <div class="top-header-right">
+          <a href="https://github.com" class="header-link" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
+          <a href="https://shopify.dev" class="header-link" target="_blank" rel="noopener noreferrer"><span>Shopify Docs</span></a>
+        </div>
+      </header>
+
+      <div class="content-container">
+        <div class="content">
+
+          <h1>Theme Components</h1>
+          <p class="lead">
+            It's time to build real, production-quality theme components. This chapter contains
+            seven practical exercises — each builds a component found in premium Shopify themes.
+            By the end, you'll have a library of reusable components you can use in any project.
+          </p>
+
+          <div class="callout callout-info">
+            <div class="callout-title">📌 Chapter Overview</div>
+            <p>
+              <strong>Time estimate:</strong> 3 – 4 hours (all exercises)<br>
+              <strong>Tags:</strong>
+              <span class="tag tag-liquid">Liquid</span>
+              <span class="tag tag-html">HTML</span>
+              <span class="tag tag-css">CSS</span>
+              <span class="tag tag-js">JavaScript</span>
+            </p>
+          </div>
+
+          <div id="table-of-contents" style="margin-bottom: var(--space-8);"></div>
+
+          <!-- ====================================================== -->
+          <h2 id="component-overview">Components We'll Build</h2>
+
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-icon">🖼️</div>
+              <h3 class="card-title">Hero Banner</h3>
+              <p class="card-description">Full-width image banner with overlay text, CTA button, and customizable alignment.</p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🃏</div>
+              <h3 class="card-title">Product Card</h3>
+              <p class="card-description">Reusable product card snippet with image, price, vendor, and sale badge.</p>
+            </div>
+            <div class="card">
+              <div class="card-icon">📦</div>
+              <h3 class="card-title">Featured Collection</h3>
+              <p class="card-description">Collection grid section with configurable columns and product count.</p>
+            </div>
+            <div class="card">
+              <div class="card-icon">📢</div>
+              <h3 class="card-title">Announcement Bar</h3>
+              <p class="card-description">Dismissible top bar for promotions with auto-rotating messages.</p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🧭</div>
+              <h3 class="card-title">Mega Menu</h3>
+              <p class="card-description">Multi-column dropdown navigation with images and featured links.</p>
+            </div>
+            <div class="card">
+              <div class="card-icon">📌</div>
+              <h3 class="card-title">Sticky Add-to-Cart</h3>
+              <p class="card-description">Fixed bottom bar on product pages showing product info and buy button.</p>
+            </div>
+            <div class="card">
+              <div class="card-icon">🛒</div>
+              <h3 class="card-title">Product Page Customization</h3>
+              <p class="card-description">Customize Dawn's product page with enhanced features and layout.</p>
+            </div>
+          </div>
+
+          <!-- ====================================================== -->
+          <!-- EXERCISE 1: HERO BANNER -->
+          <!-- ====================================================== -->
+          <h2 id="hero-banner">Exercise 1: Hero Banner Section</h2>
+
+          <div class="exercise">
+            <div class="exercise-header">
+              <div class="exercise-icon">🧪</div>
+              <div>
+                <div class="exercise-label">Exercise 1</div>
+                <h3 class="exercise-title">Build a Hero Banner Section</h3>
+              </div>
+            </div>
+            <div class="exercise-meta">
+              <span class="exercise-meta-item">⏱️ 30 minutes</span>
+              <span class="exercise-meta-item">📁 sections/custom-hero.liquid</span>
+              <span class="exercise-meta-item">📁 assets/section-custom-hero.css</span>
+            </div>
+
+            <p><strong>Learning objective:</strong> Build a full-width hero banner with background image, overlay, heading, subtext, and CTA button — all configurable through the theme editor.</p>
+
+            <p><strong>Features:</strong></p>
+            <ul>
+              <li>Full-width background image with overlay opacity control</li>
+              <li>Heading, subheading, and button (via blocks for flexibility)</li>
+              <li>Text alignment control (left, center, right)</li>
+              <li>Minimum height setting</li>
+              <li>Responsive design</li>
+              <li>Accessible contrast</li>
+            </ul>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">sections/custom-hero.liquid</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{{ 'section-custom-hero.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }} {
+    min-height: {{ section.settings.min_height }}px;
+  }
+
+  .section-{{ section.id }} .hero__overlay {
+    background-color: rgba(0, 0, 0, {{ section.settings.overlay_opacity | divided_by: 100.0 }});
+  }
+
+  .section-{{ section.id }} .hero__content {
+    text-align: {{ section.settings.text_alignment }};
+    align-items: {% case section.settings.text_alignment %}
+      {% when 'left' %}flex-start
+      {% when 'right' %}flex-end
+      {% else %}center
+    {% endcase %};
+  }
+
+  .section-{{ section.id }} .hero__heading {
+    color: {{ section.settings.heading_color }};
+    font-size: {{ section.settings.heading_size }}px;
+  }
+
+  @media (max-width: 749px) {
+    .section-{{ section.id }} {
+      min-height: {{ section.settings.min_height | times: 0.6 | round }}px;
+    }
+    .section-{{ section.id }} .hero__heading {
+      font-size: {{ section.settings.heading_size | times: 0.6 | round }}px;
+    }
+  }
+{%- endstyle -%}
+
+&lt;section class="hero section-{{ section.id }}"&gt;
+  {%- if section.settings.image -%}
+    &lt;img
+      class="hero__image"
+      src="{{ section.settings.image | image_url: width: 1920 }}"
+      srcset="
+        {{ section.settings.image | image_url: width: 750 }} 750w,
+        {{ section.settings.image | image_url: width: 1100 }} 1100w,
+        {{ section.settings.image | image_url: width: 1500 }} 1500w,
+        {{ section.settings.image | image_url: width: 1920 }} 1920w
+      "
+      sizes="100vw"
+      alt="{{ section.settings.image.alt | escape | default: section.settings.heading }}"
+      width="{{ section.settings.image.width }}"
+      height="{{ section.settings.image.height }}"
+      loading="{% if section.index == 1 %}eager{% else %}lazy{% endif %}"
+      fetchpriority="{% if section.index == 1 %}high{% else %}auto{% endif %}"
+    &gt;
+  {%- endif -%}
+
+  &lt;div class="hero__overlay"&gt;&lt;/div&gt;
+
+  &lt;div class="hero__content page-width"&gt;
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+
+        {%- when 'heading' -%}
+          &lt;h1 class="hero__heading" {{ block.shopify_attributes }}&gt;
+            {{ block.settings.heading | escape }}
+          &lt;/h1&gt;
+
+        {%- when 'subheading' -%}
+          &lt;p class="hero__subheading" {{ block.shopify_attributes }}&gt;
+            {{ block.settings.subheading | escape }}
+          &lt;/p&gt;
+
+        {%- when 'button' -%}
+          {%- if block.settings.button_label != blank -%}
+            &lt;a
+              href="{{ block.settings.button_link }}"
+              class="hero__button btn btn--{{ block.settings.button_style }}"
+              {{ block.shopify_attributes }}
+            &gt;
+              {{ block.settings.button_label | escape }}
+            &lt;/a&gt;
+          {%- endif -%}
+
+      {%- endcase -%}
+    {%- endfor -%}
+  &lt;/div&gt;
+&lt;/section&gt;
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "tag": "section",
+  "class": "section-hero",
+  "limit": 3,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image",
+      "info": "Recommended: 1920 x 800px minimum"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Minimum height",
+      "min": 300,
+      "max": 800,
+      "step": 20,
+      "default": 500,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay darkness",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "default": 40,
+      "unit": "%",
+      "info": "Makes text more readable over images"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "default": 48,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading text",
+          "default": "Welcome to Our Store"
+        }
+      ]
+    },
+    {
+      "type": "subheading",
+      "name": "Subheading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading text",
+          "default": "Discover our latest collection of premium products"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Button style",
+          "options": [
+            { "value": "primary", "label": "Primary (filled)" },
+            { "value": "outline", "label": "Outline" }
+          ],
+          "default": "primary"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner",
+      "blocks": [
+        { "type": "heading" },
+        { "type": "subheading" },
+        { "type": "button" }
+      ]
+    }
+  ]
+}
+{% endschema %}</code></pre>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">assets/section-custom-hero.css</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+}
+
+.hero__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 3rem 1.5rem;
+  max-width: 800px;
+}
+
+.hero__heading {
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.hero__subheading {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 600px;
+}
+
+.hero__button {
+  display: inline-block;
+  padding: 0.875rem 2rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.btn--primary {
+  background-color: #fff;
+  color: #1a1a2e;
+  border: 2px solid #fff;
+}
+
+.btn--primary:hover {
+  background-color: transparent;
+  color: #fff;
+}
+
+.btn--outline {
+  background-color: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.btn--outline:hover {
+  background-color: #fff;
+  color: #1a1a2e;
+}
+
+@media (max-width: 749px) {
+  .hero__content {
+    padding: 2rem 1rem;
+  }
+  .hero__subheading {
+    font-size: 1rem;
+  }
+}</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <!-- EXERCISE 2: PRODUCT CARD -->
+          <!-- ====================================================== -->
+          <h2 id="product-card">Exercise 2: Product Card Snippet</h2>
+
+          <div class="exercise">
+            <div class="exercise-header">
+              <div class="exercise-icon">🧪</div>
+              <div>
+                <div class="exercise-label">Exercise 2</div>
+                <h3 class="exercise-title">Create a Reusable Product Card Snippet</h3>
+              </div>
+            </div>
+            <div class="exercise-meta">
+              <span class="exercise-meta-item">⏱️ 25 minutes</span>
+              <span class="exercise-meta-item">📁 snippets/custom-product-card.liquid</span>
+              <span class="exercise-meta-item">📁 assets/component-product-card.css</span>
+            </div>
+
+            <p><strong>Learning objective:</strong> Build a versatile product card snippet that handles sale badges, secondary hover images, vendor display, and proper image optimization.</p>
+
+            <p><strong>Features:</strong></p>
+            <ul>
+              <li>Sale badge with percentage calculation</li>
+              <li>Secondary image on hover</li>
+              <li>Compare-at price display</li>
+              <li>Sold-out state</li>
+              <li>Responsive images with srcset</li>
+              <li>Accessible link structure</li>
+            </ul>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">snippets/custom-product-card.liquid</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- comment -%}
+  ============================================================
+  Custom Product Card
+  ============================================================
+  Accepts:
+  - product:              {Object}  Product object (required)
+  - show_vendor:          {Boolean} Show vendor name (default: false)
+  - show_secondary_image: {Boolean} Show 2nd image on hover (default: true)
+  - show_sale_badge:      {Boolean} Show sale badge (default: true)
+  - image_ratio:          {String}  'square'|'portrait'|'adapt' (default: 'adapt')
+  - lazy_load:            {Boolean} Lazy load image (default: true)
+
+  Usage:
+  {% render 'custom-product-card',
+    product: product,
+    show_vendor: true,
+    show_secondary_image: true
+  %}
+  ============================================================
+{%- endcomment -%}
+
+{%- liquid
+  assign show_vendor_val = show_vendor | default: false
+  assign show_secondary = show_secondary_image | default: true
+  assign show_badge = show_sale_badge | default: true
+  assign ratio = image_ratio | default: 'adapt'
+  assign lazy = lazy_load | default: true
+  assign on_sale = false
+  assign sold_out = false
+
+  if product.compare_at_price &gt; product.price
+    assign on_sale = true
+    assign savings_pct = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price | round
+  endif
+
+  unless product.available
+    assign sold_out = true
+  endunless
+
+  assign secondary_image = nil
+  if show_secondary and product.images.size &gt; 1
+    assign secondary_image = product.images[1]
+  endif
+-%}
+
+&lt;div class="product-card{% if sold_out %} product-card--sold-out{% endif %}"&gt;
+  &lt;a href="{{ product.url }}" class="product-card__link"
+     aria-label="{{ product.title | escape }}"&gt;
+
+    &lt;!-- Image Container --&gt;
+    &lt;div class="product-card__media product-card__media--{{ ratio }}"&gt;
+      {%- if product.featured_image -%}
+        &lt;img
+          class="product-card__image product-card__image--primary"
+          src="{{ product.featured_image | image_url: width: 600 }}"
+          srcset="
+            {{ product.featured_image | image_url: width: 300 }} 300w,
+            {{ product.featured_image | image_url: width: 450 }} 450w,
+            {{ product.featured_image | image_url: width: 600 }} 600w
+          "
+          sizes="(max-width: 749px) calc(50vw - 24px), (max-width: 999px) 33vw, 25vw"
+          alt="{{ product.featured_image.alt | escape | default: product.title | escape }}"
+          width="{{ product.featured_image.width }}"
+          height="{{ product.featured_image.height }}"
+          {% if lazy %}loading="lazy" decoding="async"{% endif %}
+        &gt;
+
+        {%- if secondary_image -%}
+          &lt;img
+            class="product-card__image product-card__image--secondary"
+            src="{{ secondary_image | image_url: width: 600 }}"
+            alt="{{ secondary_image.alt | escape | default: product.title | escape }}"
+            width="{{ secondary_image.width }}"
+            height="{{ secondary_image.height }}"
+            loading="lazy"
+            decoding="async"
+          &gt;
+        {%- endif -%}
+      {%- else -%}
+        &lt;div class="product-card__placeholder"&gt;
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        &lt;/div&gt;
+      {%- endif -%}
+
+      &lt;!-- Badges --&gt;
+      &lt;div class="product-card__badges"&gt;
+        {%- if sold_out -%}
+          &lt;span class="badge badge--sold-out"&gt;
+            {{ 'products.product.sold_out' | t | default: 'Sold out' }}
+          &lt;/span&gt;
+        {%- elsif on_sale and show_badge -%}
+          &lt;span class="badge badge--sale"&gt;-{{ savings_pct }}%&lt;/span&gt;
+        {%- endif -%}
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Product Info --&gt;
+    &lt;div class="product-card__info"&gt;
+      {%- if show_vendor_val and product.vendor != blank -%}
+        &lt;span class="product-card__vendor"&gt;{{ product.vendor }}&lt;/span&gt;
+      {%- endif -%}
+
+      &lt;h3 class="product-card__title"&gt;{{ product.title | escape }}&lt;/h3&gt;
+
+      &lt;div class="product-card__price"&gt;
+        {%- if on_sale -%}
+          &lt;s class="product-card__compare-price"&gt;
+            {{ product.compare_at_price | money }}
+          &lt;/s&gt;
+          &lt;span class="product-card__sale-price"&gt;
+            {{ product.price | money }}
+          &lt;/span&gt;
+        {%- else -%}
+          &lt;span class="product-card__regular-price"&gt;
+            {%- if product.price_varies -%}
+              {{ 'products.product.price.from' | t: price: product.price | money | default: product.price | money }}
+            {%- else -%}
+              {{ product.price | money }}
+            {%- endif -%}
+          &lt;/span&gt;
+        {%- endif -%}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/a&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">assets/component-product-card.css</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>.product-card {
+  position: relative;
+}
+
+.product-card__link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.product-card__media {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  margin-bottom: 0.75rem;
+}
+
+.product-card__media--adapt { aspect-ratio: auto; }
+.product-card__media--square { aspect-ratio: 1 / 1; }
+.product-card__media--portrait { aspect-ratio: 3 / 4; }
+
+.product-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.product-card__image--secondary {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.product-card:hover .product-card__image--primary {
+  opacity: 0;
+}
+
+.product-card:hover .product-card__image--secondary {
+  opacity: 1;
+}
+
+.product-card:hover .product-card__image--primary:only-child {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.product-card__badges {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  z-index: 2;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.badge--sale {
+  background-color: #ef4444;
+  color: #fff;
+}
+
+.badge--sold-out {
+  background-color: #6b7280;
+  color: #fff;
+}
+
+.product-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.product-card__vendor {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #718096;
+  font-weight: 600;
+}
+
+.product-card__title {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.4;
+  margin: 0;
+  color: #1a1a2e;
+}
+
+.product-card__price {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+}
+
+.product-card__compare-price {
+  color: #9ca3af;
+  text-decoration: line-through;
+  font-size: 0.875rem;
+}
+
+.product-card__sale-price {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.product-card__regular-price {
+  font-weight: 500;
+  color: #1a1a2e;
+}
+
+.product-card--sold-out .product-card__image--primary {
+  opacity: 0.6;
+}</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <!-- EXERCISE 3: FEATURED COLLECTION -->
+          <!-- ====================================================== -->
+          <h2 id="featured-collection">Exercise 3: Featured Collection Section</h2>
+
+          <div class="exercise">
+            <div class="exercise-header">
+              <div class="exercise-icon">🧪</div>
+              <div>
+                <div class="exercise-label">Exercise 3</div>
+                <h3 class="exercise-title">Build a Featured Collection Grid</h3>
+              </div>
+            </div>
+            <div class="exercise-meta">
+              <span class="exercise-meta-item">⏱️ 20 minutes</span>
+              <span class="exercise-meta-item">📁 sections/custom-featured-collection.liquid</span>
+            </div>
+
+            <p><strong>Learning objective:</strong> Combine the product card snippet with a section schema to create a configurable collection grid with the collection picker, column control, and "View all" link.</p>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">sections/custom-featured-collection.liquid</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{{ 'component-product-card.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .section-{{ section.id }} .collection-grid {
+    grid-template-columns: repeat({{ section.settings.columns }}, 1fr);
+  }
+
+  @media (max-width: 999px) {
+    .section-{{ section.id }} .collection-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 549px) {
+    .section-{{ section.id }} .collection-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+  }
+{%- endstyle -%}
+
+{%- assign collection = section.settings.collection -%}
+
+&lt;section class="featured-collection section-{{ section.id }}"&gt;
+  &lt;div class="page-width"&gt;
+
+    {%- if section.settings.heading != blank -%}
+      &lt;div class="featured-collection__header"&gt;
+        &lt;h2 class="featured-collection__heading"&gt;
+          {{ section.settings.heading | escape }}
+        &lt;/h2&gt;
+        {%- if section.settings.show_view_all and collection -%}
+          &lt;a href="{{ collection.url }}" class="featured-collection__view-all"&gt;
+            {{ 'general.view_all' | t | default: 'View all' }} →
+          &lt;/a&gt;
+        {%- endif -%}
+      &lt;/div&gt;
+    {%- endif -%}
+
+    {%- if collection != blank and collection.products.size &gt; 0 -%}
+      &lt;div class="collection-grid"&gt;
+        {%- for product in collection.products limit: section.settings.products_to_show -%}
+          {% render 'custom-product-card',
+            product: product,
+            show_vendor: section.settings.show_vendor,
+            show_secondary_image: section.settings.show_secondary_image,
+            show_sale_badge: true,
+            lazy_load: true
+          %}
+        {%- endfor -%}
+      &lt;/div&gt;
+    {%- else -%}
+      &lt;div class="collection-grid"&gt;
+        {%- for i in (1..section.settings.products_to_show) -%}
+          &lt;div class="product-card product-card--placeholder"&gt;
+            &lt;div class="product-card__media product-card__media--square"&gt;
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            &lt;/div&gt;
+            &lt;div class="product-card__info"&gt;
+              &lt;h3 class="product-card__title"&gt;Product Title&lt;/h3&gt;
+              &lt;div class="product-card__price"&gt;
+                &lt;span&gt;$29.99&lt;/span&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        {%- endfor -%}
+      &lt;/div&gt;
+    {%- endif -%}
+
+  &lt;/div&gt;
+&lt;/section&gt;
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured Products"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns (desktop)",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "label": "Show second image on hover",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View all' link",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0, "max": 100, "step": 4, "default": 40, "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0, "max": 100, "step": 4, "default": 40, "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection"
+    }
+  ]
+}
+{% endschema %}</code></pre>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Placeholder Content</div>
+            <p>
+              Notice the <code>{% else %}</code> branch that renders placeholder content when no
+              collection is selected. This ensures the section looks reasonable in the theme editor
+              even before the merchant picks a collection. Professional themes always handle
+              empty states gracefully.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <!-- EXERCISE 4: ANNOUNCEMENT BAR -->
+          <!-- ====================================================== -->
+          <h2 id="announcement-bar">Exercise 4: Announcement Bar</h2>
+
+          <div class="exercise">
+            <div class="exercise-header">
+              <div class="exercise-icon">🧪</div>
+              <div>
+                <div class="exercise-label">Exercise 4</div>
+                <h3 class="exercise-title">Create an Announcement Bar</h3>
+              </div>
+            </div>
+            <div class="exercise-meta">
+              <span class="exercise-meta-item">⏱️ 25 minutes</span>
+              <span class="exercise-meta-item">📁 sections/custom-announcement-bar.liquid</span>
+            </div>
+
+            <p><strong>Learning objective:</strong> Build a top-of-page announcement bar with multiple rotating messages, custom colors, and a dismiss button using JavaScript.</p>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">sections/custom-announcement-bar.liquid</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- style -%}
+  .announcement-bar-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+  }
+
+  .announcement-bar-{{ section.id }} a {
+    color: {{ section.settings.text_color }};
+  }
+{%- endstyle -%}
+
+{%- if section.blocks.size &gt; 0 -%}
+  &lt;div
+    class="announcement-bar announcement-bar-{{ section.id }}"
+    role="region"
+    aria-label="Announcement"
+    data-announcement-bar
+  &gt;
+    &lt;div class="announcement-bar__content"&gt;
+      {%- for block in section.blocks -%}
+        &lt;div
+          class="announcement-bar__message{% if forloop.first %} announcement-bar__message--active{% endif %}"
+          {{ block.shopify_attributes }}
+          data-announcement-message
+        &gt;
+          {%- if block.settings.link != blank -%}
+            &lt;a href="{{ block.settings.link }}"&gt;
+              {{ block.settings.text | escape }}
+            &lt;/a&gt;
+          {%- else -%}
+            &lt;p&gt;{{ block.settings.text | escape }}&lt;/p&gt;
+          {%- endif -%}
+        &lt;/div&gt;
+      {%- endfor -%}
+    &lt;/div&gt;
+
+    {%- if section.settings.show_close -%}
+      &lt;button
+        class="announcement-bar__close"
+        aria-label="{{ 'accessibility.close' | t | default: 'Close' }}"
+        data-announcement-close
+      &gt;
+        ✕
+      &lt;/button&gt;
+    {%- endif -%}
+  &lt;/div&gt;
+
+  &lt;style&gt;
+    .announcement-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 2rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      text-align: center;
+      position: relative;
+      min-height: 40px;
+    }
+
+    .announcement-bar__content {
+      position: relative;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .announcement-bar__message {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .announcement-bar__message--active {
+      display: block;
+    }
+
+    .announcement-bar__message p,
+    .announcement-bar__message a {
+      margin: 0;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .announcement-bar__message a:hover {
+      text-decoration: underline;
+    }
+
+    .announcement-bar__close {
+      background: none;
+      border: none;
+      color: inherit;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.25rem 0.5rem;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+      position: absolute;
+      right: 0.75rem;
+    }
+
+    .announcement-bar__close:hover {
+      opacity: 1;
+    }
+
+    .announcement-bar[hidden] {
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  &lt;/style&gt;
+
+  {%- if section.blocks.size &gt; 1 and section.settings.auto_rotate -%}
+    &lt;script&gt;
+      (function() {
+        const bar = document.querySelector('[data-announcement-bar]');
+        if (!bar) return;
+
+        const messages = bar.querySelectorAll('[data-announcement-message]');
+        if (messages.length &lt;= 1) return;
+
+        let current = 0;
+        const speed = {{ section.settings.rotate_speed | default: 5 }} * 1000;
+
+        setInterval(function() {
+          messages[current].classList.remove('announcement-bar__message--active');
+          current = (current + 1) % messages.length;
+          messages[current].classList.add('announcement-bar__message--active');
+        }, speed);
+      })();
+    &lt;/script&gt;
+  {%- endif -%}
+
+  &lt;script&gt;
+    document.addEventListener('click', function(e) {
+      const closeBtn = e.target.closest('[data-announcement-close]');
+      if (!closeBtn) return;
+
+      const bar = closeBtn.closest('[data-announcement-bar]');
+      if (bar) {
+        bar.hidden = true;
+        sessionStorage.setItem('announcement-dismissed', 'true');
+      }
+    });
+
+    if (sessionStorage.getItem('announcement-dismissed') === 'true') {
+      const bar = document.querySelector('[data-announcement-bar]');
+      if (bar) bar.hidden = true;
+    }
+  &lt;/script&gt;
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#1a1a2e"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_close",
+      "label": "Show close button",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "Auto-rotate messages",
+      "default": true,
+      "info": "Only when multiple messages are added"
+    },
+    {
+      "type": "range",
+      "id": "rotate_speed",
+      "label": "Rotation speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "default": 5,
+      "unit": "sec"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Free shipping on orders over $50!"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (optional)"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "presets": [
+    {
+      "name": "Announcement Bar",
+      "blocks": [
+        {
+          "type": "message",
+          "settings": {
+            "text": "🎉 Free shipping on orders over $50!"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <!-- EXERCISE 5: MEGA MENU CONCEPT -->
+          <!-- ====================================================== -->
+          <h2 id="mega-menu">Exercise 5: Mega Menu Concept</h2>
+
+          <div class="exercise">
+            <div class="exercise-header">
+              <div class="exercise-icon">🧪</div>
+              <div>
+                <div class="exercise-label">Exercise 5</div>
+                <h3 class="exercise-title">Create a Mega Menu Dropdown</h3>
+              </div>
+            </div>
+            <div class="exercise-meta">
+              <span class="exercise-meta-item">⏱️ 35 minutes</span>
+              <span class="exercise-meta-item">📁 snippets/mega-menu.liquid</span>
+              <span class="exercise-meta-item">📁 assets/component-mega-menu.css</span>
+            </div>
+
+            <p><strong>Learning objective:</strong> Build a multi-column dropdown navigation that renders child links from a Shopify navigation menu. This is a critical component in premium themes.</p>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">snippets/mega-menu.liquid</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- comment -%}
+  ============================================================
+  Mega Menu Dropdown
+  ============================================================
+  Accepts:
+  - link: {Object} A linklist link that has child links
+  - featured_image: {Object} Optional featured image
+
+  Usage (inside header nav loop):
+  {% if link.links.size > 0 %}
+    {% render 'mega-menu', link: link %}
+  {% endif %}
+  ============================================================
+{%- endcomment -%}
+
+&lt;div class="mega-menu" data-mega-menu&gt;
+  &lt;div class="mega-menu__inner page-width"&gt;
+
+    &lt;!-- Link Columns --&gt;
+    &lt;div class="mega-menu__links"&gt;
+      {%- for child_link in link.links -%}
+        &lt;div class="mega-menu__column"&gt;
+          &lt;h3 class="mega-menu__column-title"&gt;
+            {%- if child_link.url != '#' -%}
+              &lt;a href="{{ child_link.url }}"&gt;{{ child_link.title | escape }}&lt;/a&gt;
+            {%- else -%}
+              {{ child_link.title | escape }}
+            {%- endif -%}
+          &lt;/h3&gt;
+
+          {%- if child_link.links.size &gt; 0 -%}
+            &lt;ul class="mega-menu__list"&gt;
+              {%- for grandchild_link in child_link.links -%}
+                &lt;li&gt;
+                  &lt;a
+                    href="{{ grandchild_link.url }}"
+                    class="mega-menu__link{% if grandchild_link.active %} mega-menu__link--active{% endif %}"
+                  &gt;
+                    {{ grandchild_link.title | escape }}
+                  &lt;/a&gt;
+                &lt;/li&gt;
+              {%- endfor -%}
+            &lt;/ul&gt;
+          {%- endif -%}
+        &lt;/div&gt;
+      {%- endfor -%}
+    &lt;/div&gt;
+
+    &lt;!-- Optional: Featured image or promotion --&gt;
+    {%- if featured_image -%}
+      &lt;div class="mega-menu__featured"&gt;
+        &lt;img
+          src="{{ featured_image | image_url: width: 400 }}"
+          alt="{{ featured_image.alt | escape }}"
+          width="400"
+          loading="lazy"
+        &gt;
+      &lt;/div&gt;
+    {%- endif -%}
+
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">assets/component-mega-menu.css</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>.header__nav-item {
+  position: relative;
+}
+
+.mega-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: all 0.25s ease;
+  z-index: 100;
+}
+
+.header__nav-item:hover .mega-menu,
+.header__nav-item:focus-within .mega-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.mega-menu__inner {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.mega-menu__links {
+  display: flex;
+  gap: 2.5rem;
+  flex: 1;
+}
+
+.mega-menu__column {
+  min-width: 160px;
+}
+
+.mega-menu__column-title {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.75rem;
+  color: #1a1a2e;
+}
+
+.mega-menu__column-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.mega-menu__column-title a:hover {
+  color: var(--color-primary, #6366f1);
+}
+
+.mega-menu__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mega-menu__list li {
+  margin-bottom: 0.375rem;
+}
+
+.mega-menu__link {
+  font-size: 0.875rem;
+  color: #4a5568;
+  text-decoration: none;
+  transition: color 0.15s ease;
+  display: block;
+  padding: 0.125rem 0;
+}
+
+.mega-menu__link:hover,
+.mega-menu__link--active {
+  color: var(--color-primary, #6366f1);
+}
+
+.mega-menu__featured {
+  flex-shrink: 0;
+  width: 280px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mega-menu__featured img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}</code></pre>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Navigation Menu Setup</div>
+            <p>
+              The mega menu reads from Shopify's navigation menu structure. In your Shopify admin,
+              create a menu with <strong>three levels of nesting</strong>:
+              <code>Main Menu → Category → Subcategory</code>. The mega menu will automatically
+              render each top-level item's children as columns, and grandchildren as links within
+              those columns.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <!-- EXERCISE 6: STICKY ADD TO CART -->
+          <!-- ====================================================== -->
+          <h2 id="sticky-add-to-cart">Exercise 6: Sticky Add-to-Cart Bar</h2>
+
+          <div class="exercise">
+            <div class="exercise-header">
+              <div class="exercise-icon">🧪</div>
+              <div>
+                <div class="exercise-label">Exercise 6</div>
+                <h3 class="exercise-title">Add a Sticky Add-to-Cart Bar</h3>
+              </div>
+            </div>
+            <div class="exercise-meta">
+              <span class="exercise-meta-item">⏱️ 30 minutes</span>
+              <span class="exercise-meta-item">📁 snippets/sticky-atc.liquid</span>
+              <span class="exercise-meta-item">📁 assets/component-sticky-atc.css</span>
+              <span class="exercise-meta-item">📁 assets/sticky-atc.js</span>
+            </div>
+
+            <p><strong>Learning objective:</strong> Build a fixed bottom bar that appears when the main product form scrolls out of view. This is a premium feature found in themes like Kalles.</p>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">snippets/sticky-atc.liquid</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- comment -%}
+  ============================================================
+  Sticky Add-to-Cart Bar
+  ============================================================
+  Must be rendered inside a product template/section.
+  Requires: product object in scope.
+
+  Usage (inside sections/main-product.liquid, before endtag):
+    {% render 'sticky-atc', product: product %}
+  ============================================================
+{%- endcomment -%}
+
+{{ 'component-sticky-atc.css' | asset_url | stylesheet_tag }}
+
+&lt;div class="sticky-atc" data-sticky-atc hidden&gt;
+  &lt;div class="sticky-atc__inner page-width"&gt;
+
+    &lt;!-- Product info --&gt;
+    &lt;div class="sticky-atc__product"&gt;
+      {%- if product.featured_image -%}
+        &lt;img
+          class="sticky-atc__image"
+          src="{{ product.featured_image | image_url: width: 60, height: 60, crop: 'center' }}"
+          alt="{{ product.title | escape }}"
+          width="60"
+          height="60"
+        &gt;
+      {%- endif -%}
+      &lt;div class="sticky-atc__details"&gt;
+        &lt;span class="sticky-atc__title"&gt;{{ product.title | escape }}&lt;/span&gt;
+        &lt;span class="sticky-atc__price"&gt;
+          {%- if product.compare_at_price &gt; product.price -%}
+            &lt;s&gt;{{ product.compare_at_price | money }}&lt;/s&gt;
+          {%- endif -%}
+          {{ product.price | money }}
+        &lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Action --&gt;
+    &lt;div class="sticky-atc__action"&gt;
+      {%- if product.available -%}
+        {%- if product.variants.size == 1 -%}
+          &lt;form action="/cart/add" method="post"&gt;
+            &lt;input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}"&gt;
+            &lt;button type="submit" class="sticky-atc__btn"&gt;
+              {{ 'products.product.add_to_cart' | t | default: 'Add to Cart' }}
+            &lt;/button&gt;
+          &lt;/form&gt;
+        {%- else -%}
+          &lt;a href="#ProductForm-{{ product.id }}" class="sticky-atc__btn sticky-atc__btn--scroll"&gt;
+            {{ 'products.product.select_options' | t | default: 'Select Options' }}
+          &lt;/a&gt;
+        {%- endif -%}
+      {%- else -%}
+        &lt;button class="sticky-atc__btn sticky-atc__btn--disabled" disabled&gt;
+          {{ 'products.product.sold_out' | t | default: 'Sold Out' }}
+        &lt;/button&gt;
+      {%- endif -%}
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script src="{{ 'sticky-atc.js' | asset_url }}" defer="defer"&gt;&lt;/script&gt;</code></pre>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">assets/component-sticky-atc.css</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>.sticky-atc {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.06);
+  z-index: 90;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.sticky-atc.is-visible {
+  transform: translateY(0);
+}
+
+.sticky-atc[hidden] {
+  display: none;
+}
+
+.sticky-atc__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  gap: 1rem;
+}
+
+.sticky-atc__product {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.sticky-atc__image {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.sticky-atc__details {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.sticky-atc__title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sticky-atc__price {
+  font-size: 0.8125rem;
+  color: #4a5568;
+}
+
+.sticky-atc__price s {
+  color: #9ca3af;
+  margin-right: 0.5rem;
+}
+
+.sticky-atc__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.75rem;
+  background-color: #1a1a2e;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+
+.sticky-atc__btn:hover {
+  background-color: #2d2d4e;
+}
+
+.sticky-atc__btn--disabled {
+  background-color: #d1d5db;
+  cursor: not-allowed;
+}
+
+@media (max-width: 549px) {
+  .sticky-atc__image { display: none; }
+  .sticky-atc__title { font-size: 0.8125rem; }
+}</code></pre>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">assets/sticky-atc.js</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>/**
+ * Sticky Add-to-Cart Bar
+ * Shows a fixed bar when the main product form scrolls out of viewport
+ */
+(function() {
+  'use strict';
+
+  const stickyBar = document.querySelector('[data-sticky-atc]');
+  if (!stickyBar) return;
+
+  // Find the main product form or buy button as the trigger element
+  const productForm = document.querySelector('product-form')
+    || document.querySelector('[data-product-form]')
+    || document.querySelector('.product-form__submit');
+
+  if (!productForm) {
+    // No product form found — don't show sticky bar
+    return;
+  }
+
+  // Remove the hidden attribute so CSS transitions can work
+  stickyBar.removeAttribute('hidden');
+
+  // Create an Intersection Observer
+  const observer = new IntersectionObserver(
+    function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          // Product form is visible — hide sticky bar
+          stickyBar.classList.remove('is-visible');
+        } else {
+          // Product form scrolled away — show sticky bar
+          stickyBar.classList.add('is-visible');
+        }
+      });
+    },
+    {
+      root: null,
+      threshold: 0,
+      rootMargin: '0px'
+    }
+  );
+
+  observer.observe(productForm);
+
+  // Scroll-to-form for multi-variant products
+  const scrollBtn = stickyBar.querySelector('.sticky-atc__btn--scroll');
+  if (scrollBtn) {
+    scrollBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href').substring(1);
+      const target = document.getElementById(targetId);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  }
+})();</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <!-- EXERCISE 7: PRODUCT PAGE CUSTOMIZATION -->
+          <!-- ====================================================== -->
+          <h2 id="product-page">Exercise 7: Customize the Dawn Product Page</h2>
+
+          <div class="exercise">
+            <div class="exercise-header">
+              <div class="exercise-icon">🧪</div>
+              <div>
+                <div class="exercise-label">Exercise 7</div>
+                <h3 class="exercise-title">Enhance Dawn's Product Page</h3>
+              </div>
+            </div>
+            <div class="exercise-meta">
+              <span class="exercise-meta-item">⏱️ 30 minutes</span>
+              <span class="exercise-meta-item">📁 sections/main-product.liquid (modify)</span>
+              <span class="exercise-meta-item">📁 snippets/sticky-atc.liquid (include)</span>
+            </div>
+
+            <p><strong>Learning objective:</strong> Modify Dawn's existing product page to add custom features — demonstrating how to extend an existing theme rather than replacing it.</p>
+          </div>
+
+          <p>
+            Instead of building a product page from scratch, professional developers
+            <strong>extend</strong> the existing <code>main-product</code> section. Here are
+            specific modifications you can make:
+          </p>
+
+          <h3 id="mod-trust-badges">Modification 1: Add Trust Badges Block</h3>
+
+          <p>
+            Add this block definition to the <code>blocks</code> array in
+            <code>sections/main-product.liquid</code>'s schema:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Add to main-product.liquid schema → blocks array</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{
+  "type": "trust_badges",
+  "name": "Trust badges",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge_1_text",
+      "label": "Badge 1 text",
+      "default": "🔒 Secure checkout"
+    },
+    {
+      "type": "text",
+      "id": "badge_2_text",
+      "label": "Badge 2 text",
+      "default": "🚚 Free shipping"
+    },
+    {
+      "type": "text",
+      "id": "badge_3_text",
+      "label": "Badge 3 text",
+      "default": "↩️ Easy returns"
+    }
+  ]
+}</code></pre>
+          </div>
+
+          <p>Then add the rendering logic inside the block loop:</p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Add to block rendering loop in main-product.liquid</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- when 'trust_badges' -%}
+  &lt;div class="trust-badges" {{ block.shopify_attributes }}&gt;
+    {%- if block.settings.badge_1_text != blank -%}
+      &lt;span class="trust-badge"&gt;{{ block.settings.badge_1_text }}&lt;/span&gt;
+    {%- endif -%}
+    {%- if block.settings.badge_2_text != blank -%}
+      &lt;span class="trust-badge"&gt;{{ block.settings.badge_2_text }}&lt;/span&gt;
+    {%- endif -%}
+    {%- if block.settings.badge_3_text != blank -%}
+      &lt;span class="trust-badge"&gt;{{ block.settings.badge_3_text }}&lt;/span&gt;
+    {%- endif -%}
+  &lt;/div&gt;</code></pre>
+          </div>
+
+          <h3 id="mod-sticky">Modification 2: Add the Sticky Add-to-Cart</h3>
+
+          <p>
+            At the bottom of <code>sections/main-product.liquid</code>, just before the
+            <code>{% schema %}</code> tag, add:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Add at bottom of sections/main-product.liquid</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- if section.settings.enable_sticky_atc -%}
+  {% render 'sticky-atc', product: product %}
+{%- endif -%}</code></pre>
+          </div>
+
+          <p>And add the setting to the schema:</p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Add to main-product.liquid schema → settings</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{
+  "type": "checkbox",
+  "id": "enable_sticky_atc",
+  "label": "Enable sticky add-to-cart bar",
+  "default": true,
+  "info": "Shows a fixed bar at the bottom when the buy button scrolls out of view"
+}</code></pre>
+          </div>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ Extending vs. Replacing</div>
+            <p>
+              Professional developers <strong>extend</strong> existing sections rather than
+              rewriting them from scratch. This approach:<br>
+              <strong>1.</strong> Preserves all existing functionality<br>
+              <strong>2.</strong> Makes it easy to update the base theme later<br>
+              <strong>3.</strong> Reduces the chance of introducing bugs<br>
+              <strong>4.</strong> Is faster than building from scratch
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="javascript-patterns">JavaScript in Shopify Themes</h2>
+
+          <p>
+            Shopify themes use vanilla JavaScript — no React, no Vue, no jQuery by default. Dawn
+            uses <strong>Web Components</strong> (Custom Elements) for interactive features.
+            Here's the pattern:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Dawn's Web Component Pattern</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>// Define a custom element
+class QuantityInput extends HTMLElement {
+  constructor() {
+    super();
+    this.input = this.querySelector('input');
+    this.changeEvent = new Event('change', { bubbles: true });
+
+    this.querySelector('[name="minus"]')
+      .addEventListener('click', this.onButtonClick.bind(this, -1));
+    this.querySelector('[name="plus"]')
+      .addEventListener('click', this.onButtonClick.bind(this, 1));
+  }
+
+  onButtonClick(direction) {
+    const previousValue = this.input.value;
+    if (direction === 1) {
+      this.input.stepUp();
+    } else {
+      this.input.stepDown();
+    }
+
+    if (previousValue !== this.input.value) {
+      this.input.dispatchEvent(this.changeEvent);
+    }
+  }
+}
+
+// Register the custom element
+customElements.define('quantity-input', QuantityInput);</code></pre>
+          </div>
+
+          <p>Then use it in Liquid like a regular HTML element:</p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Using Custom Elements in Liquid</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;quantity-input class="quantity"&gt;
+  &lt;button name="minus" type="button" aria-label="Decrease quantity"&gt;−&lt;/button&gt;
+  &lt;input type="number" name="quantity" value="1" min="1" max="10"&gt;
+  &lt;button name="plus" type="button" aria-label="Increase quantity"&gt;+&lt;/button&gt;
+&lt;/quantity-input&gt;</code></pre>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Why Web Components?</div>
+            <p>
+              Web Components are perfect for Shopify themes because:<br>
+              <strong>1.</strong> No framework dependencies — zero bundle overhead<br>
+              <strong>2.</strong> Encapsulated — each component manages its own state<br>
+              <strong>3.</strong> Native browser support — no polyfills needed<br>
+              <strong>4.</strong> Works naturally with Liquid — just use custom HTML tags<br>
+              <strong>5.</strong> Progressive enhancement — page works without JS, JS adds interactivity
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="key-takeaways">Key Takeaways</h2>
+
+          <ul class="checklist">
+            <li>Always handle responsive design from the start — test at multiple breakpoints</li>
+            <li>Use snippets for reusable components (product cards, icons, price display)</li>
+            <li>Use sections for page-level components with theme editor settings</li>
+            <li>Provide placeholder content for empty states</li>
+            <li>Use Intersection Observer for scroll-based behaviors (sticky bars, lazy loading)</li>
+            <li>Extend Dawn's existing sections rather than rewriting from scratch</li>
+            <li>Web Components (Custom Elements) are the preferred JS pattern in Shopify themes</li>
+            <li>Always make components accessible (aria labels, keyboard navigation, focus management)</li>
+            <li>Test your components with real product data in a development store</li>
+          </ul>
+
+          <!-- Page Navigation -->
+          <div class="page-nav">
+            <a href="sections-and-blocks.html" class="page-nav-link">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Sections &amp; Blocks</span>
+            </a>
+            <a href="premium-theme-analysis.html" class="page-nav-link page-nav-link--next">
+              <span class="page-nav-label">Next Chapter →</span>
+              <span class="page-nav-title">Premium Theme Analysis</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <footer class="doc-footer">
+        <p>
+          Shopify Theme Developer Handbook — Built with care for <strong>Gamal</strong><br>
+          <small>Not affiliated with Shopify Inc. For educational purposes only.</small>
+        </p>
+      </footer>
+
+    </main>
+  </div>
+
+</body>
+</html>

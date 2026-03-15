@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Optimize Shopify themes for Core Web Vitals — lazy loading, critical CSS, JavaScript optimization, image best practices, and performance auditing">
+  <title>Performance Optimization — Shopify Theme Developer Handbook</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script defer src="assets/js/script.js"></script>
+</head>
+<body>
+
+  <div class="progress-bar">
+    <div class="progress-bar-fill"></div>
+  </div>
+
+  <div class="doc-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation" aria-label="Main navigation">
+      <div class="sidebar-brand">
+        <a href="index.html" class="sidebar-brand-link">
+          <div class="sidebar-brand-icon">S</div>
+          <div class="sidebar-brand-text">
+            <span class="sidebar-brand-title">Shopify Handbook</span>
+            <span class="sidebar-brand-subtitle">Theme Development Guide</span>
+          </div>
+        </a>
+      </div>
+      <div class="sidebar-search">
+        <div class="sidebar-search-wrapper">
+          <span class="sidebar-search-icon">🔍</span>
+          <input type="text" class="sidebar-search-input" placeholder="Search docs... (Ctrl+K)" aria-label="Search documentation">
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Getting Started</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="index.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🏠</span> Introduction</a></li>
+            <li class="sidebar-nav-item"><a href="setup.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">⚙️</span> Development Setup</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Core Concepts</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="shopify-architecture.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🏗️</span> Shopify Architecture</a></li>
+            <li class="sidebar-nav-item"><a href="liquid-basics.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">💧</span> Liquid Basics</a></li>
+            <li class="sidebar-nav-item"><a href="theme-structure.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">📁</span> Theme Folder Structure</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Building Themes</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="sections-and-blocks.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🧱</span> Sections &amp; Blocks</a></li>
+            <li class="sidebar-nav-item"><a href="theme-components.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🧩</span> Theme Components</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Advanced</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="premium-theme-analysis.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🔍</span> Premium Theme Analysis</a></li>
+            <li class="sidebar-nav-item"><a href="design-experiments.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🎨</span> Design Experimentation</a></li>
+            <li class="sidebar-nav-item"><a href="performance.html" class="sidebar-nav-link active"><span class="sidebar-nav-link-icon">⚡</span> Performance</a></li>
+          </ul>
+        </div>
+        <div class="sidebar-nav-group">
+          <div class="sidebar-nav-group-title">Production</div>
+          <ul class="sidebar-nav-list">
+            <li class="sidebar-nav-item"><a href="deployment.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">🚀</span> Deployment</a></li>
+            <li class="sidebar-nav-item"><a href="freelancing.html" class="sidebar-nav-link"><span class="sidebar-nav-link-icon">💼</span> Freelance Strategy</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-theme-toggle" role="button" tabindex="0" aria-label="Toggle dark mode">
+          <span class="sidebar-theme-toggle-label">🌙 Dark Mode</span>
+          <div class="theme-toggle-switch"></div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-wrapper">
+
+      <header class="top-header">
+        <div class="top-header-left">
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+          <div class="breadcrumbs">
+            <a href="index.html">Handbook</a>
+            <span class="breadcrumbs-separator">/</span>
+            <span class="breadcrumbs-current">Performance</span>
+          </div>
+        </div>
+        <div class="top-header-right">
+          <a href="https://github.com" class="header-link" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
+          <a href="https://shopify.dev" class="header-link" target="_blank" rel="noopener noreferrer"><span>Shopify Docs</span></a>
+        </div>
+      </header>
+
+      <div class="content-container">
+        <div class="content">
+
+          <h1>Performance Optimization</h1>
+          <p class="lead">
+            Speed sells. A 1-second delay in page load reduces conversions by 7%. This chapter
+            covers everything you need to know about optimizing Shopify themes for Core Web
+            Vitals, from image optimization to JavaScript management and beyond.
+          </p>
+
+          <div class="callout callout-info">
+            <div class="callout-title">📌 Chapter Overview</div>
+            <p>
+              <strong>Time estimate:</strong> 60 – 75 minutes<br>
+              <strong>Tags:</strong>
+              <span class="tag tag-html">HTML</span>
+              <span class="tag tag-css">CSS</span>
+              <span class="tag tag-js">JavaScript</span>
+              <span class="tag tag-liquid">Liquid</span>
+            </p>
+          </div>
+
+          <div id="table-of-contents" style="margin-bottom: var(--space-8);"></div>
+
+          <!-- ====================================================== -->
+          <h2 id="core-web-vitals">Core Web Vitals Explained</h2>
+
+          <p>
+            Google uses <strong>Core Web Vitals</strong> as ranking signals. They also directly
+            affect user experience and conversion rates. Here are the three metrics you must
+            optimize:
+          </p>
+
+          <div class="card-grid">
+            <div class="card">
+              <div class="card-icon">🎨</div>
+              <h3 class="card-title">LCP — Largest Contentful Paint</h3>
+              <p class="card-description">
+                How fast the largest visible element (usually a hero image) renders.
+                <strong>Target: under 2.5 seconds.</strong>
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">👆</div>
+              <h3 class="card-title">INP — Interaction to Next Paint</h3>
+              <p class="card-description">
+                How quickly the page responds to user interactions (clicks, taps, keyboard).
+                <strong>Target: under 200 milliseconds.</strong>
+              </p>
+            </div>
+            <div class="card">
+              <div class="card-icon">📐</div>
+              <h3 class="card-title">CLS — Cumulative Layout Shift</h3>
+              <p class="card-description">
+                How much the page layout shifts during loading (elements jumping around).
+                <strong>Target: under 0.1.</strong>
+              </p>
+            </div>
+          </div>
+
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Shopify's Performance Dashboard</div>
+            <p>
+              Shopify provides a built-in speed score in the admin under
+              <strong>Online Store → Themes → Speed report</strong>. This score compares your
+              theme to similar stores. Aim for a score above 50 — anything above 70 is excellent.
+              Remember: Shopify's <code>content_for_header</code> injects scripts you can't control,
+              which affects the score. Focus on what <em>you</em> can optimize.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="image-optimization">Image Optimization (Biggest Impact)</h2>
+
+          <p>
+            Images account for 50–80% of page weight on most eCommerce sites. This is your
+            highest-impact optimization area.
+          </p>
+
+          <h3 id="image-responsive">Responsive Images with srcset</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Optimized Responsive Image Pattern</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- comment -%}
+  PERFORMANCE-OPTIMIZED IMAGE PATTERN
+  Key principles:
+  1. Use srcset for responsive sizing
+  2. Use sizes to tell browser expected display width
+  3. Always set width and height (prevents CLS)
+  4. Lazy-load below-fold images
+  5. Eager-load above-fold hero/LCP images
+{%- endcomment -%}
+
+{%- assign is_above_fold = false -%}
+{%- if section.index == 1 -%}
+  {%- assign is_above_fold = true -%}
+{%- endif -%}
+
+&lt;img
+  src="{{ image | image_url: width: 800 }}"
+  srcset="
+    {{ image | image_url: width: 200 }} 200w,
+    {{ image | image_url: width: 400 }} 400w,
+    {{ image | image_url: width: 600 }} 600w,
+    {{ image | image_url: width: 800 }} 800w,
+    {{ image | image_url: width: 1000 }} 1000w,
+    {{ image | image_url: width: 1400 }} 1400w
+  "
+  sizes="(max-width: 749px) calc(100vw - 40px),
+         (max-width: 999px) calc(50vw - 40px),
+         400px"
+  alt="{{ image.alt | escape }}"
+  width="{{ image.width }}"
+  height="{{ image.height }}"
+  {% if is_above_fold %}
+    loading="eager"
+    fetchpriority="high"
+  {% else %}
+    loading="lazy"
+    decoding="async"
+  {% endif %}
+&gt;</code></pre>
+          </div>
+
+          <h3 id="image-rules">Image Optimization Rules</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rule</th>
+                  <th>Why</th>
+                  <th>How</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Always use <code>srcset</code></strong></td>
+                  <td>Browser picks the right size for the device</td>
+                  <td>Provide 4–6 width options from 200px to 1400px</td>
+                </tr>
+                <tr>
+                  <td><strong>Always use <code>sizes</code></strong></td>
+                  <td>Tells the browser expected display width before image loads</td>
+                  <td>Match your CSS layout breakpoints</td>
+                </tr>
+                <tr>
+                  <td><strong>Always set <code>width</code> and <code>height</code></strong></td>
+                  <td>Prevents CLS by reserving space before image loads</td>
+                  <td><code>width="{{ image.width }}" height="{{ image.height }}"</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Lazy-load below-fold images</strong></td>
+                  <td>Reduces initial page weight and load time</td>
+                  <td><code>loading="lazy"</code> on everything below the fold</td>
+                </tr>
+                <tr>
+                  <td><strong>Eager-load hero/LCP image</strong></td>
+                  <td>Ensures the largest element loads fast (LCP)</td>
+                  <td><code>loading="eager" fetchpriority="high"</code> on hero image</td>
+                </tr>
+                <tr>
+                  <td><strong>Use <code>decoding="async"</code></strong></td>
+                  <td>Prevents image decoding from blocking rendering</td>
+                  <td>Add to all lazy-loaded images</td>
+                </tr>
+                <tr>
+                  <td><strong>Don't load what's hidden</strong></td>
+                  <td>Hidden images still download and waste bandwidth</td>
+                  <td>Use Liquid conditionals to prevent rendering hidden images</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 id="image-preload">Preloading the LCP Image</h3>
+
+          <p>
+            For the hero banner (usually the LCP element), preload the image in the
+            <code>&lt;head&gt;</code> of <code>theme.liquid</code>:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Preloading LCP Image in layout/theme.liquid</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- In the &lt;head&gt; section of theme.liquid --&gt;
+{%- if template.name == 'index' -%}
+  {%- assign hero_image = sections['hero'].settings.image -%}
+  {%- if hero_image -%}
+    &lt;link
+      rel="preload"
+      as="image"
+      href="{{ hero_image | image_url: width: 1400 }}"
+      imagesrcset="
+        {{ hero_image | image_url: width: 600 }} 600w,
+        {{ hero_image | image_url: width: 1000 }} 1000w,
+        {{ hero_image | image_url: width: 1400 }} 1400w
+      "
+      imagesizes="100vw"
+    &gt;
+  {%- endif -%}
+{%- endif -%}</code></pre>
+          </div>
+
+          <div class="callout callout-success">
+            <div class="callout-title">✅ Shopify Handles Image Format Optimization</div>
+            <p>
+              Shopify's CDN automatically serves images in modern formats (WebP, AVIF) when
+              the browser supports them. You don't need to handle format conversion — just
+              focus on serving the right <em>size</em> via <code>srcset</code> and <code>sizes</code>.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="css-optimization">CSS Optimization</h2>
+
+          <h3 id="css-splitting">Split and Conditionally Load CSS</h3>
+
+          <p>
+            Don't load all your CSS on every page. Split into logical files and load
+            only what's needed:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">CSS Loading Strategy</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- comment -%}
+  BASE CSS: loads on every page (keep this small!)
+  Contains: reset, typography, utilities, layout grid, buttons
+{%- endcomment -%}
+{{ 'base.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  COMPONENT CSS: loaded only in sections that use them
+  Each section's .liquid file loads its own CSS at the top
+{%- endcomment -%}
+
+{%- comment -%} In sections/featured-collection.liquid: {%- endcomment -%}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'section-featured-collection.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%} In sections/slideshow.liquid: {%- endcomment -%}
+{{ 'section-slideshow.css' | asset_url | stylesheet_tag }}</code></pre>
+          </div>
+
+          <h3 id="css-critical">Critical CSS Inline Strategy</h3>
+
+          <p>
+            For above-the-fold content, consider inlining critical CSS to eliminate
+            render-blocking requests:
+          </p>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Critical CSS Approach</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- In layout/theme.liquid &lt;head&gt; --&gt;
+
+&lt;!-- Critical CSS inlined for instant first render --&gt;
+&lt;style&gt;
+  /* Only the minimum CSS needed for above-the-fold content */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; }
+  body { font-family: var(--font-body-family); color: var(--color-text); }
+  .page-width { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+  img { max-width: 100%; height: auto; display: block; }
+  .visually-hidden { position: absolute; clip: rect(0,0,0,0); }
+
+  /* Header critical styles */
+  .header { position: sticky; top: 0; z-index: 100; }
+&lt;/style&gt;
+
+&lt;!-- Non-critical CSS loaded asynchronously --&gt;
+&lt;link
+  rel="preload"
+  href="{{ 'base.css' | asset_url }}"
+  as="style"
+  onload="this.onload=null;this.rel='stylesheet'"
+&gt;
+&lt;noscript&gt;{{ 'base.css' | asset_url | stylesheet_tag }}&lt;/noscript&gt;</code></pre>
+          </div>
+
+          <h3 id="css-best-practices">CSS Performance Best Practices</h3>
+
+          <ul>
+            <li><strong>Avoid <code>@import</code></strong> — It creates additional blocking requests. Use <code>stylesheet_tag</code> instead.</li>
+            <li><strong>Minimize use of <code>!important</code></strong> — It makes CSS harder to optimize and override.</li>
+            <li><strong>Use CSS custom properties</strong> — They're more performant than Sass variables at runtime.</li>
+            <li><strong>Avoid complex selectors</strong> — <code>.product-card__title</code> is faster than <code>div.grid > .product-card > .card-inner > h3.title</code>.</li>
+            <li><strong>Use <code>will-change</code> sparingly</strong> — Only on elements that actually animate. Overuse wastes GPU memory.</li>
+            <li><strong>Prefer <code>transform</code> and <code>opacity</code> for animations</strong> — They don't trigger layout recalculations.</li>
+          </ul>
+
+          <!-- ====================================================== -->
+          <h2 id="js-optimization">JavaScript Optimization</h2>
+
+          <p>
+            JavaScript is the most expensive resource type. It must be downloaded, parsed,
+            compiled, and executed — each step blocks rendering or interaction.
+          </p>
+
+          <h3 id="js-loading">Loading Strategies</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">JavaScript Loading Patterns</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- DEFER: Download in parallel, execute after HTML parsing --&gt;
+&lt;!-- Use for: All JavaScript files (recommended default) --&gt;
+&lt;script src="{{ 'global.js' | asset_url }}" defer&gt;&lt;/script&gt;
+
+&lt;!-- ASYNC: Download in parallel, execute immediately when ready --&gt;
+&lt;!-- Use for: Independent scripts like analytics --&gt;
+&lt;script src="{{ 'analytics.js' | asset_url }}" async&gt;&lt;/script&gt;
+
+&lt;!-- CONDITIONAL: Only load JS when the section is present --&gt;
+{%- if section.settings.enable_slideshow -%}
+  &lt;script src="{{ 'slideshow.js' | asset_url }}" defer&gt;&lt;/script&gt;
+{%- endif -%}
+
+&lt;!-- NEVER do this — blocks rendering! --&gt;
+&lt;!-- &lt;script src="..."&gt;&lt;/script&gt; without defer or async --&gt;</code></pre>
+          </div>
+
+          <h3 id="js-patterns">Performance-Friendly JS Patterns</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Intersection Observer for Lazy Initialization</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>/**
+ * Only initialize interactive features when they
+ * scroll into view — not on page load.
+ */
+class LazySection extends HTMLElement {
+  constructor() {
+    super();
+    this.initialized = false;
+  }
+
+  connectedCallback() {
+    // Use Intersection Observer to delay initialization
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !this.initialized) {
+            this.init();
+            this.initialized = true;
+            observer.unobserve(this);
+          }
+        });
+      },
+      { rootMargin: '200px' } // Start 200px before visible
+    );
+
+    observer.observe(this);
+  }
+
+  init() {
+    // Heavy initialization code goes here
+    // Only runs when element is near the viewport
+    console.log('Section initialized on scroll!');
+  }
+}
+
+customElements.define('lazy-section', LazySection);</code></pre>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Event Delegation (Fewer Event Listeners)</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>/**
+ * INSTEAD OF: adding event listener to every button
+ *
+ * document.querySelectorAll('.add-to-cart').forEach(btn => {
+ *   btn.addEventListener('click', handleClick);
+ * });
+ *
+ * USE: event delegation — one listener on the parent
+ */
+document.addEventListener('click', function(event) {
+  const addToCartBtn = event.target.closest('[data-add-to-cart]');
+  if (!addToCartBtn) return;
+
+  event.preventDefault();
+  const variantId = addToCartBtn.dataset.variantId;
+  addToCart(variantId);
+});
+
+/**
+ * This pattern:
+ * 1. Uses fewer event listeners (better memory)
+ * 2. Works with dynamically added elements
+ * 3. Is the pattern Dawn uses throughout
+ */</code></pre>
+          </div>
+
+          <h3 id="js-rules">JavaScript Performance Rules</h3>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Rule</th>
+                  <th>Why</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Always use <code>defer</code></strong></td>
+                  <td>Prevents JS from blocking HTML parsing</td>
+                </tr>
+                <tr>
+                  <td><strong>Load JS conditionally</strong></td>
+                  <td>Don't load slideshow JS on pages without slideshows</td>
+                </tr>
+                <tr>
+                  <td><strong>Use event delegation</strong></td>
+                  <td>One listener vs. hundreds — less memory, works with dynamic content</td>
+                </tr>
+                <tr>
+                  <td><strong>Use Intersection Observer</strong></td>
+                  <td>Defer initialization until elements are near viewport</td>
+                </tr>
+                <tr>
+                  <td><strong>Avoid jQuery</strong></td>
+                  <td>30KB+ of overhead. Use vanilla JS — it's more than capable</td>
+                </tr>
+                <tr>
+                  <td><strong>Debounce scroll/resize handlers</strong></td>
+                  <td>Prevents performance-killing rapid function calls</td>
+                </tr>
+                <tr>
+                  <td><strong>Use <code>requestAnimationFrame</code> for visual updates</strong></td>
+                  <td>Syncs with browser's render cycle for smooth animations</td>
+                </tr>
+                <tr>
+                  <td><strong>Prefer CSS transitions over JS animations</strong></td>
+                  <td>CSS animations are GPU-accelerated and more performant</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="liquid-optimization">Liquid Performance</h2>
+
+          <p>
+            Liquid executes on Shopify's servers before HTML is sent to the browser. Poorly
+            written Liquid increases server response time (Time to First Byte — TTFB).
+          </p>
+
+          <h3 id="liquid-rules">Liquid Performance Rules</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Liquid Performance Patterns</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>{%- comment -%} ❌ BAD: Calling the same filter/property repeatedly {%- endcomment -%}
+{% for product in collection.products %}
+  {{ product.featured_image | image_url: width: 400 }}
+  {{ product.featured_image | image_url: width: 400 }}
+  {{ product.featured_image | image_url: width: 400 }}
+{% endfor %}
+
+{%- comment -%} ✅ GOOD: Assign once, reuse {%- endcomment -%}
+{% for product in collection.products %}
+  {%- assign img_url = product.featured_image | image_url: width: 400 -%}
+  {{ img_url }}
+  {{ img_url }}
+  {{ img_url }}
+{% endfor %}
+
+{%- comment -%} ❌ BAD: Nested loops (O(n²) complexity) {%- endcomment -%}
+{% for product in collection.products %}
+  {% for tag in product.tags %}
+    {% if tag == 'featured' %}...{% endif %}
+  {% endfor %}
+{% endfor %}
+
+{%- comment -%} ✅ GOOD: Use contains instead of inner loop {%- endcomment -%}
+{% for product in collection.products %}
+  {% if product.tags contains 'featured' %}...{% endif %}
+{% endfor %}
+
+{%- comment -%} ❌ BAD: Loading unused data {%- endcomment -%}
+{% for product in collections.all.products %}
+  {{ product.title }}
+{% endfor %}
+
+{%- comment -%} ✅ GOOD: Limit products loaded {%- endcomment -%}
+{% for product in collections.all.products limit: 8 %}
+  {{ product.title }}
+{% endfor %}
+
+{%- comment -%} ✅ GOOD: Use render instead of include (cacheable) {%- endcomment -%}
+{% render 'product-card', product: product %}</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="cls-prevention">Preventing Layout Shift (CLS)</h2>
+
+          <p>
+            Layout shift occurs when elements change position after the initial render. It's
+            the most frustrating performance issue for users. Here's how to prevent it:
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Cause</th>
+                  <th>Fix</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Images without dimensions</td>
+                  <td>Always set <code>width</code> and <code>height</code> attributes or use <code>aspect-ratio</code> in CSS</td>
+                </tr>
+                <tr>
+                  <td>Web fonts loading late</td>
+                  <td>Use <code>font-display: swap</code> and preconnect to font CDN</td>
+                </tr>
+                <tr>
+                  <td>Dynamic content injected above viewport</td>
+                  <td>Reserve space with min-height on containers; load content below the fold</td>
+                </tr>
+                <tr>
+                  <td>Ads or embeds without reserved space</td>
+                  <td>Set explicit container dimensions before content loads</td>
+                </tr>
+                <tr>
+                  <td>Late-loading header/announcement bar</td>
+                  <td>Render header in initial HTML, not via JavaScript</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Preventing Image CLS with aspect-ratio</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>/* Reserve space for images before they load */
+.product-card__media {
+  position: relative;
+  overflow: hidden;
+  background-color: #f5f5f5; /* Placeholder color */
+}
+
+/* Square images */
+.product-card__media--square {
+  aspect-ratio: 1 / 1;
+}
+
+/* Portrait images */
+.product-card__media--portrait {
+  aspect-ratio: 3 / 4;
+}
+
+/* Adaptive — uses actual image dimensions */
+.product-card__media--adapt {
+  /* Width and height attributes on the img handle this */
+}
+
+.product-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}</code></pre>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Font Loading Best Practice</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- In layout/theme.liquid &lt;head&gt; --&gt;
+
+&lt;!-- Preconnect to font CDN --&gt;
+&lt;link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin&gt;
+
+&lt;!-- Font display swap prevents invisible text --&gt;
+{%- style -%}
+  {{ settings.font_heading | font_face: font_display: 'swap' }}
+  {{ settings.font_body | font_face: font_display: 'swap' }}
+{%- endstyle -%}</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="font-optimization">Font Optimization</h2>
+
+          <h3 id="font-loading">Font Loading Strategy</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">Optimized Font Loading</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>&lt;!-- Preload critical font files --&gt;
+{%- if settings.font_heading.system? == false -%}
+  &lt;link
+    rel="preload"
+    as="font"
+    href="{{ settings.font_heading | font_url }}"
+    type="font/woff2"
+    crossorigin
+  &gt;
+{%- endif -%}
+
+{%- comment -%}
+  Font optimization rules:
+  1. Use system fonts when possible (zero download cost)
+  2. Limit to 2 font families maximum
+  3. Limit font weights (400 and 700 cover most needs)
+  4. Always use font-display: swap
+  5. Preload the most critical font file
+{%- endcomment -%}</code></pre>
+          </div>
+
+          <h3 id="system-fonts">System Font Stack (Zero-Cost Option)</h3>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-filename">System Font Stack — No Download Required</span>
+              <button class="copy-btn">📋 Copy</button>
+            </div>
+            <pre><code>:root {
+  --font-system: -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+    'Helvetica Neue', sans-serif;
+
+  /* Use as fallback or primary font */
+  --font-body-family: var(--font-system);
+}</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="third-party">Managing Third-Party Impact</h2>
+
+          <p>
+            Shopify apps inject scripts through <code>content_for_header</code>. You can't
+            control these, but you can manage the impact:
+          </p>
+
+          <ul>
+            <li><strong>Audit installed apps</strong> — Each app adds JavaScript. Recommend clients remove unused apps.</li>
+            <li><strong>Use app blocks instead of ScriptTag API</strong> — App blocks load only on relevant pages.</li>
+            <li><strong>Defer non-critical third-party scripts</strong> — Chat widgets, review popups, etc.</li>
+            <li><strong>Monitor with Lighthouse</strong> — Run Lighthouse regularly to catch performance regressions from new apps.</li>
+          </ul>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Measuring Your Theme vs. Apps</div>
+            <p>
+              To isolate your theme's performance from app impact, test with a
+              <strong>development store with no apps installed</strong>. This gives you a
+              clean baseline. Then test with apps to see their impact. Share both scores
+              with clients to set realistic expectations.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="performance-audit">Performance Audit Checklist</h2>
+
+          <div class="code-block">
+            <div class="code-block-header">
+              <span class="code-block-lang">Performance Audit Checklist</span>
+            </div>
+            <pre><code>SHOPIFY THEME PERFORMANCE AUDIT
+═══════════════════════════════════════════
+
+IMAGES
+□ All images use srcset with multiple widths
+□ All images have width and height attributes
+□ Below-fold images use loading="lazy"
+□ Hero/LCP image uses loading="eager" fetchpriority="high"
+□ LCP image is preloaded in &lt;head&gt;
+□ No oversized images (serving 2000px image in 400px container)
+□ Placeholder SVGs used for missing images
+
+CSS
+□ CSS split into multiple files (base, component, section)
+□ Section CSS loaded conditionally at top of section files
+□ No @import statements in CSS
+□ Critical CSS considered for above-fold rendering
+□ No unused CSS loaded on pages that don't need it
+
+JAVASCRIPT
+□ All scripts use defer or async
+□ JS loaded conditionally when section is present
+□ Event delegation used instead of per-element listeners
+□ No jQuery dependency
+□ Intersection Observer used for lazy initialization
+□ Scroll/resize handlers are debounced
+
+LIQUID
+□ Expensive operations assigned to variables and reused
+□ No nested loops where avoidable
+□ render used instead of include
+□ Products limited with limit: parameter
+□ Whitespace controlled with {%- -%} tags
+
+FONTS
+□ Maximum 2 font families loaded
+□ font-display: swap used
+□ Critical font preloaded
+□ System font stack used as fallback
+
+LAYOUT SHIFT (CLS)
+□ All images have dimensions or aspect-ratio
+□ Fonts use font-display: swap
+□ No content injected above viewport after load
+□ Containers have min-height for dynamic content
+
+TOOLS TO USE
+□ Chrome Lighthouse (DevTools → Lighthouse tab)
+□ PageSpeed Insights (web.dev/measure)
+□ Shopify Speed Report (Admin → Themes)
+□ WebPageTest.org (detailed waterfall analysis)
+□ Chrome DevTools Performance tab (runtime analysis)</code></pre>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="measuring">Measuring Performance</h2>
+
+          <h3 id="lighthouse">Running Lighthouse</h3>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <h4 class="step-title">Open Chrome DevTools</h4>
+              <div class="step-content">
+                <p>Navigate to your store. Press <kbd>F12</kbd> or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd>.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <h4 class="step-title">Go to Lighthouse Tab</h4>
+              <div class="step-content">
+                <p>Select "Performance" category. Choose "Mobile" device. Click "Analyze page load".</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <h4 class="step-title">Analyze Results</h4>
+              <div class="step-content">
+                <p>Focus on LCP, INP (or TBT as proxy), and CLS scores. Read the recommendations.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">4</div>
+              <h4 class="step-title">Fix and Re-test</h4>
+              <div class="step-content">
+                <p>Address the highest-impact issues first. Re-run Lighthouse after each fix to measure improvement.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Lighthouse Variability</div>
+            <p>
+              Lighthouse scores vary between runs due to network conditions and CPU load.
+              Run it <strong>at least 3 times</strong> and average the results. For the most
+              consistent results, use an Incognito window with extensions disabled, and close
+              other tabs. <a href="https://pagespeed.web.dev" target="_blank" rel="noopener noreferrer">PageSpeed Insights</a>
+              provides more stable results as it runs on Google's servers.
+            </p>
+          </div>
+
+          <!-- ====================================================== -->
+          <h2 id="key-takeaways">Key Takeaways</h2>
+
+          <ul class="checklist">
+            <li>Core Web Vitals (LCP, INP, CLS) directly affect SEO rankings and conversion rates</li>
+            <li>Image optimization is the highest-impact change — always use srcset, sizes, width, height</li>
+            <li>Lazy-load below-fold images; eager-load and preload the hero/LCP image</li>
+            <li>Split CSS into small files and load them conditionally per section</li>
+            <li>Always use <code>defer</code> on JavaScript files</li>
+            <li>Use Intersection Observer for lazy initialization of interactive components</li>
+            <li>Prevent CLS with image dimensions, font-display: swap, and reserved container heights</li>
+            <li>Use <code>render</code> over <code>include</code> for cacheable Liquid snippets</li>
+            <li>Limit font families to 2 maximum; preload the primary font</li>
+            <li>Audit third-party app impact separately from your theme's performance</li>
+            <li>Run Lighthouse regularly — performance is an ongoing discipline, not a one-time fix</li>
+          </ul>
+
+          <!-- Page Navigation -->
+          <div class="page-nav">
+            <a href="design-experiments.html" class="page-nav-link">
+              <span class="page-nav-label">← Previous</span>
+              <span class="page-nav-title">Design Experimentation</span>
+            </a>
+            <a href="deployment.html" class="page-nav-link page-nav-link--next">
+              <span class="page-nav-label">Next Chapter →</span>
+              <span class="page-nav-title">Deployment</span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <footer class="doc-footer">
+        <p>
+          Shopify Theme Developer Handbook — Built with care for <strong>Gamal</strong><br>
+          <small>Not affiliated with Shopify Inc. For educational purposes only.</small>
+        </p>
+      </footer>
+
+    </main>
+  </div>
+
+</body>
+</html>
